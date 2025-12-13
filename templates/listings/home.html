@@ -9,7 +9,7 @@
             <div class="relative">
                 <input type="text" name="q" placeholder="Search for electronics, furniture, vehicles..."
                        class="w-full px-6 py-4 pr-14 rounded-full text-lg focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-2xl"
-                       value="{{ request.GET.q }}">
+                       value="{{ request.GET.q|default:'' }}">
                 <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center transition-all">
                     <i class="fas fa-search text-white"></i>
                 </button>

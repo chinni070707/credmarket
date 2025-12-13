@@ -19,6 +19,3 @@ python manage.py collectstatic --no-input
 
 echo "==> Setting up production data..."
 python manage.py setup_production
-
-# Setup production data (only runs if needed)
-python manage.py setup_production

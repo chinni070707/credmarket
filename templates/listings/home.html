@@ -193,10 +193,22 @@
                 {% for category in categories %}
                 <div class="relative group">
                     <a href="{% url 'listings:listing_list' %}?category={{ category.id }}" 
-                       class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all group snap-start block">
-                        <div class="text-4xl mb-3">{{ category.icon|default:"📦" }}</div>
-                        <div class="text-gray-900 font-semibold group-hover:text-purple-600 truncate">{{ category.name }}</div>
-                        <div class="text-sm text-gray-500 mt-1">{{ category.listing_count|default:0 }}</div>
+                       class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-500 hover:shadow-lg transition-all group snap-start block">
+                        {% if category.image %}
+                        <div class="h-32 overflow-hidden bg-gray-100">
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </div>
+                        <div class="p-4 text-center">
+                            <div class="text-gray-900 font-semibold group-hover:text-purple-600 truncate">{{ category.name }}</div>
+                            <div class="text-sm text-gray-500 mt-1">{{ category.listing_count|default:0 }}</div>
+                        </div>
+                        {% else %}
+                        <div class="p-6 text-center">
+                            <div class="text-4xl mb-3">{{ category.icon|default:"📦" }}</div>
+                            <div class="text-gray-900 font-semibold group-hover:text-purple-600 truncate">{{ category.name }}</div>
+                            <div class="text-sm text-gray-500 mt-1">{{ category.listing_count|default:0 }}</div>
+                        </div>
+                        {% endif %}
                     </a>
                     <!-- Sub-categories Tooltip -->
                     {% if category.subcategories.exists %}
@@ -212,29 +224,53 @@
                 </div>
                 {% empty %}
                 <!-- Default categories if none exist -->
-                <a href="{% url 'listings:listing_list' %}?category=electronics" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
-                    <div class="text-4xl mb-3">📱</div>
-                    <div class="text-gray-900 font-semibold truncate">Electronics</div>
+                <a href="{% url 'listings:listing_list' %}?category=electronics" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="h-32 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
+                        <span class="text-6xl">📱</span>
+                    </div>
+                    <div class="p-4 text-center">
+                        <div class="text-gray-900 font-semibold truncate">Electronics</div>
+                    </div>
                 </a>
-                <a href="{% url 'listings:listing_list' %}?category=furniture" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
-                    <div class="text-4xl mb-3">🛋️</div>
-                    <div class="text-gray-900 font-semibold truncate">Furniture</div>
+                <a href="{% url 'listings:listing_list' %}?category=furniture" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="h-32 bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+                        <span class="text-6xl">🛋️</span>
+                    </div>
+                    <div class="p-4 text-center">
+                        <div class="text-gray-900 font-semibold truncate">Furniture</div>
+                    </div>
                 </a>
-                <a href="{% url 'listings:listing_list' %}?category=books" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
-                    <div class="text-4xl mb-3">📚</div>
-                    <div class="text-gray-900 font-semibold truncate">Books</div>
+                <a href="{% url 'listings:listing_list' %}?category=books" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="h-32 bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center">
+                        <span class="text-6xl">📚</span>
+                    </div>
+                    <div class="p-4 text-center">
+                        <div class="text-gray-900 font-semibold truncate">Books</div>
+                    </div>
                 </a>
-                <a href="{% url 'listings:listing_list' %}?category=fashion" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
-                    <div class="text-4xl mb-3">👔</div>
-                    <div class="text-gray-900 font-semibold truncate">Fashion</div>
+                <a href="{% url 'listings:listing_list' %}?category=fashion" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="h-32 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center">
+                        <span class="text-6xl">👔</span>
+                    </div>
+                    <div class="p-4 text-center">
+                        <div class="text-gray-900 font-semibold truncate">Fashion</div>
+                    </div>
                 </a>
-                <a href="{% url 'listings:listing_list' %}?category=sports" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
-                    <div class="text-4xl mb-3">⚽</div>
-                    <div class="text-gray-900 font-semibold truncate">Sports</div>
+                <a href="{% url 'listings:listing_list' %}?category=sports" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="h-32 bg-gradient-to-br from-cyan-100 to-blue-100 flex items-center justify-center">
+                        <span class="text-6xl">⚽</span>
+                    </div>
+                    <div class="p-4 text-center">
+                        <div class="text-gray-900 font-semibold truncate">Sports</div>
+                    </div>
                 </a>
-                <a href="{% url 'listings:listing_list' %}?category=other" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
-                    <div class="text-4xl mb-3">🎁</div>
-                    <div class="text-gray-900 font-semibold truncate">Others</div>
+                <a href="{% url 'listings:listing_list' %}?category=other" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="h-32 bg-gradient-to-br from-purple-100 to-violet-100 flex items-center justify-center">
+                        <span class="text-6xl">🎁</span>
+                    </div>
+                    <div class="p-4 text-center">
+                        <div class="text-gray-900 font-semibold truncate">Others</div>
+                    </div>
                 </a>
                 {% endfor %}
             </div>

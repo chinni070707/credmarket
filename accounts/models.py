@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import EmailValidator
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class User(AbstractUser):
@@ -96,11 +99,16 @@ class User(AbstractUser):
     
     def is_verified(self):
         """Check if user is fully verified and approved"""
-        return self.email_verified and self.status == 'approved'
+        is_verified = self.email_verified and self.status == 'approved'
+        logger.debug(f"User {self.email} is_verified: email_verified={self.email_verified}, status={self.status}, result={is_verified}")
+        return is_verified
     
     def can_create_listing(self):
         """Check if user can create listings"""
-        return self.is_verified() and self.is_active
+        verified = self.is_verified()
+        can_create = verified and self.is_active
+        logger.debug(f"User {self.email} can_create_listing: is_verified={verified}, is_active={self.is_active}, result={can_create}")
+        return can_create
 
 
 class OTPVerification(models.Model):

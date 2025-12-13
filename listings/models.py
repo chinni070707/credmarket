@@ -16,7 +16,8 @@ class Category(models.Model):
         blank=True,
         related_name='subcategories'
     )
-    icon = models.CharField(max_length=50, blank=True, help_text='Font Awesome icon class')
+    icon = models.CharField(max_length=50, blank=True, help_text='Font Awesome icon class or emoji')
+    image = models.ImageField(upload_to='categories/', blank=True, null=True, help_text='Category image for visual display')
     description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
     order = models.IntegerField(default=0, help_text='Display order')

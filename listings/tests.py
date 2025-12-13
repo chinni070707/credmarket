@@ -262,8 +262,8 @@ class ListingViewTests(TestCase):
         )
         self.client.login(email='other@other.com', password='TestPass123!')
         response = self.client.get(reverse('listings:edit_listing', args=[listing.slug]))
-        # Should redirect, show 403, or 404 (because view filters by seller)
-        self.assertIn(response.status_code, [302, 403, 404])
+        # Should return 403 Forbidden
+        self.assertEqual(response.status_code, 403)
     
     def test_delete_listing_requires_owner(self):
         """Test that only listing owner can delete."""
@@ -293,7 +293,7 @@ class ListingViewTests(TestCase):
         )
         self.client.login(email='other@other.com', password='TestPass123!')
         response = self.client.post(reverse('listings:delete_listing', args=[listing.slug]))
-        # Should redirect, show 403, or 404 (because view filters by seller)
-        self.assertIn(response.status_code, [302, 403, 404])
+        # Should return 403 Forbidden
+        self.assertEqual(response.status_code, 403)
         # Listing should still exist
         self.assertTrue(Listing.objects.filter(slug=listing.slug).exists())

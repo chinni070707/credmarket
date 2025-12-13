@@ -78,8 +78,34 @@
                             placeholder="you@company.com"
                         >
                     </div>
+                    <div class="mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p class="text-xs text-blue-800 flex items-start">
+                            <i class="fas fa-shield-check text-blue-600 mr-2 mt-0.5"></i>
+                            <span><strong>Privacy Promise:</strong> We'll only send ONE verification email to your corporate address. All future communication will go to your personal email below.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Personal Email -->
+                <div>
+                    <label for="personal_email" class="block text-sm font-medium text-gray-700 mb-2">
+                        Personal Email <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope-open text-gray-400"></i>
+                        </div>
+                        <input 
+                            type="email" 
+                            name="personal_email" 
+                            id="personal_email" 
+                            required
+                            class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            placeholder="yourname@gmail.com"
+                        >
+                    </div>
                     <p class="mt-2 text-xs text-gray-500">
-                        <i class="fas fa-info-circle"></i> Use your corporate email (not Gmail/Yahoo)
+                        <i class="fas fa-info-circle"></i> All notifications and updates will be sent here (Gmail, Yahoo, etc.)
                     </p>
                 </div>
 
@@ -108,32 +134,89 @@
                     <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
                         City <span class="text-red-500">*</span>
                     </label>
-                    <div class="flex gap-2">
-                        <div class="relative flex-1">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-city text-gray-400"></i>
-                            </div>
-                            <input 
-                                type="text" 
-                                name="city" 
-                                id="city"
-                                required
-                                class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                placeholder="e.g., Bangalore, Mumbai, Pune"
-                            >
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-city text-gray-400"></i>
                         </div>
-                        <button 
-                            type="button" 
-                            id="detectLocationBtn"
-                            class="px-4 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition whitespace-nowrap flex items-center gap-2"
-                            title="Auto-detect your city using GPS"
+                        <select 
+                            name="city" 
+                            id="city"
+                            required
+                            class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white"
                         >
-                            <i class="fas fa-location-arrow"></i>
-                            <span class="hidden sm:inline">Detect</span>
-                        </button>
+                            <option value="">Select your city...</option>
+                            <optgroup label="Top Cities">
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Bangalore">Bangalore</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Chennai">Chennai</option>
+                                <option value="Kolkata">Kolkata</option>
+                                <option value="Pune">Pune</option>
+                                <option value="Ahmedabad">Ahmedabad</option>
+                                <option value="Surat">Surat</option>
+                                <option value="Jaipur">Jaipur</option>
+                            </optgroup>
+                            <optgroup label="Other Cities">
+                                <option value="Lucknow">Lucknow</option>
+                                <option value="Kanpur">Kanpur</option>
+                                <option value="Nagpur">Nagpur</option>
+                                <option value="Indore">Indore</option>
+                                <option value="Thane">Thane</option>
+                                <option value="Bhopal">Bhopal</option>
+                                <option value="Visakhapatnam">Visakhapatnam</option>
+                                <option value="Pimpri-Chinchwad">Pimpri-Chinchwad</option>
+                                <option value="Patna">Patna</option>
+                                <option value="Vadodara">Vadodara</option>
+                                <option value="Ghaziabad">Ghaziabad</option>
+                                <option value="Ludhiana">Ludhiana</option>
+                                <option value="Agra">Agra</option>
+                                <option value="Nashik">Nashik</option>
+                                <option value="Faridabad">Faridabad</option>
+                                <option value="Meerut">Meerut</option>
+                                <option value="Rajkot">Rajkot</option>
+                                <option value="Kalyan-Dombivali">Kalyan-Dombivali</option>
+                                <option value="Vasai-Virar">Vasai-Virar</option>
+                                <option value="Varanasi">Varanasi</option>
+                                <option value="Srinagar">Srinagar</option>
+                                <option value="Aurangabad">Aurangabad</option>
+                                <option value="Dhanbad">Dhanbad</option>
+                                <option value="Amritsar">Amritsar</option>
+                                <option value="Navi Mumbai">Navi Mumbai</option>
+                                <option value="Allahabad">Allahabad (Prayagraj)</option>
+                                <option value="Ranchi">Ranchi</option>
+                                <option value="Howrah">Howrah</option>
+                                <option value="Coimbatore">Coimbatore</option>
+                                <option value="Jabalpur">Jabalpur</option>
+                                <option value="Gwalior">Gwalior</option>
+                                <option value="Vijayawada">Vijayawada</option>
+                                <option value="Jodhpur">Jodhpur</option>
+                                <option value="Madurai">Madurai</option>
+                                <option value="Raipur">Raipur</option>
+                                <option value="Kota">Kota</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Guwahati">Guwahati</option>
+                                <option value="Solapur">Solapur</option>
+                                <option value="Hubli-Dharwad">Hubli-Dharwad</option>
+                                <option value="Mysore">Mysore (Mysuru)</option>
+                                <option value="Tiruchirappalli">Tiruchirappalli</option>
+                                <option value="Bareilly">Bareilly</option>
+                                <option value="Aligarh">Aligarh</option>
+                                <option value="Tiruppur">Tiruppur</option>
+                                <option value="Moradabad">Moradabad</option>
+                                <option value="Jalandhar">Jalandhar</option>
+                                <option value="Bhubaneswar">Bhubaneswar</option>
+                                <option value="Salem">Salem</option>
+                                <option value="Warangal">Warangal</option>
+                                <option value="Other">Other (Specify in Area field below)</option>
+                            </optgroup>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i class="fas fa-chevron-down text-gray-400"></i>
+                        </div>
                     </div>
                     <p class="mt-2 text-xs text-gray-500">
-                        <i class="fas fa-info-circle"></i> Helps show you relevant local listings. Click "Detect" to auto-fill using GPS.
+                        <i class="fas fa-info-circle"></i> Select "Other" if your city is not listed, then specify in Area field below
                     </p>
                     <input type="hidden" name="latitude" id="latitude">
                     <input type="hidden" name="longitude" id="longitude">
@@ -142,7 +225,7 @@
                 <!-- Area/Locality (Optional) -->
                 <div>
                     <label for="area" class="block text-sm font-medium text-gray-700 mb-2">
-                        Area/Locality <span class="text-gray-400 text-xs">(Optional)</span>
+                        Area/Locality <span class="text-gray-400 text-xs">(Or specify city if not in list above)</span>
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -153,7 +236,7 @@
                             name="area" 
                             id="area"
                             class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            placeholder="e.g., Koramangala, HSR Layout"
+                            placeholder="e.g., Koramangala, HSR Layout, or your city name"
                         >
                     </div>
                 </div>
@@ -282,103 +365,4 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const detectBtn = document.getElementById('detectLocationBtn');
-    const cityInput = document.getElementById('city');
-    const latInput = document.getElementById('latitude');
-    const lonInput = document.getElementById('longitude');
-    
-    if (detectBtn) {
-        detectBtn.addEventListener('click', function() {
-            // Check if geolocation is supported
-            if (!navigator.geolocation) {
-                alert('❌ Geolocation is not supported by your browser');
-                return;
-            }
-            
-            // Show loading state
-            const originalHTML = detectBtn.innerHTML;
-            detectBtn.disabled = true;
-            detectBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span class="hidden sm:inline">Detecting...</span>';
-            
-            // Get user's location
-            navigator.geolocation.getCurrentPosition(
-                // Success callback
-                function(position) {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-                    
-                    // Store coordinates
-                    latInput.value = lat;
-                    lonInput.value = lon;
-                    
-                    // Reverse geocode to get city name using Nominatim (OpenStreetMap)
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data && data.address) {
-                                // Try to get city from various fields
-                                const city = data.address.city || 
-                                           data.address.town || 
-                                           data.address.village || 
-                                           data.address.county ||
-                                           data.address.state_district ||
-                                           'Unknown';
-                                
-                                cityInput.value = city;
-                                
-                                // Show success message
-                                detectBtn.innerHTML = '<i class="fas fa-check-circle"></i> <span class="hidden sm:inline">Done!</span>';
-                                detectBtn.classList.remove('bg-purple-600', 'hover:bg-purple-700');
-                                detectBtn.classList.add('bg-green-600', 'hover:bg-green-700');
-                                
-                                setTimeout(() => {
-                                    detectBtn.innerHTML = originalHTML;
-                                    detectBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                                    detectBtn.classList.add('bg-purple-600', 'hover:bg-purple-700');
-                                    detectBtn.disabled = false;
-                                }, 2000);
-                            } else {
-                                throw new Error('Could not determine city');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Geocoding error:', error);
-                            alert('📍 Location detected but could not determine city name. Please enter manually.');
-                            detectBtn.innerHTML = originalHTML;
-                            detectBtn.disabled = false;
-                        });
-                },
-                // Error callback
-                function(error) {
-                    let errorMsg = '';
-                    switch(error.code) {
-                        case error.PERMISSION_DENIED:
-                            errorMsg = '❌ Location access denied. Please enable location permissions in your browser.';
-                            break;
-                        case error.POSITION_UNAVAILABLE:
-                            errorMsg = '❌ Location information unavailable. Please enter city manually.';
-                            break;
-                        case error.TIMEOUT:
-                            errorMsg = '⏱️ Location request timed out. Please try again.';
-                            break;
-                        default:
-                            errorMsg = '❌ An error occurred while detecting location.';
-                    }
-                    alert(errorMsg);
-                    detectBtn.innerHTML = originalHTML;
-                    detectBtn.disabled = false;
-                },
-                // Options
-                {
-                    enableHighAccuracy: true,
-                    timeout: 10000,
-                    maximumAge: 0
-                }
-            );
-        });
-    }
-});
-</script>
 {% endblock %}

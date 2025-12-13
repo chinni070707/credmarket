@@ -71,6 +71,7 @@ class Message(models.Model):
     image = models.ImageField(upload_to='messages/', blank=True, null=True)
     is_read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
+    email_reminder_sent = models.BooleanField(default=False, help_text='Email sent after 15 min if unread')
     
     created_at = models.DateTimeField(auto_now_add=True)
     

@@ -137,15 +137,16 @@ Questions? Reply to this email or contact support@credmarket.com
     """
     
     try:
+        # Use personal email for all notifications except initial OTP
         send_mail(
             subject=subject,
             message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
+            recipient_list=[user.personal_email],
             html_message=html_message,
             fail_silently=False,
         )
         return True
     except Exception as e:
-        print(f"Error sending email to {user.email}: {str(e)}")
+        print(f"Error sending email to {user.personal_email}: {str(e)}")
         return False

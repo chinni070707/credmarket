@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from django.conf import settings
+from django.core.mail import send_mail
 from datetime import timedelta
 import random
 import logging
@@ -13,12 +14,48 @@ from .models import User, OTPVerification
 logger = logging.getLogger(__name__)
 
 
+def send_otp_email(user, otp_code):
+    """Helper function to send OTP email"""
+    try:
+        email_subject = 'Your CredMarket Verification Code'
+        email_body = f"""
+Hello {user.first_name},
+
+Welcome to CredMarket!
+
+Your verification code is: {otp_code}
+
+This code will expire in 10 minutes.
+
+If you didn't sign up for CredMarket, please ignore this email.
+
+Best regards,
+The CredMarket Team
+"""
+        send_mail(
+            subject=email_subject,
+            message=email_body,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+        logger.info(f"OTP email sent successfully to {user.email}")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to send OTP email to {user.email}: {str(e)}")
+        # Still show OTP in console for development/debugging
+        print(f"OTP for {user.email}: {otp_code}")
+        return False
+
+
+
 @ratelimit(key='ip', rate='5/h', method='POST', block=True)
 def signup(request):
     """Handle user signup with email verification"""
     if request.method == 'POST':
         email = request.POST.get('email')
         logger.info(f"Signup attempt for email: {email}")
+        personal_email = request.POST.get('personal_email')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         password = request.POST.get('password')
@@ -33,6 +70,11 @@ def signup(request):
         # Validate city is provided
         if not city:
             messages.error(request, 'City is required.')
+            return render(request, 'accounts/signup.html')
+        
+        # Validate personal_email is provided
+        if not personal_email:
+            messages.error(request, 'Personal email is required.')
             return render(request, 'accounts/signup.html')
         
         # Extract domain from email
@@ -70,6 +112,7 @@ def signup(request):
         user = User.objects.create_user(
             username=username,
             email=email,
+            personal_email=personal_email,
             first_name=first_name,
             last_name=last_name,
             password=password,
@@ -94,9 +137,10 @@ def signup(request):
             expires_at=expires_at
         )
         
-        # TODO: Send email with OTP
-        # For now, just display it (in development)
-        print(f"OTP for {email}: {otp_code}")
+        # Send OTP via email
+        email_sent = send_otp_email(user, otp_code)
+        if not email_sent:
+            messages.warning(request, 'Email delivery may be delayed. Check your spam folder or logs.')
         
         # Store user_id in session for OTP verification
         request.session['pending_user_id'] = user.id
@@ -250,6 +294,10 @@ def edit_profile(request):
         request.user.area = request.POST.get('area', '')
         request.user.display_name = request.POST.get('display_name', '')
         request.user.show_real_name = request.POST.get('show_real_name') == 'on'
+        
+        # Email notification preferences
+        request.user.notify_new_company_listings = request.POST.get('notify_new_company_listings') == 'on'
+        request.user.notify_unread_messages = request.POST.get('notify_unread_messages') == 'on'
         
         if request.FILES.get('profile_picture'):
             request.user.profile_picture = request.FILES['profile_picture']

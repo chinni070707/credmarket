@@ -22,6 +22,12 @@ class User(AbstractUser):
         validators=[EmailValidator()],
         help_text='Corporate email address'
     )
+    personal_email = models.EmailField(
+        validators=[EmailValidator()],
+        help_text='Personal email for notifications',
+        blank=True,
+        default='abcd@hello.com'
+    )
     phone = models.CharField(max_length=15, blank=True, null=True)
     phone_verified = models.BooleanField(default=False)
     company = models.ForeignKey(
@@ -53,6 +59,10 @@ class User(AbstractUser):
     # Privacy settings
     display_name = models.CharField(max_length=50, blank=True, help_text='Anonymous username for listings')
     show_real_name = models.BooleanField(default=True, help_text='Show real name in listings')
+    
+    # Email notification preferences
+    notify_new_company_listings = models.BooleanField(default=True, help_text='Email me when new items are listed in my company')
+    notify_unread_messages = models.BooleanField(default=True, help_text='Email me about unread messages after 15 minutes')
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

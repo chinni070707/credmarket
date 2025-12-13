@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from .models import Listing, Category, ListingImage
 from .category_fields import get_category_fields
@@ -206,7 +207,18 @@ def category_listings(request, slug):
 def create_listing(request):
     """Create a new listing"""
     if not request.user.can_create_listing():
-        messages.error(request, 'You need to be verified to create listings.')
+        # Add detailed error message for debugging
+        logger.error(
+            f"User {request.user.email} cannot create listing - "
+            f"email_verified: {request.user.email_verified}, "
+            f"status: {request.user.status}, "
+            f"is_active: {request.user.is_active}"
+        )
+        messages.error(
+            request, 
+            f'You need to be verified to create listings. '
+            f'Status: {request.user.status}, Email Verified: {request.user.email_verified}'
+        )
         return redirect('accounts:profile')
     
     if request.method == 'POST':
@@ -268,7 +280,12 @@ def create_listing(request):
 @login_required
 def edit_listing(request, slug):
     """Edit existing listing"""
-    listing = get_object_or_404(Listing, slug=slug, seller=request.user)
+    listing = get_object_or_404(Listing, slug=slug)
+    
+    # Check if user is the owner
+    if listing.seller != request.user:
+        logger.warning(f"User {request.user.email} attempted to edit listing {slug} owned by {listing.seller.email}")
+        raise PermissionDenied("You don't have permission to edit this listing.")
     
     if request.method == 'POST':
         listing.title = request.POST.get('title')
@@ -312,7 +329,12 @@ def edit_listing(request, slug):
 @login_required
 def delete_listing(request, slug):
     """Delete listing"""
-    listing = get_object_or_404(Listing, slug=slug, seller=request.user)
+    listing = get_object_or_404(Listing, slug=slug)
+    
+    # Check if user is the owner
+    if listing.seller != request.user:
+        logger.warning(f"User {request.user.email} attempted to delete listing {slug} owned by {listing.seller.email}")
+        raise PermissionDenied("You don't have permission to delete this listing.")
     
     if request.method == 'POST':
         listing.status = 'deleted'

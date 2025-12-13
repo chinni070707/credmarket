@@ -234,6 +234,49 @@
             </div>
         </div>
 
+        <!-- Email Notification Preferences -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-envelope text-green-600 mr-2"></i> Email Notifications
+            </h2>
+            
+            <div class="space-y-4">
+                <p class="text-sm text-gray-600 mb-4">
+                    All notifications will be sent to your personal email: <strong>{{ user.personal_email }}</strong>
+                </p>
+                
+                <!-- New Listings Notification -->
+                <div class="flex items-start">
+                    <input 
+                        type="checkbox" 
+                        name="notify_new_company_listings" 
+                        id="notify_new_company_listings"
+                        {% if user.notify_new_company_listings %}checked{% endif %}
+                        class="w-4 h-4 mt-1 border border-gray-300 rounded text-green-600 focus:ring-green-500"
+                    >
+                    <label for="notify_new_company_listings" class="ml-2">
+                        <span class="block text-sm font-medium text-gray-700">New items in my company</span>
+                        <span class="block text-xs text-gray-500">Get notified when someone from {{ user.company.name }} lists a new item</span>
+                    </label>
+                </div>
+                
+                <!-- Unread Messages Notification -->
+                <div class="flex items-start">
+                    <input 
+                        type="checkbox" 
+                        name="notify_unread_messages" 
+                        id="notify_unread_messages"
+                        {% if user.notify_unread_messages %}checked{% endif %}
+                        class="w-4 h-4 mt-1 border border-gray-300 rounded text-green-600 focus:ring-green-500"
+                    >
+                    <label for="notify_unread_messages" class="ml-2">
+                        <span class="block text-sm font-medium text-gray-700">Unread message reminders</span>
+                        <span class="block text-xs text-gray-500">Remind me after 15 minutes if I haven't replied to a message</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
         <!-- Submit Buttons -->
         <div class="flex items-center justify-between bg-gray-50 rounded-xl p-6">
             <a href="{% url 'accounts:profile' %}" class="text-gray-600 hover:text-gray-900 font-semibold">

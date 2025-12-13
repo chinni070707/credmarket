@@ -1,50 +1,50 @@
-2025-12-13T11:16:32.882087123Z     return self.render(context)
-2025-12-13T11:16:32.882089133Z            ^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882095473Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/loader_tags.py", line 65, in render
-2025-12-13T11:16:32.882097774Z     result = block.nodelist.render(context)
-2025-12-13T11:16:32.882099874Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882102114Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 1000, in render
-2025-12-13T11:16:32.882104224Z     return SafeString("".join([node.render_annotated(context) for node in self]))
-2025-12-13T11:16:32.882106434Z                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882108484Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 1000, in <listcomp>
-2025-12-13T11:16:32.882110574Z     return SafeString("".join([node.render_annotated(context) for node in self]))
-2025-12-13T11:16:32.882112794Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882114874Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 961, in render_annotated
-2025-12-13T11:16:32.882117044Z     return self.render(context)
-2025-12-13T11:16:32.882139566Z            ^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882142066Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/defaulttags.py", line 197, in render
-2025-12-13T11:16:32.882144186Z     len_values = len(values)
-2025-12-13T11:16:32.882146306Z                  ^^^^^^^^^^^
-2025-12-13T11:16:32.882148476Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 380, in __len__
-2025-12-13T11:16:32.882151026Z     self._fetch_all()
-2025-12-13T11:16:32.882153157Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1926, in _fetch_all
-2025-12-13T11:16:32.882155237Z     self._result_cache = list(self._iterable_class(self))
-2025-12-13T11:16:32.882157407Z                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882159467Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 91, in __iter__
-2025-12-13T11:16:32.882161537Z     results = compiler.execute_sql(
-2025-12-13T11:16:32.882163537Z               ^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882165597Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
-2025-12-13T11:16:32.882167657Z     cursor.execute(sql, params)
-2025-12-13T11:16:32.882169687Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 79, in execute
-2025-12-13T11:16:32.882171878Z     return self._execute_with_wrappers(
-2025-12-13T11:16:32.882173898Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882177088Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
-2025-12-13T11:16:32.882179198Z     return executor(sql, params, many, context)
-2025-12-13T11:16:32.882181198Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882183308Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 100, in _execute
-2025-12-13T11:16:32.882185348Z     with self.db.wrap_database_errors:
-2025-12-13T11:16:32.882187528Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
-2025-12-13T11:16:32.882189599Z     raise dj_exc_value.with_traceback(traceback) from exc_value
-2025-12-13T11:16:32.882191729Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
-2025-12-13T11:16:32.882197699Z     return self.cursor.execute(sql, params)
-2025-12-13T11:16:32.882199979Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T11:16:32.882202109Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/psycopg/cursor.py", line 732, in execute
-2025-12-13T11:16:32.882206009Z     raise ex.with_traceback(None)
-2025-12-13T11:16:32.88220856Z django.db.utils.ProgrammingError: relation "listings_category" does not exist
-2025-12-13T11:16:32.88221081Z LINE 1: ...y"."order", "listings_category"."created_at" FROM "listings_...
-2025-12-13T11:16:32.88221291Z                                                              ^
-2025-12-13T11:16:32.882230361Z [2025-12-13 16:46:32,881] ERROR credmarket.middleware middleware.__call__:22 - 500 Error on GET /
-2025-12-13T11:16:32.882232951Z User: AnonymousUser
-2025-12-13T11:16:32.882235131Z IP: 35.197.37.4
-2025-12-13T11:16:32.882237301Z User-Agent: Go-http-client/2.0
-2025-12-13T11:16:32.882668046Z 127.0.0.1 - - [13/Dec/2025:16:46:32 +0530] "GET / HTTP/1.1" 500 4375 "-" "Go-http-client/2.0"
+2025-12-13T13:35:05.127716336Z Traceback (most recent call last):
+2025-12-13T13:35:05.127719576Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
+2025-12-13T13:35:05.127722076Z     current = current[bit]
+2025-12-13T13:35:05.127724276Z               ~~~~~~~^^^^^
+2025-12-13T13:35:05.127726676Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/context.py", line 83, in __getitem__
+2025-12-13T13:35:05.127729176Z     raise KeyError(key)
+2025-12-13T13:35:05.127731276Z KeyError: 'active_listings'
+2025-12-13T13:35:05.127733076Z 
+2025-12-13T13:35:05.127735916Z During handling of the above exception, another exception occurred:
+2025-12-13T13:35:05.127737886Z 
+2025-12-13T13:35:05.127740036Z Traceback (most recent call last):
+2025-12-13T13:35:05.127742167Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 881, in _resolve_lookup
+2025-12-13T13:35:05.127744876Z     if isinstance(current, BaseContext) and getattr(
+2025-12-13T13:35:05.127747087Z                                             ^^^^^^^^
+2025-12-13T13:35:05.127749236Z AttributeError: type object 'RequestContext' has no attribute 'active_listings'
+2025-12-13T13:35:05.127751167Z 
+2025-12-13T13:35:05.127753377Z During handling of the above exception, another exception occurred:
+2025-12-13T13:35:05.127755297Z 
+2025-12-13T13:35:05.127757277Z Traceback (most recent call last):
+2025-12-13T13:35:05.127759397Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+2025-12-13T13:35:05.127761627Z     current = current[int(bit)]
+2025-12-13T13:35:05.127763747Z                       ^^^^^^^^
+2025-12-13T13:35:05.127765917Z ValueError: invalid literal for int() with base 10: 'active_listings'
+2025-12-13T13:35:05.127767877Z 
+2025-12-13T13:35:05.127769987Z During handling of the above exception, another exception occurred:
+2025-12-13T13:35:05.127771997Z 
+2025-12-13T13:35:05.127774207Z Traceback (most recent call last):
+2025-12-13T13:35:05.127776477Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
+2025-12-13T13:35:05.127790337Z     raise VariableDoesNotExist(
+2025-12-13T13:35:05.127795568Z django.template.base.VariableDoesNotExist: Failed lookup for key [active_listings] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x7ddaae9520c0>>, 'request': <WSGIRequest: GET '/'>, 'user': <SimpleLazyObject: <SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x7ddaae9ac9d0>>>, 'perms': PermWrapper(<SimpleLazyObject: <SimpleLazyObject: <django.contrib.auth.models.AnonymousUser object at 0x7ddaae9ac9d0>>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}}, {}, {'featured_listings': <QuerySet []>, 'recent_listings': <QuerySet []>, 'categories': <QuerySet []>, 'user_city': None}, {'block': <Block Node: content. Contents: [<TextNode: '\n<!-- Hero Carousel Secti'>, <URLNode view_name=''listings:listing_list'' args=[] kwargs={} as=None>, <TextNode: '" class="inline-block bg-'>, <URLNode view_name=''accounts:signup'' args=[] kwargs={} as=None>, <TextNode: '" class="inline-block bg-'>, <URLNode view_name=''listings:create_listing'' args=[] kwargs={} as=None>, <TextNode: '" class="inline-block bg-'>, <Variable Node: total_users|default:"10,000+">, <TextNode: '</div>\n                <d'>, <Variable Node: approved_companies_count|default:"100+">, <TextNode: '</div>\n                <d'>, <Variable Node: active_listings|default:"5,000+">, <TextNode: '</div>\n                <d'>, <ForNode: for category in categories, tail_len: 11>, <TextNode: '\n        </div>\n    </div'>, <URLNode view_name=''listings:listing_list'' args=[] kwargs={} as=None>, <TextNode: '" class="text-purple-600 '>, <ForNode: for listing in recent_listings, tail_len: 11>, <TextNode: '\n        </div>\n    </div'>]>}]
+2025-12-13T13:35:05.131488677Z 127.0.0.1 - - [13/Dec/2025:19:05:05 +0530] "GET / HTTP/1.1" 200 24678 "https://credmarket.onrender.com/listings/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+2025-12-13T13:35:13.226097575Z [2025-12-13 19:05:13,225] INFO credmarket.wsgi wsgi.<module>:17 - WSGI application started successfully
+2025-12-13T13:35:13.226340591Z [2025-12-13 19:05:13 +0530] [55] [INFO] Starting gunicorn 21.2.0
+2025-12-13T13:35:13.226762709Z [2025-12-13 19:05:13 +0530] [55] [INFO] Listening at: http://0.0.0.0:10000 (55)
+2025-12-13T13:35:13.226846081Z [2025-12-13 19:05:13 +0530] [55] [INFO] Using worker: sync
+2025-12-13T13:35:13.231439595Z [2025-12-13 19:05:13 +0530] [58] [INFO] Booting worker with pid: 58
+2025-12-13T13:35:13.992141418Z 127.0.0.1 - - [13/Dec/2025:19:05:13 +0530] "HEAD / HTTP/1.1" 301 0 "-" "Go-http-client/1.1"
+2025-12-13T13:36:06.420553677Z 127.0.0.1 - - [13/Dec/2025:19:06:06 +0530] "GET /listings/create/ HTTP/1.1" 302 0 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+2025-12-13T13:36:07.641777724Z 127.0.0.1 - - [13/Dec/2025:19:06:07 +0530] "GET /accounts/login/?next=/listings/create/ HTTP/1.1" 200 20084 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+2025-12-13T13:36:15.424007331Z [2025-12-13 19:06:15 +0530] [55] [INFO] Handling signal: term
+2025-12-13T13:36:15.424356219Z [2025-12-13 19:06:15 +0530] [57] [INFO] Worker exiting (pid: 57)
+2025-12-13T13:36:16.425373107Z [2025-12-13 19:06:16 +0530] [55] [INFO] Shutting down: Master
+2025-12-13T13:36:29.046431885Z [2025-12-13 19:06:29,046] INFO accounts.views views.login_view:195 - Login attempt for email: admin@onrender.com
+2025-12-13T13:36:30.525440179Z 127.0.0.1 - - [13/Dec/2025:19:06:30 +0530] "POST /accounts/login/?next=/listings/create/ HTTP/1.1" 200 20937 "https://credmarket.onrender.com/accounts/login/?next=/listings/create/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+2025-12-13T13:36:36.790177495Z 127.0.0.1 - - [13/Dec/2025:19:06:36 +0530] "GET /accounts/signup/ HTTP/1.1" 200 33496 "https://credmarket.onrender.com/accounts/login/?next=/listings/create/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+2025-12-13T13:41:25.207417787Z [2025-12-13 19:11:25,207] INFO accounts.views views.signup:21 - Signup attempt for email: mahchi01@cadence.com
+2025-12-13T13:41:25.214553454Z [2025-12-13 19:11:25,214] INFO accounts.views views.signup:51 - User mahchi01@cadence.com matched to approved company: Cadence Design Systems
+2025-12-13T13:41:26.541443525Z OTP for mahchi01@cadence.com: 442537
+2025-12-13T13:41:26.541485636Z 127.0.0.1 - - [13/Dec/2025:19:11:26 +0530] "POST /accounts/signup/ HTTP/1.1" 302 0 "https://credmarket.onrender.com/accounts/signup/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+2025-12-13T13:41:26.723736091Z 127.0.0.1 - - [13/Dec/2025:19:11:26 +0530] "GET /accounts/verify-otp/ HTTP/1.1" 200 19911 "https://credmarket.onrender.com/accounts/signup/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"

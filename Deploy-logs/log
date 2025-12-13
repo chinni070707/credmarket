@@ -1,50 +1,100 @@
-2025-12-13T09:22:22.398264709Z     django.setup(set_prefix=False)
-2025-12-13T09:22:22.39826691Z     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-2025-12-13T09:22:22.398269099Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/__init__.py", line 24, in setup
-2025-12-13T09:22:22.398271359Z     apps.populate(settings.INSTALLED_APPS)
-2025-12-13T09:22:22.398273499Z     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:22:22.39827575Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/apps/registry.py", line 116, in populate
-2025-12-13T09:22:22.39827812Z     app_config.import_models()
-2025-12-13T09:22:22.3982804Z     ~~~~~~~~~~~~~~~~~~~~~~~~^^
-2025-12-13T09:22:22.39828263Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/apps/config.py", line 269, in import_models
-2025-12-13T09:22:22.39828487Z     self.models_module = import_module(models_module_name)
-2025-12-13T09:22:22.398287Z                          ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:22:22.39828929Z   File "/opt/render/project/python/Python-3.13.4/lib/python3.13/importlib/__init__.py", line 88, in import_module
-2025-12-13T09:22:22.3982915Z     return _bootstrap._gcd_import(name[level:], package, level)
-2025-12-13T09:22:22.39829372Z            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:22:22.39829585Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
-2025-12-13T09:22:22.39829801Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
-2025-12-13T09:22:22.3983004Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
-2025-12-13T09:22:22.39830266Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
-2025-12-13T09:22:22.39830499Z   File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
-2025-12-13T09:22:22.39830711Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
-2025-12-13T09:22:22.398401332Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/contrib/auth/models.py", line 3, in <module>
-2025-12-13T09:22:22.398415173Z     from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-2025-12-13T09:22:22.398418043Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/contrib/auth/base_user.py", line 58, in <module>
-2025-12-13T09:22:22.398420983Z     class AbstractBaseUser(models.Model):
-2025-12-13T09:22:22.398424363Z     ...<120 lines>...
-2025-12-13T09:22:22.398426853Z             )
-2025-12-13T09:22:22.398429143Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/models/base.py", line 143, in __new__
-2025-12-13T09:22:22.398432153Z     new_class.add_to_class("_meta", Options(meta, app_label))
-2025-12-13T09:22:22.398434313Z     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:22:22.398436733Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/models/base.py", line 371, in add_to_class
-2025-12-13T09:22:22.398438983Z     value.contribute_to_class(cls, name)
-2025-12-13T09:22:22.398441113Z     ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
-2025-12-13T09:22:22.398469184Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/models/options.py", line 243, in contribute_to_class
-2025-12-13T09:22:22.398472214Z     self.db_table, connection.ops.max_name_length()
-2025-12-13T09:22:22.398474374Z                    ^^^^^^^^^^^^^^
-2025-12-13T09:22:22.398476614Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/utils/connection.py", line 15, in __getattr__
-2025-12-13T09:22:22.398478824Z     return getattr(self._connections[self._alias], item)
-2025-12-13T09:22:22.398481144Z                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-2025-12-13T09:22:22.398483434Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/utils/connection.py", line 62, in __getitem__
-2025-12-13T09:22:22.398486044Z     conn = self.create_connection(alias)
-2025-12-13T09:22:22.398488744Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/utils.py", line 193, in create_connection
-2025-12-13T09:22:22.398491114Z     backend = load_backend(db["ENGINE"])
-2025-12-13T09:22:22.398493554Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/utils.py", line 113, in load_backend
-2025-12-13T09:22:22.398496284Z     return import_module("%s.base" % backend_name)
-2025-12-13T09:22:22.398498834Z   File "/opt/render/project/python/Python-3.13.4/lib/python3.13/importlib/__init__.py", line 88, in import_module
-2025-12-13T09:22:22.398501354Z     return _bootstrap._gcd_import(name[level:], package, level)
-2025-12-13T09:22:22.398504435Z            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:22:22.398506944Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/backends/postgresql/base.py", line 29, in <module>
-2025-12-13T09:22:22.398509664Z     raise ImproperlyConfigured("Error loading psycopg2 or psycopg module")
-2025-12-13T09:22:22.398549205Z django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 or psycopg module
+2025-12-13T09:28:50.303451757Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 134, in __call__
+2025-12-13T09:28:50.303454278Z     response = response or self.get_response(request)
+2025-12-13T09:28:50.303456928Z                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303459568Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 57, in inner
+2025-12-13T09:28:50.303462068Z     response = response_for_exception(request, exc)
+2025-12-13T09:28:50.303464518Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303467438Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 143, in response_for_exception
+2025-12-13T09:28:50.303470198Z     log_response(
+2025-12-13T09:28:50.303472968Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 241, in log_response
+2025-12-13T09:28:50.303475398Z     getattr(logger, level)(
+2025-12-13T09:28:50.303477958Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1518, in error
+2025-12-13T09:28:50.303480308Z     self._log(ERROR, msg, args, **kwargs)
+2025-12-13T09:28:50.303482789Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1634, in _log
+2025-12-13T09:28:50.303490129Z     self.handle(record)
+2025-12-13T09:28:50.303500799Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1644, in handle
+2025-12-13T09:28:50.303503659Z     self.callHandlers(record)
+2025-12-13T09:28:50.303506549Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1706, in callHandlers
+2025-12-13T09:28:50.303509119Z     hdlr.handle(record)
+2025-12-13T09:28:50.303511729Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 978, in handle
+2025-12-13T09:28:50.303514159Z     self.emit(record)
+2025-12-13T09:28:50.30351673Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 128, in emit
+2025-12-13T09:28:50.30351945Z     self.send_mail(subject, message, fail_silently=True, html_message=html_message)
+2025-12-13T09:28:50.303522039Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 132, in send_mail
+2025-12-13T09:28:50.30352457Z     subject, message, *args, connection=self.connection(), **kwargs
+2025-12-13T09:28:50.30352703Z                                         ^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.30352937Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 136, in connection
+2025-12-13T09:28:50.30353197Z     return get_connection(backend=self.email_backend, fail_silently=True)
+2025-12-13T09:28:50.30353438Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.30353676Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/mail/__init__.py", line 50, in get_connection
+2025-12-13T09:28:50.30353911Z     klass = import_string(backend or settings.EMAIL_BACKEND)
+2025-12-13T09:28:50.3035417Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.30354434Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/module_loading.py", line 30, in import_string
+2025-12-13T09:28:50.3035469Z     return cached_import(module_path, class_name)
+2025-12-13T09:28:50.30354946Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.30355214Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/module_loading.py", line 15, in cached_import
+2025-12-13T09:28:50.303556671Z     module = import_module(module_path)
+2025-12-13T09:28:50.303559331Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303561711Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/importlib/__init__.py", line 126, in import_module
+2025-12-13T09:28:50.303564001Z     return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-13T09:28:50.303566361Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303568901Z   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+2025-12-13T09:28:50.303571611Z   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+2025-12-13T09:28:50.303574451Z   File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+2025-12-13T09:28:50.303576991Z ModuleNotFoundError: No module named 'sendgrid_backend'
+2025-12-13T09:28:50.303579251Z 
+2025-12-13T09:28:50.303581701Z During handling of the above exception, another exception occurred:
+2025-12-13T09:28:50.303584301Z 
+2025-12-13T09:28:50.303586861Z Traceback (most recent call last):
+2025-12-13T09:28:50.303589492Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/gunicorn/workers/sync.py", line 135, in handle
+2025-12-13T09:28:50.303591972Z     self.handle_request(listener, req, client, addr)
+2025-12-13T09:28:50.303598822Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/gunicorn/workers/sync.py", line 178, in handle_request
+2025-12-13T09:28:50.303601172Z     respiter = self.wsgi(environ, resp.start_response)
+2025-12-13T09:28:50.303603512Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303606402Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/wsgi.py", line 124, in __call__
+2025-12-13T09:28:50.303609082Z     response = self.get_response(request)
+2025-12-13T09:28:50.303611812Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303614232Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 140, in get_response
+2025-12-13T09:28:50.303616702Z     response = self._middleware_chain(request)
+2025-12-13T09:28:50.303619102Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303621453Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 57, in inner
+2025-12-13T09:28:50.303623913Z     response = response_for_exception(request, exc)
+2025-12-13T09:28:50.303626273Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303628713Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 143, in response_for_exception
+2025-12-13T09:28:50.303631113Z     log_response(
+2025-12-13T09:28:50.303633613Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 241, in log_response
+2025-12-13T09:28:50.303636423Z     getattr(logger, level)(
+2025-12-13T09:28:50.303639073Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1518, in error
+2025-12-13T09:28:50.303641583Z     self._log(ERROR, msg, args, **kwargs)
+2025-12-13T09:28:50.303644233Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1634, in _log
+2025-12-13T09:28:50.303646633Z     self.handle(record)
+2025-12-13T09:28:50.303654563Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1644, in handle
+2025-12-13T09:28:50.303657094Z     self.callHandlers(record)
+2025-12-13T09:28:50.303659714Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1706, in callHandlers
+2025-12-13T09:28:50.303662764Z     hdlr.handle(record)
+2025-12-13T09:28:50.303665424Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 978, in handle
+2025-12-13T09:28:50.303667834Z     self.emit(record)
+2025-12-13T09:28:50.303670324Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 128, in emit
+2025-12-13T09:28:50.303672844Z     self.send_mail(subject, message, fail_silently=True, html_message=html_message)
+2025-12-13T09:28:50.303675544Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 132, in send_mail
+2025-12-13T09:28:50.303678034Z     subject, message, *args, connection=self.connection(), **kwargs
+2025-12-13T09:28:50.303680534Z                                         ^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303683394Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 136, in connection
+2025-12-13T09:28:50.303686064Z     return get_connection(backend=self.email_backend, fail_silently=True)
+2025-12-13T09:28:50.303689144Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303691895Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/mail/__init__.py", line 50, in get_connection
+2025-12-13T09:28:50.303729085Z     klass = import_string(backend or settings.EMAIL_BACKEND)
+2025-12-13T09:28:50.303738246Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303741146Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/module_loading.py", line 30, in import_string
+2025-12-13T09:28:50.303743856Z     return cached_import(module_path, class_name)
+2025-12-13T09:28:50.303746466Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303749016Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/module_loading.py", line 15, in cached_import
+2025-12-13T09:28:50.303751646Z     module = import_module(module_path)
+2025-12-13T09:28:50.303754166Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303756676Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/importlib/__init__.py", line 126, in import_module
+2025-12-13T09:28:50.303759357Z     return _bootstrap._gcd_import(name[level:], package, level)
+2025-12-13T09:28:50.303761986Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:28:50.303764506Z   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+2025-12-13T09:28:50.303767227Z   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+2025-12-13T09:28:50.303769697Z   File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
+2025-12-13T09:28:50.303772487Z ModuleNotFoundError: No module named 'sendgrid_backend'

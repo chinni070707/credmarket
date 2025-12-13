@@ -1,0 +1,100 @@
+2025-12-13T09:06:31.210869969Z The above exception was the direct cause of the following exception:
+2025-12-13T09:06:31.210872469Z 
+2025-12-13T09:06:31.210875309Z Traceback (most recent call last):
+2025-12-13T09:06:31.210878159Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+2025-12-13T09:06:31.210880809Z     response = get_response(request)
+2025-12-13T09:06:31.210883859Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+2025-12-13T09:06:31.210886479Z     response = wrapped_callback(request, *callback_args, **callback_kwargs)
+2025-12-13T09:06:31.210889299Z   File "/opt/render/project/src/listings/views.py", line 47, in home
+2025-12-13T09:06:31.210891959Z     return render(request, 'listings/home.html', context)
+2025-12-13T09:06:31.210895179Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/shortcuts.py", line 24, in render
+2025-12-13T09:06:31.210898309Z     content = loader.render_to_string(template_name, context, request, using=using)
+2025-12-13T09:06:31.210901049Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/loader.py", line 62, in render_to_string
+2025-12-13T09:06:31.2109037Z     return template.render(context, request)
+2025-12-13T09:06:31.21090628Z            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+2025-12-13T09:06:31.21090888Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/backends/django.py", line 61, in render
+2025-12-13T09:06:31.21091143Z     return self.template.render(context)
+2025-12-13T09:06:31.210914Z            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.21091717Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/base.py", line 171, in render
+2025-12-13T09:06:31.21092041Z     return self._render(context)
+2025-12-13T09:06:31.21092303Z            ~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.21092585Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/test/utils.py", line 111, in instrumented_test_render
+2025-12-13T09:06:31.21092879Z     return self.nodelist.render(context)
+2025-12-13T09:06:31.21093157Z            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.21093431Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/base.py", line 1000, in render
+2025-12-13T09:06:31.21093727Z     return SafeString("".join([node.render_annotated(context) for node in self]))
+2025-12-13T09:06:31.21094041Z                                ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.21094334Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/base.py", line 961, in render_annotated
+2025-12-13T09:06:31.21094602Z     return self.render(context)
+2025-12-13T09:06:31.21094868Z            ~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.21096165Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 159, in render
+2025-12-13T09:06:31.21096481Z     return compiled_parent._render(context)
+2025-12-13T09:06:31.210967361Z            ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.210970241Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/test/utils.py", line 111, in instrumented_test_render
+2025-12-13T09:06:31.210972731Z     return self.nodelist.render(context)
+2025-12-13T09:06:31.210975431Z            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.210978251Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/base.py", line 1000, in render
+2025-12-13T09:06:31.210981181Z     return SafeString("".join([node.render_annotated(context) for node in self]))
+2025-12-13T09:06:31.210983951Z                                ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.210986781Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/base.py", line 961, in render_annotated
+2025-12-13T09:06:31.210989581Z     return self.render(context)
+2025-12-13T09:06:31.210992061Z            ~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.210994621Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/loader_tags.py", line 65, in render
+2025-12-13T09:06:31.210997231Z     result = block.nodelist.render(context)
+2025-12-13T09:06:31.211000101Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/base.py", line 1000, in render
+2025-12-13T09:06:31.211002921Z     return SafeString("".join([node.render_annotated(context) for node in self]))
+2025-12-13T09:06:31.211005751Z                                ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.211008731Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/base.py", line 961, in render_annotated
+2025-12-13T09:06:31.211011901Z     return self.render(context)
+2025-12-13T09:06:31.211014471Z            ~~~~~~~~~~~^^^^^^^^^
+2025-12-13T09:06:31.211076823Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/template/defaulttags.py", line 197, in render
+2025-12-13T09:06:31.211082072Z     len_values = len(values)
+2025-12-13T09:06:31.211084652Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/models/query.py", line 380, in __len__
+2025-12-13T09:06:31.211087572Z     self._fetch_all()
+2025-12-13T09:06:31.211090223Z     ~~~~~~~~~~~~~~~^^
+2025-12-13T09:06:31.211092853Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/models/query.py", line 1926, in _fetch_all
+2025-12-13T09:06:31.211095633Z     self._result_cache = list(self._iterable_class(self))
+2025-12-13T09:06:31.211098243Z                          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:06:31.211101193Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/models/query.py", line 91, in __iter__
+2025-12-13T09:06:31.211104383Z     results = compiler.execute_sql(
+2025-12-13T09:06:31.211107153Z         chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+2025-12-13T09:06:31.211109853Z     )
+2025-12-13T09:06:31.211112613Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+2025-12-13T09:06:31.211115383Z     cursor.execute(sql, params)
+2025-12-13T09:06:31.211118143Z     ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+2025-12-13T09:06:31.211121043Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/debug_toolbar/panels/sql/tracking.py", line 252, in execute
+2025-12-13T09:06:31.211123623Z     return self._record(super().execute, sql, params)
+2025-12-13T09:06:31.211133303Z            ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:06:31.211136084Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/debug_toolbar/panels/sql/tracking.py", line 177, in _record
+2025-12-13T09:06:31.211138753Z     return method(sql, params)
+2025-12-13T09:06:31.211141744Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 122, in execute
+2025-12-13T09:06:31.211144353Z     return super().execute(sql, params)
+2025-12-13T09:06:31.211146994Z            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+2025-12-13T09:06:31.211151914Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 79, in execute
+2025-12-13T09:06:31.211154504Z     return self._execute_with_wrappers(
+2025-12-13T09:06:31.211157124Z            ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+2025-12-13T09:06:31.211159654Z         sql, params, many=False, executor=self._execute
+2025-12-13T09:06:31.211162024Z         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:06:31.211164604Z     )
+2025-12-13T09:06:31.211167084Z     ^
+2025-12-13T09:06:31.211170264Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+2025-12-13T09:06:31.211173014Z     return executor(sql, params, many, context)
+2025-12-13T09:06:31.211175564Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 100, in _execute
+2025-12-13T09:06:31.211178224Z     with self.db.wrap_database_errors:
+2025-12-13T09:06:31.211180764Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T09:06:31.211183424Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/utils.py", line 91, in __exit__
+2025-12-13T09:06:31.211186204Z     raise dj_exc_value.with_traceback(traceback) from exc_value
+2025-12-13T09:06:31.211188804Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/backends/utils.py", line 105, in _execute
+2025-12-13T09:06:31.211192754Z     return self.cursor.execute(sql, params)
+2025-12-13T09:06:31.211195474Z            ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+2025-12-13T09:06:31.211198145Z   File "/opt/render/project/src/.venv/lib/python3.13/site-packages/django/db/backends/sqlite3/base.py", line 328, in execute
+2025-12-13T09:06:31.211200685Z     return super().execute(query, params)
+2025-12-13T09:06:31.211203174Z            ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+2025-12-13T09:06:31.211205674Z django.db.utils.OperationalError: no such table: listings_category
+2025-12-13T09:06:31.501389539Z 127.0.0.1 - - [13/Dec/2025:14:36:31 +0530] "GET / HTTP/1.1" 500 231192 "-" "Go-http-client/2.0"
+2025-12-13T09:06:31.608352314Z Not Found: /static/debug_toolbar/css/toolbar.css
+2025-12-13T09:06:31.609744037Z 127.0.0.1 - - [13/Dec/2025:14:36:31 +0530] "GET /static/debug_toolbar/css/toolbar.css HTTP/1.1" 404 14616 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
+2025-12-13T09:06:31.711193108Z Not Found: /static/debug_toolbar/js/toolbar.js
+2025-12-13T09:06:31.711503173Z 127.0.0.1 - - [13/Dec/2025:14:36:31 +0530] "GET /static/debug_toolbar/js/toolbar.js HTTP/1.1" 404 14605 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
+2025-12-13T09:06:31.906605555Z Not Found: /static/debug_toolbar/css/print.css
+2025-12-13T09:06:31.90695071Z 127.0.0.1 - - [13/Dec/2025:14:36:31 +0530] "GET /static/debug_toolbar/css/print.css HTTP/1.1" 404 14606 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"

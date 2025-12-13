@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: credmarket
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn credmarket.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.7
+      - key: DATABASE_URL
+        fromDatabase:
+          name: credmarket-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: SITE_URL
+        sync: false
+      - key: SENDGRID_API_KEY
+        sync: false
+    autoDeploy: true
+
+databases:
+  - name: credmarket-db
+    databaseName: credmarket
+    user: credmarket

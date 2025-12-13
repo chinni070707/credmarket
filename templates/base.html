@@ -168,12 +168,6 @@
                     <a href="{% url 'listings:listing_list' %}" class="text-gray-700 hover:text-green-600 font-medium">
                         Browse
                     </a>
-                    <a href="{% url 'how_it_works' %}" class="text-gray-700 hover:text-green-600 font-medium">
-                        How It Works
-                    </a>
-                    <a href="{% url 'about' %}" class="text-gray-700 hover:text-green-600 font-medium">
-                        About
-                    </a>
                 </div>
                 
                 <!-- Search Bar (Desktop) -->
@@ -196,6 +190,10 @@
                 <!-- Navigation Links -->
                 <div class="flex items-center space-x-4">
                     {% if user.is_authenticated %}
+                        <a href="{% url 'listings:listing_list' %}" class="hidden md:flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg transition">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Buy</span>
+                        </a>
                         <a href="{% url 'listings:create_listing' %}" class="hidden md:flex items-center space-x-2 btn-primary text-white px-6 py-2 rounded-full font-semibold">
                             <i class="fas fa-plus-circle"></i>
                             <span>Sell</span>

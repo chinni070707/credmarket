@@ -7,6 +7,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from .health import health_check, readiness_check, liveness_check
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,6 +15,11 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('messages/', include('messaging.urls')),
     path('companies/', include('companies.urls')),
+    
+    # Health check endpoints
+    path('health/', health_check, name='health_check'),
+    path('ready/', readiness_check, name='readiness'),
+    path('alive/', liveness_check, name='liveness'),
     
     # Static pages
     path('how-it-works/', TemplateView.as_view(template_name='how_it_works.html'), name='how_it_works'),

@@ -5,7 +5,7 @@ services:
     runtime: python
     plan: free
     buildCommand: "./build.sh"
-    startCommand: "gunicorn credmarket.wsgi:application"
+    startCommand: "gunicorn credmarket.wsgi:application --log-file - --log-level debug --capture-output --access-logfile - --error-logfile -"
     envVars:
       - key: DEBUG
         value: False

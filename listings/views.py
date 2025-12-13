@@ -41,7 +41,22 @@ def home(request):
     else:
         recent_listings = recent_listings[:12]
     
-    categories = Category.objects.filter(parent=None, is_active=True)
+    # Show all active categories with important ones first
+    from django.db.models import Case, When, Value, IntegerField
+    
+    # Define priority order for important categories
+    priority_categories = ['Electronics', 'Vehicles', 'Real Estate', 'Rent', 'Furniture', 
+                          'Home Appliances', 'Cars', 'Bikes', 'Apartments']
+    
+    # Create ordering: priority categories first, then alphabetical
+    when_clauses = [When(name=cat, then=Value(i)) for i, cat in enumerate(priority_categories)]
+    categories = Category.objects.filter(is_active=True).annotate(
+        priority=Case(
+            *when_clauses,
+            default=Value(999),
+            output_field=IntegerField()
+        )
+    ).order_by('priority', 'name')
     
     context = {
         'featured_listings': featured_listings,

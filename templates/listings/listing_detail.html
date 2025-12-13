@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load listing_filters %}
 
 {% block title %}{{ listing.title }} - CredMarket{% endblock %}
 
@@ -107,6 +108,39 @@
                         <div class="font-semibold text-gray-900">{{ listing.created_at|timesince }} ago</div>
                     </div>
                 </div>
+
+                <!-- Category-Specific Details -->
+                {% if listing.attributes %}
+                <div class="mt-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-3">Additional Details</h2>
+                    <div class="grid grid-cols-2 gap-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-4 border-2 border-purple-200">
+                        {% for key, value in listing.attributes.items %}
+                        {% if value %}
+                        <div>
+                            <div class="text-sm text-gray-600 mb-1">{{ key|title|replace_with_space }}</div>
+                            <div class="font-semibold text-gray-900">
+                                {% if key == 'km_driven' or key == 'kms_driven' %}
+                                    {{ value }} km
+                                {% elif key == 'deposit' or key == 'monthly_rent' %}
+                                    ₹{{ value }}
+                                {% elif key == 'carpet_area' or key == 'plot_area' %}
+                                    {{ value }} sq.ft
+                                {% elif key == 'available_from' %}
+                                    {{ value }}
+                                {% elif key == 'owners' %}
+                                    {{ value }} Owner
+                                {% elif key == 'bathrooms' or key == 'bedrooms' %}
+                                    {{ value }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
 

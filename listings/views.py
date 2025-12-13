@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from .models import Listing, Category, ListingImage
+from .category_fields import get_category_fields
 
 
 def home(request):
@@ -205,10 +206,23 @@ def create_listing(request):
         return redirect('accounts:profile')
     
     if request.method == 'POST':
+        # Get category to extract its specific fields
+        category_id = request.POST.get('category')
+        category = Category.objects.get(id=category_id)
+        
+        # Build attributes dict from category-specific fields
+        attributes = {}
+        category_fields = get_category_fields(category.name)
+        for field_name in category_fields.keys():
+            value = request.POST.get(f'attr_{field_name}')
+            if value:
+                attributes[field_name] = value
+        
+        # Create listing
         listing = Listing.objects.create(
             title=request.POST.get('title'),
             description=request.POST.get('description'),
-            category_id=request.POST.get('category'),
+            category_id=category_id,
             seller=request.user,
             price=request.POST.get('price'),
             is_negotiable=request.POST.get('is_negotiable') == 'on',
@@ -217,6 +231,7 @@ def create_listing(request):
             city=request.POST.get('city'),
             state=request.POST.get('state'),
             pincode=request.POST.get('pincode', ''),
+            attributes=attributes,  # Save category-specific attributes
         )
         
         # Handle multiple images (max 8)
@@ -235,8 +250,14 @@ def create_listing(request):
         messages.success(request, 'Listing created successfully!')
         return redirect('listings:listing_detail', slug=listing.slug)
     
+    # Get all categories - both parent and subcategories
+    parent_categories = Category.objects.filter(parent=None, is_active=True).prefetch_related('subcategories')
     categories = Category.objects.filter(is_active=True)
-    context = {'categories': categories}
+    
+    context = {
+        'parent_categories': parent_categories,
+        'categories': categories,
+    }
     return render(request, 'listings/create_listing.html', context)
 
 
@@ -256,14 +277,29 @@ def edit_listing(request, slug):
         listing.city = request.POST.get('city')
         listing.state = request.POST.get('state')
         listing.pincode = request.POST.get('pincode', '')
+        
+        # Handle category-specific attributes
+        category = Category.objects.get(id=listing.category_id)
+        category_fields = get_category_fields(category.id)
+        
+        if category_fields:
+            attributes = {}
+            for field_name in category_fields.keys():
+                field_value = request.POST.get(f'attr_{field_name}')
+                if field_value:
+                    attributes[field_name] = field_value
+            listing.attributes = attributes
+        
         listing.save()
         
         messages.success(request, 'Listing updated successfully!')
         return redirect('listings:listing_detail', slug=listing.slug)
     
+    parent_categories = Category.objects.filter(parent__isnull=True, is_active=True).order_by('order')
     categories = Category.objects.filter(is_active=True)
     context = {
         'listing': listing,
+        'parent_categories': parent_categories,
         'categories': categories,
     }
     return render(request, 'listings/edit_listing.html', context)
@@ -290,3 +326,22 @@ def my_listings(request):
     
     context = {'listings': listings}
     return render(request, 'listings/my_listings.html', context)
+
+
+from django.http import JsonResponse
+
+def get_category_fields_api(request, category_id):
+    """API endpoint to get category-specific fields configuration"""
+    try:
+        category = Category.objects.get(id=category_id)
+        fields = get_category_fields(category.name)
+        return JsonResponse({
+            'success': True,
+            'category_name': category.name,
+            'fields': fields
+        })
+    except Category.DoesNotExist:
+        return JsonResponse({
+            'success': False,
+            'error': 'Category not found'
+        }, status=404)

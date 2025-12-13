@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'import_export',
     'debug_toolbar',
     'cloudinary',
+    'cloudinary_storage',
     
     # Local apps
     'accounts',
@@ -160,10 +161,33 @@ OTP_EMAIL_SUBJECT = 'Your CredMarket Verification Code'
 OTP_EMAIL_BODY_TEMPLATE = 'Your verification code is: {token}'
 OTP_VALIDITY_MINUTES = config('OTP_VALIDITY_MINUTES', default=10, cast=int)
 
-# Cloudinary Configuration
+# Cloudinary Configuration for Media Storage
 CLOUDINARY_CLOUD_NAME = config('CLOUDINARY_CLOUD_NAME', default='')
 CLOUDINARY_API_KEY = config('CLOUDINARY_API_KEY', default='')
 CLOUDINARY_API_SECRET = config('CLOUDINARY_API_SECRET', default='')
+
+# Configure Cloudinary if credentials are provided
+if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+    import cloudinary
+    import cloudinary.uploader
+    import cloudinary.api
+    
+    cloudinary.config(
+        cloud_name=CLOUDINARY_CLOUD_NAME,
+        api_key=CLOUDINARY_API_KEY,
+        api_secret=CLOUDINARY_API_SECRET,
+        secure=True
+    )
+    
+    # Use Cloudinary for media storage
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    
+    # Cloudinary storage settings
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+        'API_KEY': CLOUDINARY_API_KEY,
+        'API_SECRET': CLOUDINARY_API_SECRET
+    }
 
 # Crispy Forms (Tailwind)
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"

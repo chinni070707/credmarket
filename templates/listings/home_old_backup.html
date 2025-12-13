@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-gradient text-white relative overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="absolute top-10 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 relative z-10">
+        <div class="text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6 shine">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-300"></span>
+                </span>
+                <span class="text-sm font-semibold">🎉 BETA Launch - Join Now!</span>
+            </div>
+            
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                India's Most <span class="text-gradient inline-block float-animation">Trusted</span>
+                <br class="hidden sm:block" />
+                Marketplace ✨
+            </h1>
+            <p class="text-lg sm:text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto font-medium">
+                🚀 Buy and sell with <span class="text-yellow-300 font-bold">verified corporate employees</span>. 
+                <br class="hidden sm:block" />
+                No spam, no scams - just <span class="text-yellow-300 font-bold">trusted transactions</span>! 🔒
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <a href="{% url 'listings:listing_list' %}" class="bg-white text-purple-600 px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-purple-500/50 transform hover:scale-110 transition-all shine glow-pulse">
+                    <i class="fas fa-search mr-2"></i> Browse Listings
+                </a>
+                <a href="{% url 'listings:create_listing' %}" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-orange-500/50 transform hover:scale-110 transition-all shine">
+                    <i class="fas fa-plus-circle mr-2"></i> Sell Now 💰
+                </a>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-4 sm:gap-8 mt-12 max-w-4xl mx-auto">
+            <div class="text-center bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 transform hover:scale-105 transition-all">
+                <div class="text-3xl sm:text-5xl font-extrabold text-yellow-300 mb-2">10K+</div>
+                <div class="text-white/90 text-xs sm:text-base font-medium">✅ Verified Users</div>
+            </div>
+            <div class="text-center bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 transform hover:scale-105 transition-all">
+                <div class="text-3xl sm:text-5xl font-extrabold text-yellow-300 mb-2">500+</div>
+                <div class="text-white/90 text-xs sm:text-base font-medium">🏢 Companies</div>
+            </div>
+            <div class="text-center bg-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 transform hover:scale-105 transition-all">
+                <div class="text-3xl sm:text-5xl font-extrabold text-yellow-300 mb-2">0%</div>
+                <div class="text-white/90 text-xs sm:text-base font-medium">🚫 Spam Rate</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Categories Section -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
+            🎯 Browse by Category
+        </h2>
+        <p class="text-gray-600 text-lg">Find exactly what you're looking for</p>
+    </div>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
+        {% for category in categories %}
+        <a href="{% url 'listings:category_listings' category.slug %}" class="group">
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 sm:p-6 shadow-lg hover:shadow-2xl transition-all text-center card-hover border-2 border-transparent hover:border-purple-500 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/10 group-hover:to-pink-500/10 transition-all"></div>
+                <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 bg-gradient-to-br from-purple-100 via-pink-100 to-orange-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform relative z-10">
+                    <i class="{{ category.icon }} text-xl sm:text-2xl bg-gradient-to-br from-purple-600 to-pink-600 bg-clip-text text-transparent"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 text-xs sm:text-sm relative z-10">{{ category.name }}</h3>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Featured Listings -->
+{% if featured_listings %}
+<div class="bg-gradient-to-b from-purple-50 via-pink-50 to-orange-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">
+                <i class="fas fa-star text-yellow-400 mr-2"></i> ⭐ Featured Listings
+            </h2>
+            <a href="{% url 'listings:listing_list' %}" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-full font-bold hover:shadow-xl transform hover:scale-105 transition-all shine">
+                View All <i class="fas fa-arrow-right ml-1"></i>
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for listing in featured_listings %}
+            <a href="{% url 'listings:listing_detail' listing.slug %}" class="group">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <!-- Image -->
+                    <div class="relative h-48 bg-gray-200 overflow-hidden">
+                        {% if listing.get_primary_image %}
+                            <img src="{{ listing.get_primary_image.image.url }}" alt="{{ listing.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-100 to-emerald-100">
+                                <i class="fas fa-image text-6xl text-gray-300"></i>
+                            </div>
+                        {% endif %}
+                        <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
+                            {{ listing.category.name }}
+                        </div>
+                        {% if listing.seller.company %}
+                        <div class="absolute top-2 right-2 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
+                            <i class="fas fa-building mr-1"></i>{{ listing.seller.company.name }}
+                        </div>
+                        {% endif %}
+                        <div class="absolute {% if listing.seller.company %}top-12{% else %}top-2{% endif %} right-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg shine">
+                            <i class="fas fa-star mr-1"></i> Featured
+                        </div>
+                        {% if listing.is_negotiable %}
+                        <div class="absolute bottom-2 left-2 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                            <i class="fas fa-check-circle mr-1"></i> Negotiable
+                        </div>
+                        {% else %}
+                        <div class="absolute bottom-2 left-2 bg-gray-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                            <i class="fas fa-times-circle mr-1"></i> Non-Negotiable
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition">
+                            {{ listing.title }}
+                        </h3>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-2xl font-bold text-green-600">₹{{ listing.price }}</span>
+                            {% if listing.is_negotiable %}
+                            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                                <i class="fas fa-handshake"></i> Negotiable
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="flex items-center justify-between text-sm text-gray-600">
+                            <span><i class="fas fa-map-marker-alt mr-1"></i> {{ listing.city }}</span>
+                            <span><i class="fas fa-tag mr-1"></i> {{ listing.get_condition_display }}</span>
+                        </div>
+                        <div class="mt-3 pt-3 border-t flex items-center justify-between text-xs text-gray-500">
+                            <span><i class="fas fa-user mr-1"></i> {{ listing.seller.first_name }}</span>
+                            <span><i class="fas fa-eye mr-1"></i> {{ listing.views_count }} views</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Recent Listings -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">
+            <i class="fas fa-clock text-green-500 mr-2"></i> 🔥 Recent Listings
+        </h2>
+        <a href="{% url 'listings:listing_list' %}" class="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-full font-bold hover:shadow-xl transform hover:scale-105 transition-all shine">
+            View All <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for listing in recent_listings %}
+        <a href="{% url 'listings:listing_detail' listing.slug %}" class="group">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                <!-- Image -->
+                <div class="relative h-40 bg-gray-200 overflow-hidden">
+                    {% if listing.get_primary_image %}
+                        <img src="{{ listing.get_primary_image.image.url }}" alt="{{ listing.title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-100 to-emerald-100">
+                            <i class="fas fa-image text-4xl text-gray-300"></i>
+                        </div>
+                    {% endif %}
+                    <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
+                        {{ listing.category.name }}
+                    </div>
+                    {% if listing.seller.company %}
+                    <div class="absolute top-2 right-2 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
+                        <i class="fas fa-building mr-1"></i>{{ listing.seller.company.name }}
+                    </div>
+                    {% endif %}
+                    {% if listing.is_negotiable %}
+                    <div class="absolute bottom-2 left-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-md">
+                        <i class="fas fa-check-circle mr-1"></i> Negotiable
+                    </div>
+                    {% else %}
+                    <div class="absolute bottom-2 left-2 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-md">
+                        <i class="fas fa-times-circle mr-1"></i> Non-Negotiable
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Content -->
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition">
+                        {{ listing.title }}
+                    </h3>
+                    <div class="text-xl font-bold text-green-600 mb-2">₹{{ listing.price }}</div>
+                    <div class="text-sm text-gray-600">
+                        <i class="fas fa-map-marker-alt mr-1"></i> {{ listing.city }}
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Why Choose Us -->
+<div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-16 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-purple-300/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-64 h-64 bg-pink-300/20 rounded-full blur-3xl"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">💎 Why Choose CredMarket?</h2>
+            <p class="text-gray-600 text-lg">Experience the difference of a truly trusted marketplace</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl text-center card-hover border-2 border-purple-200 hover:border-purple-500 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-500/10 to-transparent rounded-bl-full"></div>
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg float-animation">
+                    <i class="fas fa-shield-check text-4xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-extrabold text-gray-900 mb-3">100% Verified ✅</h3>
+                <p class="text-gray-600 font-medium">
+                    Every user verified through corporate email. Zero fake accounts, zero spam sellers!
+                </p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl text-center card-hover border-2 border-pink-200 hover:border-pink-500 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-pink-500/10 to-transparent rounded-bl-full"></div>
+                <div class="w-20 h-20 bg-gradient-to-br from-pink-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg float-animation" style="animation-delay: 0.3s">
+                    <i class="fas fa-building text-4xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-extrabold text-gray-900 mb-3">Elite Community 🏆</h3>
+                <p class="text-gray-600 font-medium">
+                    Trade with professionals from FAANG, Fortune 500, and top Indian companies!
+                </p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl text-center card-hover border-2 border-orange-200 hover:border-orange-500 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-500/10 to-transparent rounded-bl-full"></div>
+                <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg float-animation" style="animation-delay: 0.6s">
+                    <i class="fas fa-comments text-4xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-extrabold text-gray-900 mb-3">Secure Chat 🔒</h3>
+                <p class="text-gray-600 font-medium">
+                    Built-in messaging to communicate safely without sharing personal contact details!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="hero-gradient text-white py-16 relative overflow-hidden">
+    <div class="absolute inset-0">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <h2 class="text-3xl sm:text-5xl font-extrabold mb-4">🚀 Ready to Start Trading?</h2>
+        <p class="text-lg sm:text-2xl text-white/90 mb-8 font-medium">
+            Join <span class="text-yellow-300 font-bold">10,000+ verified professionals</span> buying and selling on India's most trusted marketplace! 🎯
+        </p>
+        <a href="{% url 'accounts:signup' %}" class="bg-white text-purple-600 px-10 py-5 rounded-full font-extrabold text-xl inline-block shadow-2xl hover:shadow-white/50 transform hover:scale-110 transition-all shine glow-pulse">
+            Get Started - It's FREE! 🎉 <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+        <p class="mt-6 text-white/80 text-sm">✨ No credit card required • ⚡ Start selling in minutes</p>
+    </div>
+</div>
+{% endblock %}

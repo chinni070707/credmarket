@@ -48,7 +48,8 @@ def conversation_detail(request, pk):
                 receiver=other_user,
                 content=content
             )
-            return redirect('messaging:conversation_detail', pk=pk)
+            # Don't show a success message for sending messages
+            # Just stay on the same page without redirect to avoid popup
     
     messages = conversation.messages.all()
     

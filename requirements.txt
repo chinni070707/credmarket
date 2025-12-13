@@ -1,0 +1,34 @@
+# Core Django
+Django==5.0.1
+python-dotenv==1.0.0
+
+# Database
+# psycopg2-binary==2.9.9  # Commented out - using SQLite for development
+
+# Authentication & OTP
+django-otp==1.3.0
+pyotp==2.9.0
+
+# Email
+sendgrid==6.11.0
+
+# Image handling
+Pillow>=10.0.0
+cloudinary>=1.36.0
+
+# API (for future)
+djangorestframework==3.14.0
+
+# HTMX & Modern UI
+django-htmx==1.17.3
+
+# Admin enhancements
+django-import-export==3.3.5
+
+# Utilities
+python-decouple==3.8
+django-crispy-forms==2.1
+crispy-tailwind==0.5.0
+
+# Development
+django-debug-toolbar==4.2.0

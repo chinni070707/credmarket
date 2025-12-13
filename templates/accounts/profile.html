@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile - CredMarket{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Profile Header -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+        <div class="h-32 bg-gradient-to-r from-green-600 to-emerald-600"></div>
+        <div class="px-6 pb-6">
+            <div class="flex flex-col sm:flex-row items-center sm:items-end -mt-16 mb-4">
+                <!-- Avatar -->
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="{{ user.get_full_name }}" class="w-32 h-32 rounded-full border-4 border-white shadow-lg">
+                {% else %}
+                    <div class="w-32 h-32 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white text-4xl font-bold">
+                        {{ user.first_name.0 }}{{ user.last_name.0 }}
+                    </div>
+                {% endif %}
+                
+                <div class="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left flex-1">
+                    <h1 class="text-3xl font-bold text-gray-900">{{ user.get_full_name }}</h1>
+                    <p class="text-gray-600 mt-1">{{ user.email }}</p>
+                    {% if user.company %}
+                    <div class="flex items-center justify-center sm:justify-start mt-2 text-green-600">
+                        <i class="fas fa-shield-check mr-2"></i>
+                        <span class="font-semibold">{{ user.company.name }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <a href="{% url 'accounts:edit_profile' %}" class="mt-4 sm:mt-0 btn-primary text-white px-6 py-2 rounded-lg font-semibold">
+                    <i class="fas fa-edit mr-2"></i> Edit Profile
+                </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-4 mt-6 pt-6 border-t">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600">{{ user.listings.count }}</div>
+                    <div class="text-sm text-gray-600">Listings</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600">{{ user.buyer_conversations.count }}</div>
+                    <div class="text-sm text-gray-600">Purchases</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-600">{{ user.date_joined|timesince }}</div>
+                    <div class="text-sm text-gray-600">Member Since</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Info -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Personal Information -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+                <i class="fas fa-user text-green-600 mr-2"></i> Personal Information
+            </h2>
+            <div class="space-y-3">
+                <div>
+                    <div class="text-sm text-gray-600">Full Name</div>
+                    <div class="font-semibold text-gray-900">{{ user.get_full_name }}</div>
+                </div>
+                <div>
+                    <div class="text-sm text-gray-600">Email</div>
+                    <div class="font-semibold text-gray-900">{{ user.email }}</div>
+                </div>
+                {% if user.phone %}
+                <div>
+                    <div class="text-sm text-gray-600">Phone</div>
+                    <div class="font-semibold text-gray-900">{{ user.phone }}</div>
+                </div>
+                {% endif %}
+                {% if user.location %}
+                <div>
+                    <div class="text-sm text-gray-600">Location</div>
+                    <div class="font-semibold text-gray-900">{{ user.location }}</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Account Status -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+                <i class="fas fa-shield-check text-green-600 mr-2"></i> Account Status
+            </h2>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Email Verified</span>
+                    {% if user.email_verified %}
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        <i class="fas fa-check-circle"></i> Verified
+                    </span>
+                    {% else %}
+                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        <i class="fas fa-times-circle"></i> Not Verified
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Account Status</span>
+                    <span class="bg-{% if user.status == 'approved' %}green{% elif user.status == 'waitlist' %}yellow{% else %}gray{% endif %}-100 text-{% if user.status == 'approved' %}green{% elif user.status == 'waitlist' %}yellow{% else %}gray{% endif %}-700 px-3 py-1 rounded-full text-sm font-semibold capitalize">
+                        {{ user.get_status_display }}
+                    </span>
+                </div>
+                {% if user.company %}
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Company</span>
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        {{ user.company.name }}
+                    </span>
+                </div>
+                {% endif %}
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Member Since</span>
+                    <span class="text-gray-900 font-semibold">{{ user.date_joined|date:"M d, Y" }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bio -->
+    {% if user.bio %}
+    <div class="bg-white rounded-xl shadow-lg p-6 mt-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+            <i class="fas fa-info-circle text-green-600 mr-2"></i> About Me
+        </h2>
+        <p class="text-gray-700 leading-relaxed">{{ user.bio }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+        <a href="{% url 'listings:my_listings' %}" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition text-center">
+            <i class="fas fa-list-alt text-3xl text-green-600 mb-3"></i>
+            <h3 class="font-bold text-gray-900">My Listings</h3>
+            <p class="text-sm text-gray-600 mt-1">Manage your items</p>
+        </a>
+        <a href="{% url 'messaging:inbox' %}" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition text-center">
+            <i class="fas fa-envelope text-3xl text-blue-600 mb-3"></i>
+            <h3 class="font-bold text-gray-900">Messages</h3>
+            <p class="text-sm text-gray-600 mt-1">View conversations</p>
+        </a>
+        <a href="{% url 'listings:create_listing' %}" class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition text-center">
+            <i class="fas fa-plus-circle text-3xl text-green-600 mb-3"></i>
+            <h3 class="font-bold text-gray-900">Sell Item</h3>
+            <p class="text-sm text-gray-600 mt-1">Create new listing</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}404 - Page Not Found | CredMarket{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-green-50 to-emerald-50">
+    <div class="max-w-2xl w-full text-center">
+        <!-- Quirky Animation -->
+        <div class="mb-8 relative">
+            <div class="text-9xl font-bold text-green-200">404</div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-32 h-32 bg-white rounded-full shadow-2xl flex items-center justify-center animate-bounce">
+                    <i class="fas fa-search text-5xl text-green-600"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quirky Message -->
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            404: Route Not Found (Did You Even Test This?) 🤦
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">
+            Ah yes, another classic vibe coder moment. Let me guess - you copy-pasted that URL from StackOverflow? 😏
+        </p>
+
+        <!-- Roasting the Dev -->
+        <div class="bg-white rounded-2xl shadow-xl p-6 mb-8 text-left border-l-4 border-yellow-500">
+            <p class="text-sm text-gray-500 mb-4 flex items-center">
+                <i class="fas fa-code text-yellow-500 mr-2 animate-pulse"></i>
+                <span class="font-semibold">Vibe Coder Diagnosis™</span>
+            </p>
+            <p class="text-gray-700 italic font-medium mb-3" id="roastMessage">
+                "I don't always test my code, but when I do, I do it in production." - Probably You 💅
+            </p>
+            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-600 font-mono">
+                    <span class="text-red-500">Error:</span> Developer.coffee_level = 0<br>
+                    <span class="text-blue-500">Suggestion:</span> Try turning it off and on again... or just blame DNS 🤷‍♂️
+                </p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'listings:home' %}" class="bg-green-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
+                <i class="fas fa-home mr-2"></i>Back to Home
+            </a>
+            <button onclick="window.history.back()" class="bg-white text-green-600 border-2 border-green-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-green-50 transform hover:scale-105 transition">
+                <i class="fas fa-arrow-left mr-2"></i>Go Back
+            </button>
+        </div>
+
+        <!-- Search -->
+        <div class="mt-8">
+            <p class="text-gray-600 mb-4">Or try searching for something awesome:</p>
+            <form action="{% url 'listings:listing_list' %}" method="get" class="max-w-md mx-auto">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        name="q" 
+                        placeholder="Search for items..." 
+                        class="w-full pl-12 pr-4 py-4 border-2 border-green-300 rounded-full focus:ring-4 focus:ring-green-200 focus:border-green-500 text-lg"
+                    >
+                    <button type="submit" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-green-600">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Rotate roasts for the vibe coder
+    const roasts = [
+        '"I don\'t always test my code, but when I do, I do it in production." - Probably You 💅',
+        'Looks like someone coded this at 3 AM with Spotify on shuffle and ChatGPT on speed dial 🎧',
+        'Git commit -m "fix stuff idk it works now" energy right here 🚀',
+        'POV: You\'re debugging code you wrote 2 hours ago and it already looks like ancient hieroglyphics 🗿',
+        '"Works on my machine" - Famous last words before this 404 appeared 💻',
+        'This URL has the same energy as var x = undefined ?? null || false 🤡',
+        'Console.log("please work") - The developer, probably 🙏',
+        'When the documentation says "self-explanatory" but you still end up here 📚',
+        'This page doesn\'t exist. Much like your unit tests, apparently 🧪',
+        'Error 404: Developer\'s attention span not found. Try adding more console.logs 🐛',
+        '"I\'ll fix it later" from 6 months ago has entered the chat 💬',
+        'The code works, we just don\'t know why. And we\'re too afraid to touch it now 😰'
+    ];
+    
+    const roastElement = document.getElementById('roastMessage');
+    let currentRoast = 0;
+    
+    setInterval(() => {
+        currentRoast = (currentRoast + 1) % roasts.length;
+        roastElement.style.opacity = '0';
+        setTimeout(() => {
+            roastElement.textContent = roasts[currentRoast];
+            roastElement.style.opacity = '1';
+        }, 300);
+    }, 5000); // Faster rotation for maximum roasting
+    
+    roastElement.style.transition = 'opacity 0.3s ease-in-out';
+</script>
+{% endblock %}

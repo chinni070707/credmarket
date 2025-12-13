@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Messages - CredMarket{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">
+        <i class="fas fa-envelope mr-2 text-green-600"></i> Messages
+    </h1>
+
+    {% if conversations %}
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="divide-y divide-gray-200">
+            {% for conversation in conversations %}
+            <a href="{% url 'messaging:conversation_detail' conversation.pk %}" class="block hover:bg-gray-50 transition">
+                <div class="p-6 flex items-center space-x-4">
+                    <!-- Avatar -->
+                    {% with other_user=conversation.get_other_user|default:conversation.seller %}
+                    {% if other_user == conversation.seller %}
+                        {% with other_user=conversation.seller %}
+                    {% else %}
+                        {% with other_user=conversation.buyer %}
+                    {% endif %}
+                    
+                    {% if other_user.profile_picture %}
+                        <img src="{{ other_user.profile_picture.url }}" alt="{{ other_user.get_full_name }}" class="w-14 h-14 rounded-full">
+                    {% else %}
+                        <div class="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                            {{ other_user.first_name.0 }}{{ other_user.last_name.0 }}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+                    {% endwith %}
+
+                    <!-- Content -->
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="font-bold text-gray-900 truncate">
+                                {% if user == conversation.buyer %}
+                                    {{ conversation.seller.get_full_name }}
+                                {% else %}
+                                    {{ conversation.buyer.get_full_name }}
+                                {% endif %}
+                            </h3>
+                            <span class="text-sm text-gray-500">{{ conversation.updated_at|timesince }} ago</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-2">Re: {{ conversation.listing.title }}</p>
+                        {% with last_message=conversation.get_last_message %}
+                        {% if last_message %}
+                        <p class="text-sm text-gray-500 truncate">{{ last_message.content }}</p>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <!-- Unread Badge -->
+                    {% if conversation.unread_count > 0 %}
+                    <div class="flex-shrink-0">
+                        <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            {{ conversation.unread_count }}
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <!-- Empty State -->
+    <div class="bg-white rounded-xl shadow-lg p-12 text-center">
+        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-inbox text-4xl text-gray-400"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">No messages yet</h2>
+        <p class="text-gray-600 mb-6">Start browsing listings and connect with sellers</p>
+        <a href="{% url 'listings:listing_list' %}" class="btn-primary text-white px-6 py-3 rounded-lg font-semibold inline-block">
+            <i class="fas fa-search mr-2"></i> Browse Listings
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

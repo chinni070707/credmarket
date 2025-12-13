@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Conversation - CredMarket{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'messaging:inbox' %}" class="hover:bg-white/20 p-2 rounded-lg transition">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    
+                    {% with other_user=conversation.get_other_user %}
+                    {% if other_user.profile_picture %}
+                        <img src="{{ other_user.profile_picture.url }}" alt="{{ other_user.get_full_name }}" class="w-12 h-12 rounded-full border-2 border-white">
+                    {% else %}
+                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-lg font-bold border-2 border-white">
+                            {{ other_user.first_name.0 }}{{ other_user.last_name.0 }}
+                        </div>
+                    {% endif %}
+                    
+                    <div>
+                        <h2 class="font-bold text-lg">{{ other_user.get_full_name }}</h2>
+                        <p class="text-sm text-green-100">{{ other_user.company.name }}</p>
+                    </div>
+                    {% endwith %}
+                </div>
+                
+                <a href="{% url 'listings:listing_detail' conversation.listing.slug %}" class="text-sm hover:bg-white/20 px-4 py-2 rounded-lg transition">
+                    View Listing <i class="fas fa-external-link-alt ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Listing Info -->
+        <div class="bg-gray-50 p-4 border-b flex items-center space-x-4">
+            <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                {% if conversation.listing.get_primary_image %}
+                    <img src="{{ conversation.listing.get_primary_image.image.url }}" alt="{{ conversation.listing.title }}" class="w-full h-full object-cover">
+                {% else %}
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-100 to-emerald-100">
+                        <i class="fas fa-image text-2xl text-gray-400"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-gray-900 line-clamp-1">{{ conversation.listing.title }}</h3>
+                <p class="text-lg font-bold text-green-600">₹{{ conversation.listing.price }}</p>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="h-96 overflow-y-auto p-6 space-y-4" id="messageContainer">
+            {% for message in messages %}
+            <div class="flex {% if message.sender == user %}justify-end{% else %}justify-start{% endif %}">
+                <div class="max-w-xs lg:max-w-md">
+                    {% if message.sender == user %}
+                    <!-- Sent Message -->
+                    <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-2xl rounded-tr-none px-4 py-3">
+                        <p class="text-sm">{{ message.content }}</p>
+                    </div>
+                    {% else %}
+                    <!-- Received Message -->
+                    <div class="bg-gray-100 text-gray-900 rounded-2xl rounded-tl-none px-4 py-3">
+                        <p class="text-sm">{{ message.content }}</p>
+                    </div>
+                    {% endif %}
+                    <p class="text-xs text-gray-500 mt-1 {% if message.sender == user %}text-right{% endif %}">
+                        {{ message.created_at|date:"h:i A" }}
+                        {% if message.sender == user and message.is_read %}
+                        <i class="fas fa-check-double text-green-500 ml-1"></i>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Message Input -->
+        <div class="border-t p-4">
+            <form method="post" class="flex items-center space-x-3">
+                {% csrf_token %}
+                <input 
+                    type="text" 
+                    name="content" 
+                    required
+                    placeholder="Type your message..."
+                    class="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                >
+                <button 
+                    type="submit" 
+                    class="btn-primary text-white px-6 py-3 rounded-full font-semibold flex items-center space-x-2"
+                >
+                    <i class="fas fa-paper-plane"></i>
+                    <span class="hidden sm:inline">Send</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Auto-scroll to bottom of messages
+    const container = document.getElementById('messageContainer');
+    container.scrollTop = container.scrollHeight;
+    
+    // Focus on input
+    document.querySelector('input[name="content"]').focus();
+</script>
+{% endblock %}
+{% endblock %}

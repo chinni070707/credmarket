@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Server Error | CredMarket</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-red-50 to-orange-50">
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-2xl w-full text-center">
+            <!-- Quirky Animation -->
+            <div class="mb-8 relative">
+                <div class="text-9xl font-bold text-red-200">500</div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-32 h-32 bg-white rounded-full shadow-2xl flex items-center justify-center">
+                        <i class="fas fa-tools text-5xl text-red-600 animate-pulse"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quirky Message -->
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Houston, we have a problem! 🚀
+            </h1>
+            <p class="text-xl text-gray-600 mb-8">
+                Our servers are taking a quick coffee break. Don't worry, we're already on it! ☕
+            </p>
+
+            <!-- Fun Status -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+                <div class="flex items-center justify-center space-x-4 mb-6">
+                    <div class="w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+                    <p class="text-lg font-semibold text-gray-700">Server Status: Taking a power nap 💤</p>
+                </div>
+                
+                <div class="space-y-3 text-left max-w-md mx-auto">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-check-circle text-green-500"></i>
+                        <span class="text-gray-600">Our tech team has been notified</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-check-circle text-green-500"></i>
+                        <span class="text-gray-600">Your data is safe and sound</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-spinner fa-spin text-blue-500"></i>
+                        <span class="text-gray-600">Fixing things as we speak...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+                <a href="/" class="bg-green-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition">
+                    <i class="fas fa-home mr-2"></i>Back to Home
+                </a>
+                <button onclick="location.reload()" class="bg-white text-green-600 border-2 border-green-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-green-50 transform hover:scale-105 transition">
+                    <i class="fas fa-redo mr-2"></i>Try Again
+                </button>
+            </div>
+
+            <!-- Fun Loading Bar -->
+            <div class="max-w-md mx-auto">
+                <p class="text-sm text-gray-500 mb-2">Recovery progress:</p>
+                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Estimated time: Just a few moments! ⏱️</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animated progress bar
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+            }
+            progressBar.style.width = progress + '%';
+        }, 800);
+    </script>
+</body>
+</html>

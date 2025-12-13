@@ -108,22 +108,35 @@
                     <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
                         City <span class="text-red-500">*</span>
                     </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-city text-gray-400"></i>
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-city text-gray-400"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                name="city" 
+                                id="city"
+                                required
+                                class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                placeholder="e.g., Bangalore, Mumbai, Pune"
+                            >
                         </div>
-                        <input 
-                            type="text" 
-                            name="city" 
-                            id="city"
-                            required
-                            class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            placeholder="e.g., Bangalore, Mumbai, Pune"
+                        <button 
+                            type="button" 
+                            id="detectLocationBtn"
+                            class="px-4 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition whitespace-nowrap flex items-center gap-2"
+                            title="Auto-detect your city using GPS"
                         >
+                            <i class="fas fa-location-arrow"></i>
+                            <span class="hidden sm:inline">Detect</span>
+                        </button>
                     </div>
                     <p class="mt-2 text-xs text-gray-500">
-                        <i class="fas fa-info-circle"></i> Helps show you relevant local listings
+                        <i class="fas fa-info-circle"></i> Helps show you relevant local listings. Click "Detect" to auto-fill using GPS.
                     </p>
+                    <input type="hidden" name="latitude" id="latitude">
+                    <input type="hidden" name="longitude" id="longitude">
                 </div>
 
                 <!-- Area/Locality (Optional) -->
@@ -268,4 +281,104 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const detectBtn = document.getElementById('detectLocationBtn');
+    const cityInput = document.getElementById('city');
+    const latInput = document.getElementById('latitude');
+    const lonInput = document.getElementById('longitude');
+    
+    if (detectBtn) {
+        detectBtn.addEventListener('click', function() {
+            // Check if geolocation is supported
+            if (!navigator.geolocation) {
+                alert('❌ Geolocation is not supported by your browser');
+                return;
+            }
+            
+            // Show loading state
+            const originalHTML = detectBtn.innerHTML;
+            detectBtn.disabled = true;
+            detectBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span class="hidden sm:inline">Detecting...</span>';
+            
+            // Get user's location
+            navigator.geolocation.getCurrentPosition(
+                // Success callback
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    // Store coordinates
+                    latInput.value = lat;
+                    lonInput.value = lon;
+                    
+                    // Reverse geocode to get city name using Nominatim (OpenStreetMap)
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.address) {
+                                // Try to get city from various fields
+                                const city = data.address.city || 
+                                           data.address.town || 
+                                           data.address.village || 
+                                           data.address.county ||
+                                           data.address.state_district ||
+                                           'Unknown';
+                                
+                                cityInput.value = city;
+                                
+                                // Show success message
+                                detectBtn.innerHTML = '<i class="fas fa-check-circle"></i> <span class="hidden sm:inline">Done!</span>';
+                                detectBtn.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                                detectBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                                
+                                setTimeout(() => {
+                                    detectBtn.innerHTML = originalHTML;
+                                    detectBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                                    detectBtn.classList.add('bg-purple-600', 'hover:bg-purple-700');
+                                    detectBtn.disabled = false;
+                                }, 2000);
+                            } else {
+                                throw new Error('Could not determine city');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Geocoding error:', error);
+                            alert('📍 Location detected but could not determine city name. Please enter manually.');
+                            detectBtn.innerHTML = originalHTML;
+                            detectBtn.disabled = false;
+                        });
+                },
+                // Error callback
+                function(error) {
+                    let errorMsg = '';
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMsg = '❌ Location access denied. Please enable location permissions in your browser.';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMsg = '❌ Location information unavailable. Please enter city manually.';
+                            break;
+                        case error.TIMEOUT:
+                            errorMsg = '⏱️ Location request timed out. Please try again.';
+                            break;
+                        default:
+                            errorMsg = '❌ An error occurred while detecting location.';
+                    }
+                    alert(errorMsg);
+                    detectBtn.innerHTML = originalHTML;
+                    detectBtn.disabled = false;
+                },
+                // Options
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        });
+    }
+});
+</script>
 {% endblock %}

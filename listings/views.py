@@ -147,9 +147,52 @@ def category_listings(request, slug):
     category = get_object_or_404(Category, slug=slug)
     listings = Listing.objects.filter(category=category, status='active')
     
+    # Get user's city for filtering
+    user_city = None
+    if request.user.is_authenticated and request.user.location:
+        user_city = request.user.location
+    
+    # Search within category
+    query = request.GET.get('q')
+    if query:
+        listings = listings.filter(
+            Q(title__icontains=query) | 
+            Q(description__icontains=query)
+        )
+    
+    # City filter
+    city_filter = request.GET.get('city')
+    if city_filter:
+        listings = listings.filter(city__icontains=city_filter)
+    elif user_city and not request.GET.get('show_all'):
+        # By default, show listings from user's city
+        listings = listings.filter(city__icontains=user_city)
+    
+    # Condition filter
+    condition = request.GET.get('condition')
+    if condition:
+        listings = listings.filter(condition=condition)
+    
+    # Sorting
+    sort = request.GET.get('sort', '-created_at')
+    if user_city and sort == '-created_at' and not city_filter:
+        # For default sort, show user's city first
+        from django.db.models import Case, When, Value, IntegerField
+        listings = listings.annotate(
+            is_user_city=Case(
+                When(city__icontains=user_city, then=Value(1)),
+                default=Value(0),
+                output_field=IntegerField()
+            )
+        ).order_by('-is_user_city', sort)
+    else:
+        listings = listings.order_by(sort)
+    
     context = {
         'category': category,
         'listings': listings,
+        'user_city': user_city,
+        'showing_city_only': bool(user_city and not city_filter and not request.GET.get('show_all')),
     }
     return render(request, 'listings/category_listings.html', context)
 

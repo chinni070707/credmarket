@@ -46,6 +46,10 @@ class User(AbstractUser):
     location = models.CharField(max_length=100, blank=False, help_text='City name')
     area = models.CharField(max_length=100, blank=True, help_text='Locality/Area within city')
     
+    # Geolocation coordinates (optional)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, help_text='Latitude coordinate')
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, help_text='Longitude coordinate')
+    
     # Privacy settings
     display_name = models.CharField(max_length=50, blank=True, help_text='Anonymous username for listings')
     show_real_name = models.BooleanField(default=True, help_text='Show real name in listings')

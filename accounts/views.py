@@ -20,6 +20,8 @@ def signup(request):
         area = request.POST.get('area', '').strip()
         display_name = request.POST.get('display_name', '').strip()
         show_real_name = request.POST.get('show_real_name') == 'on'
+        latitude = request.POST.get('latitude', '').strip()
+        longitude = request.POST.get('longitude', '').strip()
         
         # Validate city is provided
         if not city:
@@ -64,6 +66,8 @@ def signup(request):
             phone=phone if phone else None,
             location=city,
             area=area if area else '',
+            latitude=float(latitude) if latitude else None,
+            longitude=float(longitude) if longitude else None,
             display_name=display_name if display_name else '',
             show_real_name=show_real_name,
             company=company,

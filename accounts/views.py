@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
+from django.conf import settings
 from datetime import timedelta
 import random
 from .models import User, OTPVerification
@@ -159,11 +160,11 @@ def login_view(request):
             
             if user.status == 'waitlist':
                 messages.warning(request, 'Your account is on waitlist. Please wait for admin approval.')
-                return render(request, 'accounts/login.html')
+                return render(request, 'accounts/login.html', {'debug': settings.DEBUG})
             
             if user.status == 'suspended':
                 messages.error(request, 'Your account has been suspended.')
-                return render(request, 'accounts/login.html')
+                return render(request, 'accounts/login.html', {'debug': settings.DEBUG})
             
             login(request, user)
             messages.success(request, f'Welcome back, {user.first_name}!')
@@ -171,7 +172,7 @@ def login_view(request):
         else:
             messages.error(request, 'Invalid email or password.')
     
-    return render(request, 'accounts/login.html')
+    return render(request, 'accounts/login.html', {'debug': settings.DEBUG})
 
 
 @login_required

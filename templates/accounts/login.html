@@ -16,6 +16,23 @@
                 <p class="text-gray-600">Sign in to your account</p>
             </div>
 
+            {% if debug %}
+            <!-- Debug Test Credentials -->
+            <div class="mb-6 bg-yellow-50 border-2 border-yellow-400 rounded-lg p-4">
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 mt-1"></i>
+                    <div class="flex-1">
+                        <h3 class="text-sm font-bold text-yellow-900 mb-2">🧪 DEBUG MODE - Test Credentials</h3>
+                        <div class="space-y-1 text-xs text-yellow-800">
+                            <p><strong>Email:</strong> <code class="bg-yellow-100 px-2 py-1 rounded">john@cadence.com</code></p>
+                            <p><strong>Password:</strong> <code class="bg-yellow-100 px-2 py-1 rounded">password123</code></p>
+                        </div>
+                        <p class="text-xs text-yellow-700 mt-2">Click fields to auto-fill ⚡</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
             <!-- Form -->
             <form method="post" class="space-y-6">
                 {% csrf_token %}
@@ -122,4 +139,25 @@
         </div>
     </div>
 </div>
+
+{% if debug %}
+<script>
+    // Auto-fill debug credentials when clicking on the debug box
+    document.addEventListener('DOMContentLoaded', function() {
+        const debugBox = document.querySelector('.bg-yellow-50');
+        if (debugBox) {
+            debugBox.style.cursor = 'pointer';
+            debugBox.addEventListener('click', function() {
+                document.getElementById('email').value = 'john@cadence.com';
+                document.getElementById('password').value = 'password123';
+                // Add a subtle flash effect
+                debugBox.classList.add('ring-2', 'ring-green-500');
+                setTimeout(() => {
+                    debugBox.classList.remove('ring-2', 'ring-green-500');
+                }, 300);
+            });
+        }
+    });
+</script>
+{% endif %}
 {% endblock %}

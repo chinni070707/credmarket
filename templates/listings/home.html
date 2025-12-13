@@ -1,6 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<!-- Hero Search Bar -->
+<div class="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-white text-center mb-6">Find Your Perfect Deal</h1>
+        <form action="{% url 'listings:listing_list' %}" method="GET" class="max-w-4xl mx-auto">
+            <div class="flex gap-2">
+                <div class="flex-1 relative">
+                    <input type="text" name="q" placeholder="Search for electronics, furniture, vehicles..."
+                           class="w-full px-6 py-4 rounded-full text-lg focus:outline-none focus:ring-4 focus:ring-purple-300 shadow-2xl"
+                           value="{{ request.GET.q }}">
+                    <i class="fas fa-search absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 text-xl"></i>
+                </div>
+                <button type="submit" class="px-8 py-4 bg-white text-purple-600 rounded-full font-bold hover:bg-gray-100 transition-all shadow-2xl">
+                    Search
+                </button>
+            </div>
+            <!-- Quick Filters -->
+            <div class="flex flex-wrap gap-2 mt-4 justify-center">
+                <a href="{% url 'listings:listing_list' %}?max_price=1000" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full text-sm font-medium backdrop-blur-sm transition-all">
+                    <i class="fas fa-tag mr-1"></i>Under ₹1,000
+                </a>
+                <a href="{% url 'listings:listing_list' %}?days=1" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full text-sm font-medium backdrop-blur-sm transition-all">
+                    <i class="fas fa-clock mr-1"></i>Posted Today
+                </a>
+                <a href="{% url 'listings:listing_list' %}?negotiable=true" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full text-sm font-medium backdrop-blur-sm transition-all">
+                    <i class="fas fa-handshake mr-1"></i>Negotiable
+                </a>
+                <a href="{% url 'listings:listing_list' %}?near_me=true" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full text-sm font-medium backdrop-blur-sm transition-all">
+                    <i class="fas fa-location-dot mr-1"></i>Near Me
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- Hero Carousel Section (Wallapop Style) -->
 <div class="bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -69,6 +104,50 @@
     </div>
 </div>
 
+<!-- Trust Badges Section -->
+<div class="bg-white py-12 border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="flex items-center gap-4 p-4 bg-green-50 rounded-xl">
+                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-shield-check text-white text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-gray-900">100% Verified</div>
+                    <div class="text-sm text-gray-600">Corporate Email Only</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
+                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-lock text-white text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-gray-900">Secure Messaging</div>
+                    <div class="text-sm text-gray-600">Safe Communication</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 bg-purple-50 rounded-xl">
+                <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-percent text-white text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-gray-900">Zero Commission</div>
+                    <div class="text-sm text-gray-600">Free to Buy & Sell</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 p-4 bg-orange-50 rounded-xl">
+                <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-truck text-white text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-gray-900">Local Pickup</div>
+                    <div class="text-sm text-gray-600">Meet in Person</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Stats Section -->
 <div class="bg-gray-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,45 +171,127 @@
 <!-- Categories Section -->
 <div class="bg-white py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-8">Popular Categories</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {% for category in categories %}
-            <a href="{% url 'listings:listing_list' %}?category={{ category.id }}" 
-               class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all group">
-                <div class="text-4xl mb-3">{{ category.icon|default:"📦" }}</div>
-                <div class="text-gray-900 font-semibold group-hover:text-purple-600">{{ category.name }}</div>
-                <div class="text-sm text-gray-500 mt-1">{{ category.listing_count|default:0 }}</div>
-            </a>
-            {% empty %}
-            <!-- Default categories if none exist -->
-            <a href="{% url 'listings:listing_list' %}?category=electronics" class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all">
-                <div class="text-4xl mb-3">📱</div>
-                <div class="text-gray-900 font-semibold">Electronics</div>
-            </a>
-            <a href="{% url 'listings:listing_list' %}?category=furniture" class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all">
-                <div class="text-4xl mb-3">🛋️</div>
-                <div class="text-gray-900 font-semibold">Furniture</div>
-            </a>
-            <a href="{% url 'listings:listing_list' %}?category=books" class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all">
-                <div class="text-4xl mb-3">📚</div>
-                <div class="text-gray-900 font-semibold">Books</div>
-            </a>
-            <a href="{% url 'listings:listing_list' %}?category=fashion" class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all">
-                <div class="text-4xl mb-3">👔</div>
-                <div class="text-gray-900 font-semibold">Fashion</div>
-            </a>
-            <a href="{% url 'listings:listing_list' %}?category=sports" class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all">
-                <div class="text-4xl mb-3">⚽</div>
-                <div class="text-gray-900 font-semibold">Sports</div>
-            </a>
-            <a href="{% url 'listings:listing_list' %}?category=other" class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all">
-                <div class="text-4xl mb-3">🎁</div>
-                <div class="text-gray-900 font-semibold">Others</div>
-            </a>
-            {% endfor %}
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Popular Categories</h2>
+            <div class="flex gap-2">
+                <button onclick="scrollCategories('left')" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button onclick="scrollCategories('right')" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Carousel Container -->
+        <div class="relative">
+            <div id="categoriesCarousel" class="flex overflow-x-auto gap-4 pb-4 scroll-smooth snap-x snap-mandatory hide-scrollbar">
+                {% for category in categories %}
+                <div class="relative group">
+                    <a href="{% url 'listings:listing_list' %}?category={{ category.id }}" 
+                       class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all group snap-start block">
+                        <div class="text-4xl mb-3">{{ category.icon|default:"📦" }}</div>
+                        <div class="text-gray-900 font-semibold group-hover:text-purple-600 truncate">{{ category.name }}</div>
+                        <div class="text-sm text-gray-500 mt-1">{{ category.listing_count|default:0 }}</div>
+                    </a>
+                    <!-- Sub-categories Tooltip -->
+                    {% if category.subcategories.exists %}
+                    <div class="absolute left-0 top-full mt-2 bg-white border-2 border-purple-200 rounded-lg shadow-xl p-3 z-50 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                        <div class="text-xs font-semibold text-gray-500 mb-2 uppercase">Subcategories</div>
+                        {% for sub in category.subcategories.all|slice:":5" %}
+                        <a href="{% url 'listings:listing_list' %}?subcategory={{ sub.id }}" class="block text-sm text-gray-700 hover:text-purple-600 hover:bg-purple-50 px-2 py-1 rounded">
+                            {{ sub.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <!-- Default categories if none exist -->
+                <a href="{% url 'listings:listing_list' %}?category=electronics" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="text-4xl mb-3">📱</div>
+                    <div class="text-gray-900 font-semibold truncate">Electronics</div>
+                </a>
+                <a href="{% url 'listings:listing_list' %}?category=furniture" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="text-4xl mb-3">🛋️</div>
+                    <div class="text-gray-900 font-semibold truncate">Furniture</div>
+                </a>
+                <a href="{% url 'listings:listing_list' %}?category=books" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="text-4xl mb-3">📚</div>
+                    <div class="text-gray-900 font-semibold truncate">Books</div>
+                </a>
+                <a href="{% url 'listings:listing_list' %}?category=fashion" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="text-4xl mb-3">👔</div>
+                    <div class="text-gray-900 font-semibold truncate">Fashion</div>
+                </a>
+                <a href="{% url 'listings:listing_list' %}?category=sports" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="text-4xl mb-3">⚽</div>
+                    <div class="text-gray-900 font-semibold truncate">Sports</div>
+                </a>
+                <a href="{% url 'listings:listing_list' %}?category=other" class="flex-shrink-0 w-40 bg-white border-2 border-gray-200 rounded-xl p-6 text-center hover:border-purple-500 hover:shadow-lg transition-all snap-start">
+                    <div class="text-4xl mb-3">🎁</div>
+                    <div class="text-gray-900 font-semibold truncate">Others</div>
+                </a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .hide-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari and Opera */
+    }
+</style>
+
+<script>
+    function scrollCategories(direction) {
+        const carousel = document.getElementById('categoriesCarousel');
+        const scrollAmount = 352; // Width of card (160px) + gap (16px) * 2
+        
+        if (direction === 'left') {
+            carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
+    
+    // Optional: Add keyboard navigation
+    document.getElementById('categoriesCarousel')?.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            scrollCategories('left');
+        } else if (e.key === 'ArrowRight') {
+            scrollCategories('right');
+        }
+    });
+</script>
+
+<!-- Recently Viewed Items (for logged in users) -->
+{% if user.is_authenticated %}
+<div class="bg-white py-12" id="recentlyViewedSection" style="display: none;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-history text-purple-600 mr-2"></i>Recently Viewed
+            </h2>
+            <button onclick="clearRecentlyViewed()" class="text-sm text-gray-500 hover:text-red-600">
+                <i class="fas fa-trash mr-1"></i>Clear History
+            </button>
+        </div>
+        <div id="recentlyViewedGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <!-- Recent Listings -->
 <div class="bg-gray-50 py-16">
@@ -141,16 +302,64 @@
                 View All →
             </a>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6" id="listingsGrid">
+            <!-- Skeleton Loading States -->
+            <div class="skeleton-card" style="display: none;">
+                <div class="aspect-square bg-gray-200 rounded-t-xl skeleton animate-pulse"></div>
+                <div class="p-4 space-y-3">
+                    <div class="h-6 bg-gray-200 rounded skeleton animate-pulse"></div>
+                    <div class="h-4 bg-gray-200 rounded w-3/4 skeleton animate-pulse"></div>
+                    <div class="h-4 bg-gray-200 rounded w-1/2 skeleton animate-pulse"></div>
+                </div>
+            </div>
+            
             {% for listing in recent_listings %}
             <a href="{% url 'listings:listing_detail' listing.id %}" class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
                 {% if listing.get_primary_image %}
-                <div class="aspect-square overflow-hidden bg-gray-100">
+                <div class="aspect-square overflow-hidden bg-gray-100 relative">
                     <img src="{{ listing.get_primary_image.image.url }}" alt="{{ listing.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    <!-- Company Badge - Top Right -->
+                    {% if listing.seller.company %}
+                    <div class="absolute top-2 right-2 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-purple-600 shadow-lg border border-purple-200">
+                        <i class="fas fa-building mr-1"></i>{{ listing.seller.company.name|truncatewords:2 }}
+                    </div>
+                    {% endif %}
+                    <!-- Negotiable Badge - Bottom Left -->
+                    <div class="absolute bottom-2 left-2 px-3 py-1 rounded-full text-xs font-semibold shadow-lg
+                        {% if listing.negotiable %}
+                            bg-green-500/95 text-white
+                        {% else %}
+                            bg-orange-500/95 text-white
+                        {% endif %}">
+                        {% if listing.negotiable %}
+                            <i class="fas fa-handshake mr-1"></i>Negotiable
+                        {% else %}
+                            <i class="fas fa-tag mr-1"></i>Fixed Price
+                        {% endif %}
+                    </div>
                 </div>
                 {% else %}
-                <div class="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+                <div class="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center relative">
                     <span class="text-6xl">📦</span>
+                    <!-- Company Badge - Top Right -->
+                    {% if listing.seller.company %}
+                    <div class="absolute top-2 right-2 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-purple-600 shadow-lg border border-purple-200">
+                        <i class="fas fa-building mr-1"></i>{{ listing.seller.company.name|truncatewords:2 }}
+                    </div>
+                    {% endif %}
+                    <!-- Negotiable Badge - Bottom Left -->
+                    <div class="absolute bottom-2 left-2 px-3 py-1 rounded-full text-xs font-semibold shadow-lg
+                        {% if listing.negotiable %}
+                            bg-green-500/95 text-white
+                        {% else %}
+                            bg-orange-500/95 text-white
+                        {% endif %}">
+                        {% if listing.negotiable %}
+                            <i class="fas fa-handshake mr-1"></i>Negotiable
+                        {% else %}
+                            <i class="fas fa-tag mr-1"></i>Fixed Price
+                        {% endif %}
+                    </div>
                 </div>
                 {% endif %}
                 <div class="p-4">
@@ -298,6 +507,56 @@ document.getElementById('heroCarousel').addEventListener('mouseenter', () => {
 document.getElementById('heroCarousel').addEventListener('mouseleave', () => {
     autoPlayInterval = setInterval(autoPlay, 5000);
 });
+
+// Recently Viewed Items Management
+function getRecentlyViewed() {
+    const viewed = localStorage.getItem('recentlyViewed');
+    return viewed ? JSON.parse(viewed) : [];
+}
+
+function addToRecentlyViewed(listingId, title, price, image) {
+    let viewed = getRecentlyViewed();
+    // Remove if already exists
+    viewed = viewed.filter(item => item.id !== listingId);
+    // Add to beginning
+    viewed.unshift({ id: listingId, title, price, image, timestamp: Date.now() });
+    // Keep only last 12 items
+    viewed = viewed.slice(0, 12);
+    localStorage.setItem('recentlyViewed', JSON.stringify(viewed));
+}
+
+function displayRecentlyViewed() {
+    const viewed = getRecentlyViewed();
+    const section = document.getElementById('recentlyViewedSection');
+    const grid = document.getElementById('recentlyViewedGrid');
+    
+    if (viewed.length === 0 || !section || !grid) return;
+    
+    section.style.display = 'block';
+    grid.innerHTML = viewed.map(item => `
+        <a href="/listings/${item.id}/" class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all group">
+            <div class="aspect-square overflow-hidden bg-gray-100">
+                <img src="${item.image || '/static/placeholder.png'}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+            </div>
+            <div class="p-3">
+                <div class="font-bold text-purple-600 text-sm mb-1">₹${item.price}</div>
+                <div class="text-xs text-gray-700 truncate">${item.title}</div>
+            </div>
+        </a>
+    `).join('');
+}
+
+function clearRecentlyViewed() {
+    if (confirm('Clear your browsing history?')) {
+        localStorage.removeItem('recentlyViewed');
+        document.getElementById('recentlyViewedSection').style.display = 'none';
+    }
+}
+
+// Initialize recently viewed on page load
+if (document.getElementById('recentlyViewedSection')) {
+    displayRecentlyViewed();
+}
 </script>
 
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 import json
+import bleach
 
 
 class Category(models.Model):
@@ -130,6 +131,12 @@ class Listing(models.Model):
         return f"{self.title} - ₹{self.price}"
     
     def save(self, *args, **kwargs):
+        # Sanitize user input to prevent XSS attacks
+        if self.title:
+            self.title = bleach.clean(self.title, tags=[], strip=True)
+        if self.description:
+            self.description = bleach.clean(self.description, tags=[], strip=True)
+        
         if not self.slug:
             import uuid
             self.slug = slugify(self.title) + '-' + str(uuid.uuid4())[:8]

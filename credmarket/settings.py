@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add WhiteNoise for static files
+    'credmarket.middleware.SecurityHeadersMiddleware',  # Security headers (CSP, XSS protection)
     'corsheaders.middleware.CorsMiddleware',  # CORS - must be before CommonMiddleware
     'credmarket.middleware.ErrorLoggingMiddleware',  # Custom error logging
     'django.contrib.sessions.middleware.SessionMiddleware',

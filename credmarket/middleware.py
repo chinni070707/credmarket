@@ -51,3 +51,32 @@ class ErrorLoggingMiddleware:
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
+
+
+class SecurityHeadersMiddleware:
+    """
+    Middleware to add security headers including Content Security Policy
+    """
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        
+        # Add Content Security Policy to prevent XSS attacks
+        response['Content-Security-Policy'] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com; "
+            "style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; "
+            "img-src 'self' data: https://res.cloudinary.com; "
+            "font-src 'self'; "
+            "connect-src 'self'; "
+            "frame-ancestors 'none';"
+        )
+        
+        # Additional security headers
+        response['X-Frame-Options'] = 'DENY'
+        response['X-Content-Type-Options'] = 'nosniff'
+        response['X-XSS-Protection'] = '1; mode=block'
+        
+        return response

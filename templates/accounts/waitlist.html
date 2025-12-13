@@ -11,10 +11,13 @@
                 <i class="fas fa-check-circle text-4xl text-green-600"></i>
             </div>
             <h2 class="text-3xl font-bold text-gray-900 mb-2">
-                Registration Complete! ✅
+                Email Verified! ✅
             </h2>
+            <p class="text-lg font-semibold text-orange-600 mb-1">
+                You're on the Waitlist
+            </p>
             <p class="text-gray-600">
-                Your account is pending company verification
+                Your company is pending admin approval
             </p>
         </div>
 
@@ -56,16 +59,20 @@
                             <span><strong>Email verified</strong> - Your email is confirmed ✓</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-hourglass-half text-blue-600 mt-0.5 mr-2"></i>
-                            <span>We're verifying your company domain is legitimate</span>
+                            <i class="fas fa-hourglass-half text-orange-600 mt-0.5 mr-2"></i>
+                            <span><strong>Waitlist</strong> - Your company ({{ user.company.domain }}) needs admin approval</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-user-shield text-blue-600 mt-0.5 mr-2"></i>
+                            <span>An admin will review and approve your company</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-envelope text-blue-600 mt-0.5 mr-2"></i>
-                            <span>You'll receive an email when your company is approved</span>
+                            <span>You'll receive an email when approved</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-sign-in-alt text-blue-600 mt-0.5 mr-2"></i>
-                            <span>Once approved, you can login and start using CredMarket</span>
+                            <span>Then you can login and create listings</span>
                         </li>
                     </ul>
                 </div>

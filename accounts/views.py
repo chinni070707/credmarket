@@ -147,7 +147,7 @@ def signup(request):
         
         # Different messages for waitlist vs approved companies
         if user_status == 'waitlist':
-            messages.info(request, f'Your company ({domain}) is being reviewed. Please verify your email to complete registration.')
+            messages.warning(request, f'Your company ({domain}) is not yet approved. We\'ve sent an OTP to {email}. After email verification, you\'ll be placed on a waitlist pending admin approval of your company.')
         else:
             messages.success(request, f'OTP sent to {email}. Please verify to complete registration.')
         
@@ -214,7 +214,7 @@ def verify_otp(request):
                 if user.status == 'waitlist':
                     # Store user info for waitlist page
                     request.session['waitlist_user_id'] = user.id
-                    messages.success(request, 'Email verified! Your account is pending company approval.')
+                    messages.warning(request, f'Email verified! However, your company ({user.company.domain}) is not approved yet. You are on the waitlist. An admin will review your company, and you\'ll receive an email once approved. You cannot create listings until then.')
                     return redirect('accounts:waitlist')
                 
                 # Log approved users in immediately

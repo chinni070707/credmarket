@@ -214,11 +214,28 @@ def create_listing(request):
             f"status: {request.user.status}, "
             f"is_active: {request.user.is_active}"
         )
-        messages.error(
-            request, 
-            f'You need to be verified to create listings. '
-            f'Status: {request.user.status}, Email Verified: {request.user.email_verified}'
-        )
+        
+        # Provide clear message based on the issue
+        if request.user.status == 'waitlist':
+            messages.error(
+                request,
+                f'You cannot create listings yet. Your company ({request.user.company.domain}) is on the waitlist pending admin approval. You will receive an email once your company is approved.'
+            )
+        elif not request.user.email_verified:
+            messages.error(
+                request,
+                'Please verify your email address before creating listings. Check your inbox for the verification OTP.'
+            )
+        elif request.user.status == 'rejected':
+            messages.error(
+                request,
+                f'Your company ({request.user.company.domain}) has been rejected. You cannot create listings.'
+            )
+        else:
+            messages.error(
+                request,
+                'Your account is not approved to create listings. Please contact support.'
+            )
         return redirect('accounts:profile')
     
     if request.method == 'POST':

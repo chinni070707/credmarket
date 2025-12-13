@@ -198,6 +198,9 @@ def edit_profile(request):
         request.user.phone = request.POST.get('phone')
         request.user.bio = request.POST.get('bio')
         request.user.location = request.POST.get('location')
+        request.user.area = request.POST.get('area', '')
+        request.user.display_name = request.POST.get('display_name', '')
+        request.user.show_real_name = request.POST.get('show_real_name') == 'on'
         
         if request.FILES.get('profile_picture'):
             request.user.profile_picture = request.FILES['profile_picture']

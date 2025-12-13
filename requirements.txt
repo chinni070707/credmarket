@@ -25,6 +25,12 @@ cloudinary>=1.36.0
 # API (for future)
 djangorestframework==3.14.0
 
+# CORS for API access
+django-cors-headers==4.3.1
+
+# Security
+django-ratelimit==4.1.0
+
 # HTMX & Modern UI
 django-htmx==1.17.3
 

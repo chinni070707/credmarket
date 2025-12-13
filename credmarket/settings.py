@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # Third-party apps
+    'corsheaders',  # CORS support
     'django_otp',
     'django_otp.plugins.otp_totp',
     'django_otp.plugins.otp_email',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add WhiteNoise for static files
+    'corsheaders.middleware.CorsMiddleware',  # CORS - must be before CommonMiddleware
     'credmarket.middleware.ErrorLoggingMiddleware',  # Custom error logging
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -277,5 +279,106 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+    },
+}
+
+# ==============================================================================
+# CORS CONFIGURATION
+# ==============================================================================
+
+# CORS settings for API access
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS',
+    default=''
+).split(',') if config('CORS_ALLOWED_ORIGINS', default='') else []
+
+# Allow credentials (cookies, authorization headers)
+CORS_ALLOW_CREDENTIALS = True
+
+# Allowed methods
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+# Allowed headers
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# If you want to allow all origins in development (NOT recommended for production)
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
+
+# ==============================================================================
+# RATE LIMITING & SECURITY
+# ==============================================================================
+
+# Rate limiting for login attempts
+RATELIMIT_ENABLE = not DEBUG  # Disable in development
+RATELIMIT_USE_CACHE = 'default'
+
+# Session security
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+
+# CSRF security
+CSRF_COOKIE_HTTPONLY = False  # Must be False for JavaScript access
+CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_USE_SESSIONS = False
+
+# Content Security Policy (CSP)
+if not DEBUG:
+    CSP_DEFAULT_SRC = ("'self'",)
+    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://unpkg.com")
+    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com")
+    CSP_IMG_SRC = ("'self'", "data:", "https:", "blob:")
+    CSP_FONT_SRC = ("'self'", "data:", "https:")
+    CSP_CONNECT_SRC = ("'self'",)
+    CSP_FRAME_ANCESTORS = ("'none'",)
+
+# ==============================================================================
+# REST FRAMEWORK CONFIGURATION
+# ==============================================================================
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '1000/hour',
     },
 }

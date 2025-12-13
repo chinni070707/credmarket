@@ -7,11 +7,13 @@ from django.conf import settings
 from datetime import timedelta
 import random
 import logging
+from django_ratelimit.decorators import ratelimit
 from .models import User, OTPVerification
 
 logger = logging.getLogger(__name__)
 
 
+@ratelimit(key='ip', rate='5/h', method='POST', block=True)
 def signup(request):
     """Handle user signup with email verification"""
     if request.method == 'POST':
@@ -132,6 +134,7 @@ def waitlist(request):
         return redirect('accounts:signup')
 
 
+@ratelimit(key='ip', rate='10/h', method='POST', block=True)
 def verify_otp(request):
     """Verify OTP sent to user's email"""
     user_id = request.session.get('pending_user_id')
@@ -182,11 +185,14 @@ def verify_otp(request):
     return render(request, 'accounts/verify_otp.html')
 
 
+@ratelimit(key='ip', rate='10/h', method='POST', block=True)
 def login_view(request):
     """Handle user login"""
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        
+        logger.info(f"Login attempt for email: {email}")
         
         user = authenticate(request, username=email, password=password)
         

@@ -30,15 +30,16 @@ else:
 
 # Create Categories
 categories = [
-    {'name': 'Electronics', 'icon': 'fas fa-laptop', 'order': 1},
-    {'name': 'Vehicles', 'icon': 'fas fa-car', 'order': 2},
+    {'name': 'Vehicles', 'icon': 'fas fa-car', 'order': 1},
+    {'name': 'Rent', 'icon': 'fas fa-home', 'order': 2},
     {'name': 'Real Estate', 'icon': 'fas fa-building', 'order': 3},
-    {'name': 'Furniture', 'icon': 'fas fa-couch', 'order': 4},
-    {'name': 'Books', 'icon': 'fas fa-book', 'order': 5},
-    {'name': 'Clothing', 'icon': 'fas fa-tshirt', 'order': 6},
-    {'name': 'Home Appliances', 'icon': 'fas fa-blender', 'order': 7},
-    {'name': 'Sports & Fitness', 'icon': 'fas fa-dumbbell', 'order': 8},
-    {'name': 'Others', 'icon': 'fas fa-box', 'order': 9},
+    {'name': 'Electronics', 'icon': 'fas fa-laptop', 'order': 4},
+    {'name': 'Furniture', 'icon': 'fas fa-couch', 'order': 5},
+    {'name': 'Home Appliances', 'icon': 'fas fa-blender', 'order': 6},
+    {'name': 'Books', 'icon': 'fas fa-book', 'order': 7},
+    {'name': 'Clothing', 'icon': 'fas fa-tshirt', 'order': 8},
+    {'name': 'Sports & Fitness', 'icon': 'fas fa-dumbbell', 'order': 9},
+    {'name': 'Others', 'icon': 'fas fa-box', 'order': 10},
 ]
 
 for cat in categories:

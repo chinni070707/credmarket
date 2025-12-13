@@ -96,6 +96,19 @@
                     </a>
                 </div>
                 
+                <!-- Nav Links (Desktop) -->
+                <div class="hidden md:flex items-center space-x-6 ml-8">
+                    <a href="{% url 'listings:listing_list' %}" class="text-gray-700 hover:text-green-600 font-medium">
+                        Browse
+                    </a>
+                    <a href="{% url 'how_it_works' %}" class="text-gray-700 hover:text-green-600 font-medium">
+                        How It Works
+                    </a>
+                    <a href="{% url 'about' %}" class="text-gray-700 hover:text-green-600 font-medium">
+                        About
+                    </a>
+                </div>
+                
                 <!-- Search Bar (Desktop) -->
                 <div class="hidden md:flex items-center flex-1 max-w-2xl mx-8">
                     <form action="{% url 'listings:listing_list' %}" method="get" class="w-full">
@@ -239,7 +252,8 @@
                         <li><a href="{% url 'listings:home' %}" class="hover:text-white">Home</a></li>
                         <li><a href="{% url 'listings:listing_list' %}" class="hover:text-white">Browse Listings</a></li>
                         <li><a href="{% url 'listings:create_listing' %}" class="hover:text-white">Sell Item</a></li>
-                        <li><a href="#" class="hover:text-white">How It Works</a></li>
+                        <li><a href="{% url 'how_it_works' %}" class="hover:text-white">How It Works</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-white">About Us</a></li>
                     </ul>
                 </div>
                 

@@ -92,7 +92,7 @@
                             </label>
                             <p class="pl-1">or drag and drop</p>
                         </div>
-                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Max 5 images)</p>
+                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Max 8 images)</p>
                     </div>
                 </div>
             </div>
@@ -247,8 +247,8 @@
     // Image preview functionality
     document.getElementById('images').addEventListener('change', function(e) {
         const files = Array.from(e.target.files);
-        if (files.length > 5) {
-            alert('Maximum 5 images allowed');
+        if (files.length > 8) {
+            alert('Maximum 8 images allowed');
             e.target.value = '';
         }
     });

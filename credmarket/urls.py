@@ -13,6 +13,10 @@ urlpatterns = [
     path('', include('listings.urls')),
     path('accounts/', include('accounts.urls')),
     path('messages/', include('messaging.urls')),
+    
+    # Static pages
+    path('how-it-works/', TemplateView.as_view(template_name='how_it_works.html'), name='how_it_works'),
+    path('about/', TemplateView.as_view(template_name='about.html'), name='about'),
 ]
 
 # Customize admin site

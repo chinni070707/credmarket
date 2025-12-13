@@ -15,6 +15,16 @@ def signup(request):
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         password = request.POST.get('password')
+        phone = request.POST.get('phone', '').strip()
+        city = request.POST.get('city', '').strip()
+        area = request.POST.get('area', '').strip()
+        display_name = request.POST.get('display_name', '').strip()
+        show_real_name = request.POST.get('show_real_name') == 'on'
+        
+        # Validate city is provided
+        if not city:
+            messages.error(request, 'City is required.')
+            return render(request, 'accounts/signup.html')
         
         # Extract domain from email
         domain = email.split('@')[1] if '@' in email else None
@@ -51,6 +61,11 @@ def signup(request):
             first_name=first_name,
             last_name=last_name,
             password=password,
+            phone=phone if phone else None,
+            location=city,
+            area=area if area else '',
+            display_name=display_name if display_name else '',
+            show_real_name=show_real_name,
             company=company,
             status=user_status
         )

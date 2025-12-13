@@ -23,6 +23,7 @@ class User(AbstractUser):
         help_text='Corporate email address'
     )
     phone = models.CharField(max_length=15, blank=True, null=True)
+    phone_verified = models.BooleanField(default=False)
     company = models.ForeignKey(
         'companies.Company',
         on_delete=models.SET_NULL,
@@ -42,7 +43,12 @@ class User(AbstractUser):
         null=True
     )
     bio = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=100, blank=True)
+    location = models.CharField(max_length=100, blank=False, help_text='City name')
+    area = models.CharField(max_length=100, blank=True, help_text='Locality/Area within city')
+    
+    # Privacy settings
+    display_name = models.CharField(max_length=50, blank=True, help_text='Anonymous username for listings')
+    show_real_name = models.BooleanField(default=True, help_text='Show real name in listings')
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -59,6 +65,16 @@ class User(AbstractUser):
     
     def __str__(self):
         return f"{self.email} ({self.get_full_name() or 'No Name'})"
+    
+    def get_display_name(self):
+        """Get the name to display in listings"""
+        if self.show_real_name:
+            return self.get_full_name()
+        elif self.display_name:
+            return self.display_name
+        else:
+            # Generate default anonymous name from email
+            return f"User_{self.email.split('@')[0][:5]}"
     
     def get_company_domain(self):
         """Extract domain from email"""

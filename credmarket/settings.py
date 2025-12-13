@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production')
-DEBUG = False  # Temporarily set to False for testing
+DEBUG = True  # Temporarily set to False for testing
 ALLOWED_HOSTS = ['*']  # Allow all hosts for testing
 
 # Application definition

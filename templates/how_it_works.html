@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+
+{% block title %}How It Works - CredMarket{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-br from-green-50 to-emerald-50 py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-bold text-gray-900 mb-4">How CredMarket Works</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                A trusted marketplace exclusively for verified corporate employees. Buy and sell with confidence!
+            </p>
+        </div>
+
+        <!-- Steps -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <!-- Step 1 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center transform hover:scale-105 transition">
+                <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold text-white">1</span>
+                </div>
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-user-plus text-3xl text-green-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Sign Up</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Register with your corporate email from approved companies like Google, Amazon, Microsoft, Flipkart, and more. 
+                    We verify your email through OTP to ensure authenticity.
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center transform hover:scale-105 transition">
+                <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold text-white">2</span>
+                </div>
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-search text-3xl text-green-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Browse & Search</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Explore listings from verified employees in your city. Search by category, filter by price, condition, and location. 
+                    We show you local deals first!
+                </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 text-center transform hover:scale-105 transition">
+                <div class="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold text-white">3</span>
+                </div>
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-handshake text-3xl text-green-600"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Connect & Buy</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Message sellers directly, negotiate prices, and arrange meetups. 
+                    All transactions happen between verified corporate professionals.
+                </p>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-12 mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Why Choose CredMarket?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Feature 1 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-check text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Verified Users Only</h4>
+                        <p class="text-gray-600">
+                            Every user is verified through corporate email OTP. Only employees from approved companies can join.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-map-marker-alt text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Local First</h4>
+                        <p class="text-gray-600">
+                            See listings from your city by default. Easy meetups, no shipping hassles, inspect before buying.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user-secret text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Privacy Controls</h4>
+                        <p class="text-gray-600">
+                            Choose to show your real name or stay anonymous with a custom username. Your privacy, your choice.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-comments text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Direct Messaging</h4>
+                        <p class="text-gray-600">
+                            Chat directly with sellers. No middleman, no commissions. Just honest communication between professionals.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-images text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Multiple Images</h4>
+                        <p class="text-gray-600">
+                            Upload up to 8 images per listing. Show every angle, detail, and condition of your item.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-building text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Company Verified</h4>
+                        <p class="text-gray-600">
+                            See which company the seller works for. Build trust through professional connections.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- For Sellers Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl shadow-xl p-10 text-white">
+                <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-tag text-3xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">For Sellers</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Create unlimited listings for free</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Reach verified buyers in your city</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>No commissions or hidden fees</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Edit or delete anytime</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Track views and messages</span>
+                    </li>
+                </ul>
+                <a href="{% url 'listings:create_listing' %}" class="mt-6 inline-block bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition">
+                    Start Selling <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+            <div class="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl shadow-xl p-10 text-white">
+                <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-shopping-bag text-3xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">For Buyers</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Browse trusted listings from verified sellers</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Filter by city, category, price, and condition</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Message sellers directly</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Negotiate prices freely</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle mr-3 mt-1"></i>
+                        <span>Meet locally and inspect before buying</span>
+                    </li>
+                </ul>
+                <a href="{% url 'listings:listing_list' %}" class="mt-6 inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+                    Browse Listings <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl shadow-2xl p-12 text-center text-white">
+            <h2 class="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+            <p class="text-xl mb-8 opacity-90">
+                Join thousands of verified corporate employees buying and selling with confidence
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'accounts:signup' %}" class="bg-white text-green-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-50 transition">
+                    <i class="fas fa-user-plus mr-2"></i> Sign Up Now
+                </a>
+                <a href="{% url 'listings:listing_list' %}" class="bg-green-700 bg-opacity-50 text-white border-2 border-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-green-800 transition">
+                    <i class="fas fa-shopping-bag mr-2"></i> Browse Listings
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

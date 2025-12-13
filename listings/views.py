@@ -7,14 +7,33 @@ from .models import Listing, Category, ListingImage
 
 def home(request):
     """Homepage with featured and recent listings"""
+    # Get user's city from location field
+    user_city = None
+    if request.user.is_authenticated and request.user.location:
+        user_city = request.user.location
+    
+    # Featured listings - prioritize user's city if logged in
     featured_listings = Listing.objects.filter(
         status='active',
         is_featured=True
-    )[:6]
+    )
+    if user_city:
+        # Show listings from user's city first, then others
+        city_featured = featured_listings.filter(city__icontains=user_city)[:4]
+        other_featured = featured_listings.exclude(city__icontains=user_city)[:2]
+        featured_listings = list(city_featured) + list(other_featured)
+    else:
+        featured_listings = featured_listings[:6]
     
-    recent_listings = Listing.objects.filter(
-        status='active'
-    )[:12]
+    # Recent listings - prioritize user's city if logged in
+    recent_listings = Listing.objects.filter(status='active')
+    if user_city:
+        # Show listings from user's city first
+        city_recent = recent_listings.filter(city__icontains=user_city)[:8]
+        other_recent = recent_listings.exclude(city__icontains=user_city)[:4]
+        recent_listings = list(city_recent) + list(other_recent)
+    else:
+        recent_listings = recent_listings[:12]
     
     categories = Category.objects.filter(parent=None, is_active=True)
     
@@ -22,6 +41,7 @@ def home(request):
         'featured_listings': featured_listings,
         'recent_listings': recent_listings,
         'categories': categories,
+        'user_city': user_city,
     }
     return render(request, 'listings/home.html', context)
 
@@ -29,6 +49,11 @@ def home(request):
 def listing_list(request):
     """List all active listings with search and filters"""
     listings = Listing.objects.filter(status='active')
+    
+    # Get user's city for smart filtering
+    user_city = None
+    if request.user.is_authenticated and request.user.location:
+        user_city = request.user.location
     
     # Search
     query = request.GET.get('q')
@@ -51,11 +76,18 @@ def listing_list(request):
     if max_price:
         listings = listings.filter(price__lte=max_price)
     
-    # Location filter
+    # City filter - default to user's city if not specified
+    city_filter = request.GET.get('city')
+    if city_filter:
+        listings = listings.filter(city__icontains=city_filter)
+    elif user_city and not request.GET.get('show_all'):
+        # By default, show listings from user's city
+        listings = listings.filter(city__icontains=user_city)
+    
+    # Location/Area filter (within city)
     location = request.GET.get('location')
     if location:
         listings = listings.filter(
-            Q(city__icontains=location) |
             Q(location__icontains=location)
         )
     
@@ -64,15 +96,28 @@ def listing_list(request):
     if condition:
         listings = listings.filter(condition=condition)
     
-    # Sorting
+    # Sorting - prioritize user's city in default sort
     sort = request.GET.get('sort', '-created_at')
-    listings = listings.order_by(sort)
+    if user_city and sort == '-created_at' and not city_filter:
+        # For default sort, show user's city first
+        from django.db.models import Case, When, Value, IntegerField
+        listings = listings.annotate(
+            is_user_city=Case(
+                When(city__icontains=user_city, then=Value(1)),
+                default=Value(0),
+                output_field=IntegerField()
+            )
+        ).order_by('-is_user_city', sort)
+    else:
+        listings = listings.order_by(sort)
     
     categories = Category.objects.filter(parent=None, is_active=True)
     
     context = {
         'listings': listings,
         'categories': categories,
+        'user_city': user_city,
+        'showing_city_only': bool(user_city and not city_filter and not request.GET.get('show_all')),
     }
     return render(request, 'listings/listing_list.html', context)
 
@@ -131,8 +176,12 @@ def create_listing(request):
             pincode=request.POST.get('pincode', ''),
         )
         
-        # Handle multiple images
+        # Handle multiple images (max 8)
         images = request.FILES.getlist('images')
+        if len(images) > 8:
+            messages.warning(request, 'Only the first 8 images were uploaded. Maximum 8 images allowed per listing.')
+            images = images[:8]
+        
         for idx, image in enumerate(images):
             ListingImage.objects.create(
                 listing=listing,

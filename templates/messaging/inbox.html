@@ -15,22 +15,23 @@
             <a href="{% url 'messaging:conversation_detail' conversation.pk %}" class="block hover:bg-gray-50 transition">
                 <div class="p-6 flex items-center space-x-4">
                     <!-- Avatar -->
-                    {% with other_user=conversation.get_other_user|default:conversation.seller %}
-                    {% if other_user == conversation.seller %}
-                        {% with other_user=conversation.seller %}
+                    {% if user == conversation.buyer %}
+                        {% if conversation.seller.profile_picture %}
+                            <img src="{{ conversation.seller.profile_picture.url }}" alt="{{ conversation.seller.get_full_name }}" class="w-14 h-14 rounded-full">
+                        {% else %}
+                            <div class="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                                {{ conversation.seller.first_name.0 }}{{ conversation.seller.last_name.0 }}
+                            </div>
+                        {% endif %}
                     {% else %}
-                        {% with other_user=conversation.buyer %}
+                        {% if conversation.buyer.profile_picture %}
+                            <img src="{{ conversation.buyer.profile_picture.url }}" alt="{{ conversation.buyer.get_full_name }}" class="w-14 h-14 rounded-full">
+                        {% else %}
+                            <div class="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
+                                {{ conversation.buyer.first_name.0 }}{{ conversation.buyer.last_name.0 }}
+                            </div>
+                        {% endif %}
                     {% endif %}
-                    
-                    {% if other_user.profile_picture %}
-                        <img src="{{ other_user.profile_picture.url }}" alt="{{ other_user.get_full_name }}" class="w-14 h-14 rounded-full">
-                    {% else %}
-                        <div class="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xl font-bold">
-                            {{ other_user.first_name.0 }}{{ other_user.last_name.0 }}
-                        </div>
-                    {% endif %}
-                    {% endwith %}
-                    {% endwith %}
 
                     <!-- Content -->
                     <div class="flex-1 min-w-0">
@@ -55,7 +56,7 @@
                     <!-- Unread Badge -->
                     {% if conversation.unread_count > 0 %}
                     <div class="flex-shrink-0">
-                        <span class="bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+                        <span class="bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-full">
                             {{ conversation.unread_count }}
                         </span>
                     </div>

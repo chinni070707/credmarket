@@ -65,18 +65,46 @@
                     <div class="font-semibold text-gray-900">{{ user.get_full_name }}</div>
                 </div>
                 <div>
+                    <div class="text-sm text-gray-600">Display Name in Listings</div>
+                    <div class="font-semibold text-gray-900">
+                        {{ user.get_display_name }}
+                        {% if not user.show_real_name %}
+                            <span class="ml-2 text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
+                                <i class="fas fa-user-secret"></i> Anonymous
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
                     <div class="text-sm text-gray-600">Email</div>
                     <div class="font-semibold text-gray-900">{{ user.email }}</div>
                 </div>
                 {% if user.phone %}
                 <div>
                     <div class="text-sm text-gray-600">Phone</div>
-                    <div class="font-semibold text-gray-900">{{ user.phone }}</div>
+                    <div class="font-semibold text-gray-900 flex items-center">
+                        {{ user.phone }}
+                        {% if user.phone_verified %}
+                            <span class="ml-2 text-green-600 text-xs">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </span>
+                        {% else %}
+                            <span class="ml-2 text-gray-400 text-xs">
+                                <i class="fas fa-clock"></i> Not Verified
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% if user.area %}
+                <div>
+                    <div class="text-sm text-gray-600">Area</div>
+                    <div class="font-semibold text-gray-900">{{ user.area }}</div>
                 </div>
                 {% endif %}
                 {% if user.location %}
                 <div>
-                    <div class="text-sm text-gray-600">Location</div>
+                    <div class="text-sm text-gray-600">City</div>
                     <div class="font-semibold text-gray-900">{{ user.location }}</div>
                 </div>
                 {% endif %}
@@ -101,6 +129,20 @@
                     </span>
                     {% endif %}
                 </div>
+                {% if user.phone %}
+                <div class="flex items-center justify-between">
+                    <span class="text-gray-700">Phone Verified</span>
+                    {% if user.phone_verified %}
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        <i class="fas fa-check-circle"></i> Verified
+                    </span>
+                    {% else %}
+                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        <i class="fas fa-clock"></i> Pending
+                    </span>
+                    {% endif %}
+                </div>
+                {% endif %}
                 <div class="flex items-center justify-between">
                     <span class="text-gray-700">Account Status</span>
                     <span class="bg-{% if user.status == 'approved' %}green{% elif user.status == 'waitlist' %}yellow{% else %}gray{% endif %}-100 text-{% if user.status == 'approved' %}green{% elif user.status == 'waitlist' %}yellow{% else %}gray{% endif %}-700 px-3 py-1 rounded-full text-sm font-semibold capitalize">

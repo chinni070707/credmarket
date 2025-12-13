@@ -118,15 +118,21 @@
                 
                 <div class="flex items-center space-x-4 mb-6">
                     {% if listing.seller.profile_picture %}
-                        <img src="{{ listing.seller.profile_picture.url }}" alt="{{ listing.seller.get_full_name }}" class="w-16 h-16 rounded-full">
+                        <img src="{{ listing.seller.profile_picture.url }}" alt="{{ listing.seller.get_display_name }}" class="w-16 h-16 rounded-full">
                     {% else %}
                         <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                            {{ listing.seller.first_name.0 }}{{ listing.seller.last_name.0 }}
+                            {% if listing.seller.show_real_name %}
+                                {{ listing.seller.first_name.0 }}{{ listing.seller.last_name.0 }}
+                            {% else %}
+                                {{ listing.seller.get_display_name.0 }}
+                            {% endif %}
                         </div>
                     {% endif %}
                     <div>
-                        <div class="font-bold text-gray-900">{{ listing.seller.get_full_name }}</div>
+                        <div class="font-bold text-gray-900">{{ listing.seller.get_display_name }}</div>
+                        {% if listing.seller.company %}
                         <div class="text-sm text-gray-600">{{ listing.seller.company.name }}</div>
+                        {% endif %}
                         <div class="flex items-center text-sm text-green-600 mt-1">
                             <i class="fas fa-shield-check mr-1"></i> Verified Employee
                         </div>

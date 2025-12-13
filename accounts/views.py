@@ -6,13 +6,17 @@ from django.utils import timezone
 from django.conf import settings
 from datetime import timedelta
 import random
+import logging
 from .models import User, OTPVerification
+
+logger = logging.getLogger(__name__)
 
 
 def signup(request):
     """Handle user signup with email verification"""
     if request.method == 'POST':
         email = request.POST.get('email')
+        logger.info(f"Signup attempt for email: {email}")
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         password = request.POST.get('password')
@@ -42,12 +46,15 @@ def signup(request):
         try:
             company = Company.objects.get(domain=domain, status='approved')
             user_status = 'pending'
+            logger.info(f"User {email} matched to approved company: {company.name}")
         except Company.DoesNotExist:
             # Check if domain is already in waitlist
             if Company.objects.filter(domain=domain, status='waitlist').exists():
                 user_status = 'waitlist'
                 company = Company.objects.get(domain=domain)
+                logger.info(f"User {email} matched to waitlist company: {company.name}")
             else:
+                logger.warning(f"User {email} attempting signup with unknown domain: {domain}")
                 # Create new waitlist entry
                 company = Company.objects.create(
                     domain=domain,

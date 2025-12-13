@@ -4,10 +4,14 @@ from django.contrib import messages
 from django.db.models import Q
 from .models import Listing, Category, ListingImage
 from .category_fields import get_category_fields
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
     """Homepage with featured and recent listings"""
+    logger.info(f"Home page accessed by user: {request.user if request.user.is_authenticated else 'Anonymous'}")
     # Get user's city from location field
     user_city = None
     if request.user.is_authenticated and request.user.location:

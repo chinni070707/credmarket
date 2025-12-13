@@ -36,6 +36,9 @@ db.sqlite3-journal
 .env
 .env.local
 
+# Deployment logs
+Deploy-logs/
+
 # IDE
 .vscode/
 .idea/

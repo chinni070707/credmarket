@@ -31,8 +31,9 @@
                         id="title" 
                         required
                         maxlength="200"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base"
                         placeholder="e.g., iPhone 13 Pro Max 256GB"
+                        autocomplete="off"
                     >
                     <p class="mt-1 text-sm text-gray-500">Be specific and include key details</p>
                 </div>
@@ -48,7 +49,7 @@
                         id="description" 
                         rows="6"
                         required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base"
                         placeholder="Describe your item in detail - condition, age, any defects, reason for selling, etc. (Max 100 words)"
                     ></textarea>
                     <p class="mt-1 text-sm text-gray-500">Please keep your description concise and informative</p>
@@ -63,7 +64,7 @@
                         name="category" 
                         id="category" 
                         required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base bg-white"
                     >
                         <option value="">Select a category</option>
                         {% for parent in parent_categories %}
@@ -140,7 +141,8 @@
                         required
                         min="1"
                         step="0.01"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        inputmode="decimal"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base"
                         placeholder="10000"
                     >
                 </div>
@@ -154,7 +156,7 @@
                         name="condition" 
                         id="condition" 
                         required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base bg-white"
                     >
                         <option value="">Select condition</option>
                         <option value="new">Brand New</option>
@@ -203,8 +205,9 @@
                         name="city" 
                         id="city" 
                         required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base"
                         placeholder="Bangalore"
+                        autocomplete="address-level2"
                     >
                 </div>
 
@@ -218,8 +221,9 @@
                         name="state" 
                         id="state" 
                         required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base"
                         placeholder="Karnataka"
+                        autocomplete="address-level1"
                     >
                 </div>
 
@@ -233,8 +237,9 @@
                         name="location" 
                         id="location" 
                         required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base"
                         placeholder="Koramangala"
+                        autocomplete="off"
                     >
                 </div>
 
@@ -248,8 +253,10 @@
                         name="pincode" 
                         id="pincode" 
                         maxlength="10"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        inputmode="numeric"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-base"
                         placeholder="560034"
+                        autocomplete="postal-code"
                     >
                 </div>
             </div>

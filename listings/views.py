@@ -328,6 +328,25 @@ def my_listings(request):
     return render(request, 'listings/my_listings.html', context)
 
 
+@login_required
+def company_listings(request):
+    """Display listings from user's company"""
+    if not request.user.company:
+        messages.warning(request, 'You need to be associated with a company to view company listings.')
+        return redirect('listings:listing_list')
+    
+    listings = Listing.objects.filter(
+        seller__company=request.user.company,
+        status='active'
+    ).exclude(seller=request.user).select_related('seller', 'category', 'seller__company')
+    
+    context = {
+        'listings': listings,
+        'company': request.user.company,
+    }
+    return render(request, 'listings/company_listings.html', context)
+
+
 from django.http import JsonResponse
 
 def get_category_fields_api(request, category_id):

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'companies',
     'listings',
     'messaging',
+    'analytics',
 ]
 
 MIDDLEWARE = [

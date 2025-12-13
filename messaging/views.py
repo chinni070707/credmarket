@@ -30,23 +30,28 @@ def conversation_detail(request, pk):
         django_messages.error(request, 'You do not have access to this conversation.')
         return redirect('messaging:inbox')
     
-    # Mark all received messages as read
-    Message.objects.filter(
+    # Mark all received messages as read with timestamp
+    from django.utils import timezone
+    unread_messages = Message.objects.filter(
         conversation=conversation,
         receiver=request.user,
         is_read=False
-    ).update(is_read=True)
+    )
+    unread_messages.update(is_read=True, read_at=timezone.now())
     
     # Handle new message
     if request.method == 'POST':
-        content = request.POST.get('content')
-        if content:
+        content = request.POST.get('content', '').strip()
+        image = request.FILES.get('image')
+        
+        if content or image:
             other_user = conversation.get_other_user(request.user)
             Message.objects.create(
                 conversation=conversation,
                 sender=request.user,
                 receiver=other_user,
-                content=content
+                content=content,
+                image=image
             )
             # Don't show a success message for sending messages
             # Just stay on the same page without redirect to avoid popup

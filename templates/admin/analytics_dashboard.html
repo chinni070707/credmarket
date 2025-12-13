@@ -1,0 +1,289 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Analytics Dashboard{% endblock %}
+
+{% block extrastyle %}
+<style>
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .metric-card {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-left: 4px solid #417690;
+    }
+    
+    .metric-card.positive {
+        border-left-color: #28a745;
+    }
+    
+    .metric-card.negative {
+        border-left-color: #dc3545;
+    }
+    
+    .metric-card h3 {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+        color: #666;
+        text-transform: uppercase;
+        font-weight: normal;
+    }
+    
+    .metric-value {
+        font-size: 36px;
+        font-weight: bold;
+        color: #333;
+        margin: 10px 0;
+    }
+    
+    .metric-change {
+        font-size: 14px;
+        margin-top: 8px;
+    }
+    
+    .metric-change.positive {
+        color: #28a745;
+    }
+    
+    .metric-change.negative {
+        color: #dc3545;
+    }
+    
+    .section-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 30px 0 15px 0;
+        color: #333;
+    }
+    
+    .data-table {
+        width: 100%;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+    
+    .data-table th {
+        background: #f8f9fa;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        color: #333;
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    .data-table td {
+        padding: 12px;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .data-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .data-table tr:hover {
+        background: #f8f9fa;
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .badge-primary {
+        background: #417690;
+        color: white;
+    }
+    
+    .badge-success {
+        background: #28a745;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>📊 Analytics Dashboard</h1>
+<p style="color: #666; margin-bottom: 30px;">Real-time platform metrics and insights</p>
+
+<!-- Today's Key Metrics -->
+<h2 class="section-title">Today's Metrics ({{ today }})</h2>
+<div class="metrics-grid">
+    <div class="metric-card {% if dau_change > 0 %}positive{% elif dau_change < 0 %}negative{% endif %}">
+        <h3>Daily Active Users</h3>
+        <div class="metric-value">{{ dau_today }}</div>
+        <div class="metric-change {% if dau_change > 0 %}positive{% elif dau_change < 0 %}negative{% endif %}">
+            {% if dau_change > 0 %}↑{% elif dau_change < 0 %}↓{% else %}→{% endif %}
+            {{ dau_change|abs }} from yesterday ({{ dau_yesterday }})
+        </div>
+    </div>
+    
+    <div class="metric-card">
+        <h3>Listings per User</h3>
+        <div class="metric-value">{{ listings_per_user }}</div>
+        <div class="metric-change" style="color: #666;">
+            {{ total_listings }} active listings / {{ total_users }} users
+        </div>
+    </div>
+    
+    <div class="metric-card {% if messages_change > 0 %}positive{% elif messages_change < 0 %}negative{% endif %}">
+        <h3>Messages Sent Today</h3>
+        <div class="metric-value">{{ messages_today }}</div>
+        <div class="metric-change {% if messages_change > 0 %}positive{% elif messages_change < 0 %}negative{% endif %}">
+            {% if messages_change > 0 %}↑{% elif messages_change < 0 %}↓{% else %}→{% endif %}
+            {{ messages_change|abs }} from yesterday ({{ messages_yesterday }})
+        </div>
+    </div>
+    
+    <div class="metric-card">
+        <h3>Avg. Session Duration</h3>
+        <div class="metric-value">{{ avg_session_minutes }}<span style="font-size: 18px; color: #666;">min</span></div>
+        <div class="metric-change" style="color: #666;">
+            Average time users spend on platform
+        </div>
+    </div>
+</div>
+
+<!-- Weekly Overview -->
+<h2 class="section-title">Last 7 Days</h2>
+<div class="metrics-grid">
+    <div class="metric-card">
+        <h3>Weekly Active Users</h3>
+        <div class="metric-value">{{ weekly_users }}</div>
+    </div>
+    
+    <div class="metric-card">
+        <h3>New Listings</h3>
+        <div class="metric-value">{{ weekly_listings }}</div>
+    </div>
+    
+    <div class="metric-card">
+        <h3>Messages Sent</h3>
+        <div class="metric-value">{{ weekly_messages }}</div>
+    </div>
+</div>
+
+<!-- Monthly Overview -->
+<h2 class="section-title">Last 30 Days</h2>
+<div class="metrics-grid">
+    <div class="metric-card">
+        <h3>Monthly Active Users</h3>
+        <div class="metric-value">{{ monthly_users }}</div>
+    </div>
+    
+    <div class="metric-card">
+        <h3>New Listings</h3>
+        <div class="metric-value">{{ monthly_listings }}</div>
+    </div>
+    
+    <div class="metric-card">
+        <h3>Messages Sent</h3>
+        <div class="metric-value">{{ monthly_messages }}</div>
+    </div>
+</div>
+
+<!-- Top Categories -->
+<h2 class="section-title">Top Categories</h2>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Active Listings</th>
+            <th>Share</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in top_categories %}
+        <tr>
+            <td><strong>{{ category.category__name }}</strong></td>
+            <td>{{ category.count }}</td>
+            <td>
+                <span class="badge badge-primary">
+                    {{ category.count|floatformat:0 }}%
+                </span>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3" style="text-align: center; color: #999;">No data available</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Most Active Users -->
+<h2 class="section-title">Most Active Users (by Messages)</h2>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Messages Sent</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in most_active_users %}
+        <tr>
+            <td><strong>{{ user.get_full_name }}</strong></td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.company.name|default:"N/A" }}</td>
+            <td>
+                <span class="badge badge-success">{{ user.message_count }}</span>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" style="text-align: center; color: #999;">No data available</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Historical Data -->
+{% if recent_metrics %}
+<h2 class="section-title">Historical Data (Last 7 Days)</h2>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>DAU</th>
+            <th>New Users</th>
+            <th>New Listings</th>
+            <th>Messages</th>
+            <th>Avg. Session (min)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for metric in recent_metrics %}
+        <tr>
+            <td><strong>{{ metric.date }}</strong></td>
+            <td>{{ metric.daily_active_users }}</td>
+            <td>{{ metric.new_signups }}</td>
+            <td>{{ metric.new_listings }}</td>
+            <td>{{ metric.messages_sent }}</td>
+            <td>{{ metric.average_session_duration }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+    <p style="margin: 0; color: #666;">
+        <strong>Note:</strong> Metrics are updated in real-time. Historical data is aggregated daily.
+    </p>
+</div>
+{% endblock %}

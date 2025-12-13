@@ -6,38 +6,39 @@
 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-6">
+        <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white p-4 sm:p-6">
             <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-4">
-                    <a href="{% url 'messaging:inbox' %}" class="hover:bg-white/20 p-2 rounded-lg transition">
+                <div class="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
+                    <a href="{% url 'messaging:inbox' %}" class="hover:bg-white/20 p-2 rounded-lg transition flex-shrink-0">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                     
                     {% with other_user=conversation.get_other_user %}
                     {% if other_user.profile_picture %}
-                        <img src="{{ other_user.profile_picture.url }}" alt="{{ other_user.get_full_name }}" class="w-12 h-12 rounded-full border-2 border-white">
+                        <img src="{{ other_user.profile_picture.url }}" alt="{{ other_user.get_full_name }}" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-white flex-shrink-0">
                     {% else %}
-                        <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-lg font-bold border-2 border-white">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center text-white text-base sm:text-lg font-bold border-2 border-white flex-shrink-0">
                             {{ other_user.first_name.0 }}{{ other_user.last_name.0 }}
                         </div>
                     {% endif %}
                     
-                    <div>
-                        <h2 class="font-bold text-lg">{{ other_user.get_full_name }}</h2>
-                        <p class="text-sm text-green-100">{{ other_user.company.name }}</p>
+                    <div class="min-w-0 flex-1">
+                        <h2 class="font-bold text-sm sm:text-lg truncate">{{ other_user.get_full_name }}</h2>
+                        <p class="text-xs sm:text-sm text-green-100 truncate">{{ other_user.company.name }}</p>
                     </div>
                     {% endwith %}
                 </div>
                 
-                <a href="{% url 'listings:listing_detail' conversation.listing.slug %}" class="text-sm hover:bg-white/20 px-4 py-2 rounded-lg transition">
-                    View Listing <i class="fas fa-external-link-alt ml-1"></i>
+                <a href="{% url 'listings:listing_detail' conversation.listing.slug %}" class="text-xs sm:text-sm hover:bg-white/20 px-2 sm:px-4 py-2 rounded-lg transition whitespace-nowrap ml-2">
+                    <span class="hidden sm:inline">View Listing</span>
+                    <i class="fas fa-external-link-alt sm:ml-1"></i>
                 </a>
             </div>
         </div>
 
         <!-- Listing Info -->
-        <div class="bg-gray-50 p-4 border-b flex items-center space-x-4">
-            <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+        <div class="bg-gray-50 p-3 sm:p-4 border-b flex items-center space-x-3 sm:space-x-4">
+            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                 {% if conversation.listing.get_primary_image %}
                     <img src="{{ conversation.listing.get_primary_image.image.url }}" alt="{{ conversation.listing.title }}" class="w-full h-full object-cover">
                 {% else %}
@@ -46,32 +47,50 @@
                     </div>
                 {% endif %}
             </div>
-            <div class="flex-1">
-                <h3 class="font-bold text-gray-900 line-clamp-1">{{ conversation.listing.title }}</h3>
-                <p class="text-lg font-bold text-green-600">₹{{ conversation.listing.price }}</p>
+            <div class="flex-1 min-w-0">
+                <h3 class="font-bold text-sm sm:text-base text-gray-900 line-clamp-1">{{ conversation.listing.title }}</h3>
+                <p class="text-base sm:text-lg font-bold text-green-600">₹{{ conversation.listing.price }}</p>
             </div>
         </div>
 
         <!-- Messages -->
-        <div class="h-96 overflow-y-auto p-6 space-y-4" id="messageContainer">
+        <div class="h-64 sm:h-80 md:h-96 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4" id="messageContainer">
             {% for message in messages %}
             <div class="flex {% if message.sender == user %}justify-end{% else %}justify-start{% endif %}">
-                <div class="max-w-xs lg:max-w-md">
+                <div class="max-w-[85%] sm:max-w-xs lg:max-w-md">
                     {% if message.sender == user %}
                     <!-- Sent Message -->
-                    <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-2xl rounded-tr-none px-4 py-3">
-                        <p class="text-sm">{{ message.content }}</p>
+                    <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-2xl rounded-tr-none px-3 sm:px-4 py-2 sm:py-3">
+                        {% if message.image %}
+                        <a href="{{ message.image.url }}" target="_blank" class="block mb-2">
+                            <img src="{{ message.image.url }}" alt="Shared image" class="rounded-lg max-w-full h-auto">
+                        </a>
+                        {% endif %}
+                        {% if message.content %}
+                        <p class="text-sm break-words">{{ message.content }}</p>
+                        {% endif %}
                     </div>
                     {% else %}
                     <!-- Received Message -->
-                    <div class="bg-gray-100 text-gray-900 rounded-2xl rounded-tl-none px-4 py-3">
-                        <p class="text-sm">{{ message.content }}</p>
+                    <div class="bg-gray-100 text-gray-900 rounded-2xl rounded-tl-none px-3 sm:px-4 py-2 sm:py-3">
+                        {% if message.image %}
+                        <a href="{{ message.image.url }}" target="_blank" class="block mb-2">
+                            <img src="{{ message.image.url }}" alt="Shared image" class="rounded-lg max-w-full h-auto">
+                        </a>
+                        {% endif %}
+                        {% if message.content %}
+                        <p class="text-sm break-words">{{ message.content }}</p>
+                        {% endif %}
                     </div>
                     {% endif %}
                     <p class="text-xs text-gray-500 mt-1 {% if message.sender == user %}text-right{% endif %}">
                         {{ message.created_at|date:"h:i A" }}
-                        {% if message.sender == user and message.is_read %}
-                        <i class="fas fa-check-double text-green-500 ml-1"></i>
+                        {% if message.sender == user %}
+                            {% if message.is_read %}
+                            <i class="fas fa-check-double text-green-500 ml-1" title="Read {{ message.read_at|date:'h:i A' }}"></i>
+                            {% else %}
+                            <i class="fas fa-check text-gray-400 ml-1" title="Sent"></i>
+                            {% endif %}
                         {% endif %}
                     </p>
                 </div>
@@ -80,23 +99,64 @@
         </div>
 
         <!-- Message Input -->
-        <div class="border-t p-4">
-            <form method="post" class="flex items-center space-x-3">
+        <div class="border-t p-4" x-data="{ imagePreview: null, fileName: null }">
+            <form method="post" enctype="multipart/form-data" class="space-y-3">
                 {% csrf_token %}
-                <input 
-                    type="text" 
-                    name="content" 
-                    required
-                    placeholder="Type your message..."
-                    class="flex-1 px-4 py-3 border border-gray-300 rounded-full focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                >
-                <button 
-                    type="submit" 
-                    class="btn-primary text-white px-6 py-3 rounded-full font-semibold flex items-center space-x-2"
-                >
-                    <i class="fas fa-paper-plane"></i>
-                    <span class="hidden sm:inline">Send</span>
-                </button>
+                
+                <!-- Image Preview -->
+                <div x-show="imagePreview" class="relative inline-block">
+                    <img :src="imagePreview" class="max-h-32 rounded-lg border-2 border-green-500">
+                    <button 
+                        type="button"
+                        @click="imagePreview = null; fileName = null; $refs.imageInput.value = ''"
+                        class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+                    >
+                        <i class="fas fa-times text-xs"></i>
+                    </button>
+                </div>
+                
+                <div class="flex items-end space-x-2 sm:space-x-3">
+                    <!-- Image Upload Button -->
+                    <label class="flex-shrink-0 bg-gray-100 hover:bg-gray-200 text-gray-700 p-3 rounded-full cursor-pointer transition">
+                        <i class="fas fa-image"></i>
+                        <input 
+                            type="file" 
+                            name="image" 
+                            accept="image/*"
+                            x-ref="imageInput"
+                            class="hidden"
+                            @change="
+                                const file = $event.target.files[0];
+                                if (file) {
+                                    fileName = file.name;
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => imagePreview = e.target.result;
+                                    reader.readAsDataURL(file);
+                                }
+                            "
+                        >
+                    </label>
+                    
+                    <!-- Text Input -->
+                    <textarea
+                        name="content" 
+                        placeholder="Type your message..."
+                        rows="1"
+                        class="flex-1 px-3 sm:px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none text-base touch-feedback"
+                        autocomplete="off"
+                        autocapitalize="sentences"
+                        @input="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'"
+                    ></textarea>
+                    
+                    <!-- Send Button -->
+                    <button 
+                        type="submit" 
+                        class="flex-shrink-0 btn-primary text-white px-4 sm:px-6 py-3 rounded-full font-semibold flex items-center space-x-2 transition touch-feedback min-w-[44px] min-h-[44px]"
+                    >
+                        <i class="fas fa-paper-plane"></i>
+                        <span class="hidden sm:inline">Send</span>
+                    </button>
+                </div>
             </form>
         </div>
     </div>

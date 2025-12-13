@@ -67,7 +67,8 @@ class Message(models.Model):
         related_name='received_messages'
     )
     
-    content = models.TextField()
+    content = models.TextField(blank=True)
+    image = models.ImageField(upload_to='messages/', blank=True, null=True)
     is_read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
     

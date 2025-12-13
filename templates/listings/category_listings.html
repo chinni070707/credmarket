@@ -94,19 +94,26 @@
                             <i class="{{ category.icon }} text-5xl text-green-600"></i>
                         </div>
                     {% endif %}
-                    {% if listing.is_negotiable %}
-                    <div class="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-md">
-                        <i class="fas fa-check-circle mr-1"></i> Negotiable
+                    <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
+                        {{ category.name }}
+                    </div>
+                    {% if listing.seller.company %}
+                    <div class="absolute top-2 right-2 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
+                        <i class="fas fa-building mr-1"></i>{{ listing.seller.company.name }}
                     </div>
                     {% endif %}
                     {% if listing.is_featured %}
-                    <div class="absolute top-2 right-2 bg-yellow-400 text-green-900 px-2 py-1 rounded-full text-xs font-bold">
+                    <div class="absolute {% if listing.seller.company %}top-12{% else %}top-2{% endif %} right-2 bg-yellow-400 text-green-900 px-2 py-1 rounded-full text-xs font-bold">
                         <i class="fas fa-star"></i>
                     </div>
                     {% endif %}
-                    {% if listing.seller.company %}
-                    <div class="absolute bottom-2 right-2 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
-                        <i class="fas fa-building mr-1"></i>{{ listing.seller.company.name }}
+                    {% if listing.is_negotiable %}
+                    <div class="absolute bottom-2 left-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-md">
+                        <i class="fas fa-check-circle mr-1"></i> Negotiable
+                    </div>
+                    {% else %}
+                    <div class="absolute bottom-2 left-2 bg-gray-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-md">
+                        <i class="fas fa-times-circle mr-1"></i> Non-Negotiable
                     </div>
                     {% endif %}
                 </div>

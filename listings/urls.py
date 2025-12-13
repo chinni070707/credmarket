@@ -12,5 +12,6 @@ urlpatterns = [
     path('listings/<slug:slug>/delete/', views.delete_listing, name='delete_listing'),
     path('category/<slug:slug>/', views.category_listings, name='category_listings'),
     path('my-listings/', views.my_listings, name='my_listings'),
+    path('company-listings/', views.company_listings, name='company_listings'),
     path('api/category-fields/<int:category_id>/', views.get_category_fields_api, name='category_fields_api'),
 ]

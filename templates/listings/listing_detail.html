@@ -4,23 +4,23 @@
 {% block title %}{{ listing.title }} - CredMarket{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 mb-16 sm:mb-0">
     <!-- Breadcrumb -->
-    <nav class="flex mb-6 text-sm text-gray-600">
+    <nav class="flex mb-4 sm:mb-6 text-xs sm:text-sm text-gray-600 overflow-x-auto whitespace-nowrap">
         <a href="{% url 'listings:home' %}" class="hover:text-green-600">Home</a>
         <span class="mx-2">/</span>
         <a href="{% url 'listings:category_listings' listing.category.slug %}" class="hover:text-green-600">{{ listing.category.name }}</a>
         <span class="mx-2">/</span>
-        <span class="text-gray-900">{{ listing.title|truncatewords:5 }}</span>
+        <span class="text-gray-900 truncate">{{ listing.title|truncatewords:5 }}</span>
     </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8"
         <!-- Main Content -->
         <div class="lg:col-span-2">
             <!-- Image Gallery -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6" x-data="{ currentImage: 0 }">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6" x-data="{ currentImage: 0, totalImages: {{ listing.images.count }} }">
                 <!-- Main Image -->
-                <div class="relative h-96 bg-gray-200">
+                <div class="relative h-64 sm:h-80 md:h-96 bg-gray-200">
                     {% if listing.images.all %}
                         {% for image in listing.images.all %}
                         <img 
@@ -32,18 +32,39 @@
                         {% endfor %}
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-100 to-emerald-100">
-                            <i class="fas fa-image text-9xl text-gray-300"></i>
+                            <i class="fas fa-image text-6xl sm:text-9xl text-gray-300"></i>
                         </div>
+                    {% endif %}
+                    
+                    <!-- Navigation Arrows -->
+                    {% if listing.images.count > 1 %}
+                    <button 
+                        @click="currentImage = currentImage > 0 ? currentImage - 1 : totalImages - 1"
+                        class="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition shadow-lg"
+                    >
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button 
+                        @click="currentImage = currentImage < totalImages - 1 ? currentImage + 1 : 0"
+                        class="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 hover:bg-opacity-70 text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition shadow-lg"
+                    >
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Image Counter -->
+                    <div class="absolute bottom-4 right-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        <span x-text="currentImage + 1"></span> / <span x-text="totalImages"></span>
+                    </div>
                     {% endif %}
                     
                     <!-- Status Badge -->
                     <div class="absolute top-4 left-4">
                         {% if listing.status == 'sold' %}
-                        <span class="bg-red-500 text-white px-4 py-2 rounded-full font-bold">
+                        <span class="bg-red-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full font-bold text-sm sm:text-base">
                             <i class="fas fa-check-circle mr-1"></i> SOLD
                         </span>
                         {% elif listing.is_featured %}
-                        <span class="bg-yellow-400 text-green-900 px-4 py-2 rounded-full font-bold">
+                        <span class="bg-yellow-400 text-green-900 px-3 sm:px-4 py-1 sm:py-2 rounded-full font-bold text-sm sm:text-base">
                             <i class="fas fa-star mr-1"></i> FEATURED
                         </span>
                         {% endif %}

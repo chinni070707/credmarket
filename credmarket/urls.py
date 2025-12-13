@@ -18,6 +18,7 @@ urlpatterns = [
     
     # Health check endpoints
     path('health/', health_check, name='health_check'),
+    path('healthz', health_check, name='healthz'),  # Render default health check
     path('ready/', readiness_check, name='readiness'),
     path('alive/', liveness_check, name='liveness'),
     

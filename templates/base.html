@@ -237,10 +237,6 @@
                 
                 <!-- Nav Links (Desktop) -->
                 <div class="hidden md:flex items-center space-x-4 ml-8">
-                    <a href="{% url 'listings:listing_list' %}" class="flex items-center space-x-2 text-gray-700 hover:text-green-600 font-medium px-4 py-2 rounded-lg hover:bg-gray-100 transition">
-                        <i class="fas fa-th-large"></i>
-                        <span>Browse</span>
-                    </a>
                     {% if user.is_authenticated %}
                     <a href="{% url 'listings:listing_list' %}" class="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:shadow-lg transition">
                         <i class="fas fa-shopping-bag"></i>
@@ -257,23 +253,6 @@
                         <span>My Company</span>
                     </a>
                     {% endif %}
-                </div>
-                
-                <!-- Search Bar (Desktop) -->
-                <div class="hidden md:flex items-center flex-1 max-w-2xl mx-8">
-                    <form action="{% url 'listings:listing_list' %}" method="get" class="w-full">
-                        <div class="relative">
-                            <input 
-                                type="text" 
-                                name="q" 
-                                placeholder="Search for products..." 
-                                class="w-full pl-12 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            >
-                            <button type="submit" class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
                 </div>
                 
                 <!-- Desktop Navigation Links -->
@@ -343,23 +322,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Mobile Search -->
-        <div class="md:hidden px-4 pb-3">
-            <form action="{% url 'listings:listing_list' %}" method="get">
-                <div class="relative">
-                    <input 
-                        type="text" 
-                        name="q" 
-                        placeholder="Search products..." 
-                        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-green-500 text-sm"
-                    >
-                    <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                        <i class="fas fa-search text-sm"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
     </nav>
     
     <!-- Mobile Bottom Navigation -->
@@ -372,7 +334,7 @@
             </a>
             <a href="{% url 'listings:listing_list' %}" class="flex flex-col items-center justify-center text-gray-600 hover:text-green-600">
                 <i class="fas fa-shopping-bag text-xl"></i>
-                <span class="text-xs mt-1">Browse</span>
+                <span class="text-xs mt-1">Buy</span>
             </a>
             <a href="{% url 'listings:create_listing' %}" class="flex flex-col items-center justify-center -mt-4">
                 <div class="w-14 h-14 rounded-full bg-gradient-to-r from-green-600 to-emerald-600 flex items-center justify-center shadow-lg">
@@ -511,8 +473,8 @@
                     </ul>
                 </div>
                 
-                <!-- Categories -->
-                <div>
+                <!-- Categories (Hidden on Mobile) -->
+                <div class="hidden md:block">
                     <h3 class="font-semibold mb-4">Categories</h3>
                     <ul class="space-y-2 text-gray-400 text-sm">
                         <li><a href="#" class="hover:text-white">Electronics</a></li>

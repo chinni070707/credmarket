@@ -19,3 +19,6 @@ python manage.py collectstatic --no-input
 
 echo "==> Setting up production data..."
 python manage.py setup_production
+
+echo "==> Fixing user statuses for approved companies..."
+python fix_user_status.py

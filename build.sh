@@ -11,11 +11,11 @@ python validate_env.py
 echo "==> Installing dependencies..."
 pip install -r requirements.txt
 
-echo "==> Collecting static files..."
-python manage.py collectstatic --no-input
-
 echo "==> Running database migrations..."
 python manage.py migrate --no-input
+
+echo "==> Collecting static files..."
+python manage.py collectstatic --no-input
 
 echo "==> Setting up production data..."
 python manage.py setup_production

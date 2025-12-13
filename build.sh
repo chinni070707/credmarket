@@ -5,6 +5,9 @@ set -o errexit  # Exit on error
 set -o pipefail # Exit on pipe failure
 set -o nounset  # Exit on undefined variable
 
+echo "==> Validating environment..."
+python validate_env.py
+
 echo "==> Installing dependencies..."
 pip install -r requirements.txt
 
@@ -13,6 +16,9 @@ python manage.py collectstatic --no-input
 
 echo "==> Running database migrations..."
 python manage.py migrate --no-input
+
+echo "==> Setting up production data..."
+python manage.py setup_production
 
 # Setup production data (only runs if needed)
 python manage.py setup_production

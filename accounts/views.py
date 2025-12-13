@@ -75,7 +75,7 @@ def signup(request):
             status=user_status
         )
         
-        # Generate and send OTP
+        # Generate and send OTP for all users (including waitlisted)
         otp_code = str(random.randint(100000, 999999))
         expires_at = timezone.now() + timedelta(minutes=10)
         
@@ -92,14 +92,37 @@ def signup(request):
         # Store user_id in session for OTP verification
         request.session['pending_user_id'] = user.id
         
+        # Different messages for waitlist vs approved companies
         if user_status == 'waitlist':
-            messages.warning(request, 'Your company is not yet approved. You have been added to the waitlist.')
+            messages.info(request, f'Your company ({domain}) is being reviewed. Please verify your email to complete registration.')
         else:
             messages.success(request, f'OTP sent to {email}. Please verify to complete registration.')
         
         return redirect('accounts:verify_otp')
     
     return render(request, 'accounts/signup.html')
+
+
+def waitlist(request):
+    """Display waitlist confirmation page"""
+    user_id = request.session.get('waitlist_user_id')
+    
+    if not user_id:
+        messages.error(request, 'No waitlist registration found.')
+        return redirect('accounts:signup')
+    
+    try:
+        user = User.objects.get(id=user_id)
+        company_name = user.company.name if user.company else 'Unknown'
+        
+        context = {
+            'user': user,
+            'company_name': company_name,
+        }
+        return render(request, 'accounts/waitlist.html', context)
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+        return redirect('accounts:signup')
 
 
 def verify_otp(request):
@@ -133,7 +156,14 @@ def verify_otp(request):
                 # Clear session
                 del request.session['pending_user_id']
                 
-                # Log user in
+                # Handle waitlisted users differently
+                if user.status == 'waitlist':
+                    # Store user info for waitlist page
+                    request.session['waitlist_user_id'] = user.id
+                    messages.success(request, 'Email verified! Your account is pending company approval.')
+                    return redirect('accounts:waitlist')
+                
+                # Log approved users in immediately
                 login(request, user)
                 messages.success(request, 'Email verified successfully! Welcome to CredMarket.')
                 return redirect('listings:home')
@@ -159,7 +189,7 @@ def login_view(request):
                 return redirect('accounts:verify_otp')
             
             if user.status == 'waitlist':
-                messages.warning(request, 'Your account is on waitlist. Please wait for admin approval.')
+                messages.warning(request, f'Your company ({user.company.domain if user.company else "domain"}) is being reviewed by our team. You\'ll receive an email once approved (usually within 1-2 business days).')
                 return render(request, 'accounts/login.html', {'debug': settings.DEBUG})
             
             if user.status == 'suspended':
@@ -167,6 +197,12 @@ def login_view(request):
                 return render(request, 'accounts/login.html', {'debug': settings.DEBUG})
             
             login(request, user)
+            
+            # Redirect admin/superuser to custom admin dashboard
+            if user.is_staff or user.is_superuser:
+                messages.success(request, f'Welcome back, Admin!')
+                return redirect('companies:admin_dashboard')
+            
             messages.success(request, f'Welcome back, {user.first_name}!')
             return redirect('listings:home')
         else:

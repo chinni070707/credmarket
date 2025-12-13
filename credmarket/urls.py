@@ -13,6 +13,7 @@ urlpatterns = [
     path('', include('listings.urls')),
     path('accounts/', include('accounts.urls')),
     path('messages/', include('messaging.urls')),
+    path('companies/', include('companies.urls')),
     
     # Static pages
     path('how-it-works/', TemplateView.as_view(template_name='how_it_works.html'), name='how_it_works'),

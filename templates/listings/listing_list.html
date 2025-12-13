@@ -152,9 +152,9 @@
                     <a href="{% url 'listings:listing_detail' listing.id %}" 
                        class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all group">
                         <!-- Image -->
-                        {% if listing.image %}
+                        {% if listing.get_primary_image %}
                         <div class="aspect-square overflow-hidden bg-gray-100">
-                            <img src="{{ listing.image.url }}" 
+                            <img src="{{ listing.get_primary_image.image.url }}" 
                                  alt="{{ listing.title }}" 
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         </div>

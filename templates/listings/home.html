@@ -144,9 +144,9 @@
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for listing in recent_listings %}
             <a href="{% url 'listings:listing_detail' listing.id %}" class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group">
-                {% if listing.image %}
+                {% if listing.get_primary_image %}
                 <div class="aspect-square overflow-hidden bg-gray-100">
-                    <img src="{{ listing.image.url }}" alt="{{ listing.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                    <img src="{{ listing.get_primary_image.image.url }}" alt="{{ listing.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
                 </div>
                 {% else %}
                 <div class="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">

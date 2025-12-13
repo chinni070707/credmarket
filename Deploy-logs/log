@@ -1,100 +1,50 @@
-2025-12-13T09:28:57.704417716Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/base.py", line 140, in get_response
-2025-12-13T09:28:57.704420156Z     response = self._middleware_chain(request)
-2025-12-13T09:28:57.704422606Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704425296Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 57, in inner
-2025-12-13T09:28:57.704427706Z     response = response_for_exception(request, exc)
-2025-12-13T09:28:57.704430386Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704432886Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 143, in response_for_exception
-2025-12-13T09:28:57.704435236Z     log_response(
-2025-12-13T09:28:57.704437636Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 241, in log_response
-2025-12-13T09:28:57.704440336Z     getattr(logger, level)(
-2025-12-13T09:28:57.704443316Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1518, in error
-2025-12-13T09:28:57.704451587Z     self._log(ERROR, msg, args, **kwargs)
-2025-12-13T09:28:57.704454347Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1634, in _log
-2025-12-13T09:28:57.704456987Z     self.handle(record)
-2025-12-13T09:28:57.704473397Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1644, in handle
-2025-12-13T09:28:57.704476327Z     self.callHandlers(record)
-2025-12-13T09:28:57.704479207Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 1706, in callHandlers
-2025-12-13T09:28:57.704481837Z     hdlr.handle(record)
-2025-12-13T09:28:57.704484337Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/logging/__init__.py", line 978, in handle
-2025-12-13T09:28:57.704487028Z     self.emit(record)
-2025-12-13T09:28:57.704489768Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 128, in emit
-2025-12-13T09:28:57.704492528Z     self.send_mail(subject, message, fail_silently=True, html_message=html_message)
-2025-12-13T09:28:57.704495138Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 132, in send_mail
-2025-12-13T09:28:57.704497798Z     subject, message, *args, connection=self.connection(), **kwargs
-2025-12-13T09:28:57.704500788Z                                         ^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704503598Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/log.py", line 136, in connection
-2025-12-13T09:28:57.704506418Z     return get_connection(backend=self.email_backend, fail_silently=True)
-2025-12-13T09:28:57.704509168Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704511738Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/mail/__init__.py", line 50, in get_connection
-2025-12-13T09:28:57.704514458Z     klass = import_string(backend or settings.EMAIL_BACKEND)
-2025-12-13T09:28:57.704517109Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704519738Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/module_loading.py", line 30, in import_string
-2025-12-13T09:28:57.704522499Z     return cached_import(module_path, class_name)
-2025-12-13T09:28:57.704524899Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704527129Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/module_loading.py", line 15, in cached_import
-2025-12-13T09:28:57.704529689Z     module = import_module(module_path)
-2025-12-13T09:28:57.704532359Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704535239Z   File "/opt/render/project/python/Python-3.11.7/lib/python3.11/importlib/__init__.py", line 126, in import_module
-2025-12-13T09:28:57.704537819Z     return _bootstrap._gcd_import(name[level:], package, level)
-2025-12-13T09:28:57.704540369Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T09:28:57.704542989Z   File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
-2025-12-13T09:28:57.704545479Z   File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
-2025-12-13T09:28:57.704548109Z   File "<frozen importlib._bootstrap>", line 1140, in _find_and_load_unlocked
-2025-12-13T09:28:57.704550659Z ModuleNotFoundError: No module named 'sendgrid_backend'
-2025-12-13T09:34:05.502727163Z ==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
-2025-12-13T09:34:05.671793165Z ==> Deploying...
-2025-12-13T09:34:44.421975833Z ==> Running 'gunicorn credmarket.wsgi:application'
-2025-12-13T09:34:59.618764616Z /opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/base.py:61: UserWarning: No directory at: /opt/render/project/src/staticfiles/
-2025-12-13T09:34:59.618781326Z   mw_instance = middleware(adapted_handler)
-2025-12-13T09:34:59.621712264Z [2025-12-13 15:04:59 +0530] [54] [INFO] Starting gunicorn 21.2.0
-2025-12-13T09:34:59.622248116Z [2025-12-13 15:04:59 +0530] [54] [INFO] Listening at: http://0.0.0.0:10000 (54)
-2025-12-13T09:34:59.622322318Z [2025-12-13 15:04:59 +0530] [54] [INFO] Using worker: sync
-2025-12-13T09:34:59.627913538Z [2025-12-13 15:04:59 +0530] [58] [INFO] Booting worker with pid: 58
-2025-12-13T09:34:59.933825661Z 127.0.0.1 - - [13/Dec/2025:15:04:59 +0530] "HEAD / HTTP/1.1" 301 0 "-" "Go-http-client/1.1"
-2025-12-13T09:35:02.479332414Z ==> ///////////////////////////////////////////////////////////
-2025-12-13T09:35:02.665895774Z ==> 
-2025-12-13T09:35:02.856775614Z ==> Available at your primary URL https://credmarket.onrender.com
-2025-12-13T09:35:03.047264874Z ==> 
-2025-12-13T09:35:03.745501611Z ==> ///////////////////////////////////////////////////////////
-2025-12-13T09:35:10.537303403Z 127.0.0.1 - - [13/Dec/2025:15:05:10 +0530] "GET / HTTP/1.1" 500 4375 "-" "Go-http-client/2.0"
-2025-12-13T09:36:01.448755561Z [2025-12-13 15:06:01 +0530] [55] [INFO] Handling signal: term
-2025-12-13T09:36:01.449348219Z [2025-12-13 15:06:01 +0530] [57] [INFO] Worker exiting (pid: 57)
-2025-12-13T09:36:03.191011044Z [2025-12-13 15:06:03 +0530] [55] [INFO] Shutting down: Master
-2025-12-13T09:40:04.659614872Z ==> Detected service running on port 10000
-2025-12-13T09:40:05.074884574Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
-2025-12-13T09:51:17.888036678Z [2025-12-13 15:21:17 +0530] [54] [INFO] Handling signal: term
-2025-12-13T09:51:17.888621372Z [2025-12-13 15:21:17 +0530] [58] [INFO] Worker exiting (pid: 58)
-2025-12-13T09:51:20.116711718Z [2025-12-13 15:21:20 +0530] [54] [INFO] Shutting down: Master
-2025-12-13T09:56:10.883328131Z ==> Running 'gunicorn credmarket.wsgi:application'
-2025-12-13T09:56:22.197071937Z /opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/base.py:61: UserWarning: No directory at: /opt/render/project/src/staticfiles/
-2025-12-13T09:56:22.197097837Z   mw_instance = middleware(adapted_handler)
-2025-12-13T09:56:22.276700882Z [2025-12-13 15:26:22 +0530] [37] [INFO] Starting gunicorn 21.2.0
-2025-12-13T09:56:22.277057731Z [2025-12-13 15:26:22 +0530] [37] [INFO] Listening at: http://0.0.0.0:10000 (37)
-2025-12-13T09:56:22.277079702Z [2025-12-13 15:26:22 +0530] [37] [INFO] Using worker: sync
-2025-12-13T09:56:22.28287643Z [2025-12-13 15:26:22 +0530] [39] [INFO] Booting worker with pid: 39
-2025-12-13T09:56:33.37748036Z 127.0.0.1 - - [13/Dec/2025:15:26:33 +0530] "HEAD / HTTP/1.1" 500 4375 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
-2025-12-13T09:56:33.691677752Z 127.0.0.1 - - [13/Dec/2025:15:26:33 +0530] "GET / HTTP/1.1" 500 4375 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
-2025-12-13T09:58:02.084085519Z 127.0.0.1 - - [13/Dec/2025:15:28:02 +0530] "GET / HTTP/1.1" 500 4375 "https://credmarket.onrender.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
-2025-12-13T10:03:47.588177405Z 127.0.0.1 - - [13/Dec/2025:15:33:47 +0530] "GET / HTTP/1.1" 500 4375 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0"
-2025-12-13T10:08:19.008337762Z ==> Setting WEB_CONCURRENCY=1 by default, based on available CPUs in the instance
-2025-12-13T10:08:19.176658664Z ==> Deploying...
-2025-12-13T10:08:53.715258632Z ==> Running 'gunicorn credmarket.wsgi:application'
-2025-12-13T10:09:02.818857599Z /opt/render/project/src/.venv/lib/python3.11/site-packages/django/core/handlers/base.py:61: UserWarning: No directory at: /opt/render/project/src/staticfiles/
-2025-12-13T10:09:02.818884129Z   mw_instance = middleware(adapted_handler)
-2025-12-13T10:09:02.819542013Z [2025-12-13 15:39:02 +0530] [55] [INFO] Starting gunicorn 21.2.0
-2025-12-13T10:09:02.820075924Z [2025-12-13 15:39:02 +0530] [55] [INFO] Listening at: http://0.0.0.0:10000 (55)
-2025-12-13T10:09:02.820128015Z [2025-12-13 15:39:02 +0530] [55] [INFO] Using worker: sync
-2025-12-13T10:09:02.825852003Z [2025-12-13 15:39:02 +0530] [57] [INFO] Booting worker with pid: 57
-2025-12-13T10:09:03.075217226Z 127.0.0.1 - - [13/Dec/2025:15:39:03 +0530] "HEAD / HTTP/1.1" 301 0 "-" "Go-http-client/1.1"
-2025-12-13T10:09:10.214177117Z ==> Your service is live 🎉
-2025-12-13T10:09:10.407561877Z ==> 
-2025-12-13T10:09:10.592381767Z ==> ///////////////////////////////////////////////////////////
-2025-12-13T10:09:11.185246235Z ==> 
-2025-12-13T10:09:11.377646345Z ==> Available at your primary URL https://credmarket.onrender.com
-2025-12-13T10:09:11.89794922Z ==> 
-2025-12-13T10:09:12.08767977Z ==> ///////////////////////////////////////////////////////////
-2025-12-13T10:09:16.023632277Z 127.0.0.1 - - [13/Dec/2025:15:39:16 +0530] "GET / HTTP/1.1" 500 4375 "-" "Go-http-client/2.0"
-2025-12-13T10:10:09.516178093Z [2025-12-13 15:40:09 +0530] [37] [INFO] Handling signal: term
-2025-12-13T10:10:09.516700356Z [2025-12-13 15:40:09 +0530] [39] [INFO] Worker exiting (pid: 39)
-2025-12-13T10:10:11.278075584Z [2025-12-13 15:40:11 +0530] [37] [INFO] Shutting down: Master
+2025-12-13T11:16:32.882087123Z     return self.render(context)
+2025-12-13T11:16:32.882089133Z            ^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882095473Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/loader_tags.py", line 65, in render
+2025-12-13T11:16:32.882097774Z     result = block.nodelist.render(context)
+2025-12-13T11:16:32.882099874Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882102114Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 1000, in render
+2025-12-13T11:16:32.882104224Z     return SafeString("".join([node.render_annotated(context) for node in self]))
+2025-12-13T11:16:32.882106434Z                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882108484Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 1000, in <listcomp>
+2025-12-13T11:16:32.882110574Z     return SafeString("".join([node.render_annotated(context) for node in self]))
+2025-12-13T11:16:32.882112794Z                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882114874Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 961, in render_annotated
+2025-12-13T11:16:32.882117044Z     return self.render(context)
+2025-12-13T11:16:32.882139566Z            ^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882142066Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/defaulttags.py", line 197, in render
+2025-12-13T11:16:32.882144186Z     len_values = len(values)
+2025-12-13T11:16:32.882146306Z                  ^^^^^^^^^^^
+2025-12-13T11:16:32.882148476Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 380, in __len__
+2025-12-13T11:16:32.882151026Z     self._fetch_all()
+2025-12-13T11:16:32.882153157Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 1926, in _fetch_all
+2025-12-13T11:16:32.882155237Z     self._result_cache = list(self._iterable_class(self))
+2025-12-13T11:16:32.882157407Z                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882159467Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/query.py", line 91, in __iter__
+2025-12-13T11:16:32.882161537Z     results = compiler.execute_sql(
+2025-12-13T11:16:32.882163537Z               ^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882165597Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/models/sql/compiler.py", line 1562, in execute_sql
+2025-12-13T11:16:32.882167657Z     cursor.execute(sql, params)
+2025-12-13T11:16:32.882169687Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 79, in execute
+2025-12-13T11:16:32.882171878Z     return self._execute_with_wrappers(
+2025-12-13T11:16:32.882173898Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882177088Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
+2025-12-13T11:16:32.882179198Z     return executor(sql, params, many, context)
+2025-12-13T11:16:32.882181198Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882183308Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 100, in _execute
+2025-12-13T11:16:32.882185348Z     with self.db.wrap_database_errors:
+2025-12-13T11:16:32.882187528Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/utils.py", line 91, in __exit__
+2025-12-13T11:16:32.882189599Z     raise dj_exc_value.with_traceback(traceback) from exc_value
+2025-12-13T11:16:32.882191729Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/db/backends/utils.py", line 105, in _execute
+2025-12-13T11:16:32.882197699Z     return self.cursor.execute(sql, params)
+2025-12-13T11:16:32.882199979Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-13T11:16:32.882202109Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/psycopg/cursor.py", line 732, in execute
+2025-12-13T11:16:32.882206009Z     raise ex.with_traceback(None)
+2025-12-13T11:16:32.88220856Z django.db.utils.ProgrammingError: relation "listings_category" does not exist
+2025-12-13T11:16:32.88221081Z LINE 1: ...y"."order", "listings_category"."created_at" FROM "listings_...
+2025-12-13T11:16:32.88221291Z                                                              ^
+2025-12-13T11:16:32.882230361Z [2025-12-13 16:46:32,881] ERROR credmarket.middleware middleware.__call__:22 - 500 Error on GET /
+2025-12-13T11:16:32.882232951Z User: AnonymousUser
+2025-12-13T11:16:32.882235131Z IP: 35.197.37.4
+2025-12-13T11:16:32.882237301Z User-Agent: Go-http-client/2.0
+2025-12-13T11:16:32.882668046Z 127.0.0.1 - - [13/Dec/2025:16:46:32 +0530] "GET / HTTP/1.1" 500 4375 "-" "Go-http-client/2.0"

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+import json
 
 
 class Category(models.Model):
@@ -94,6 +95,17 @@ class Listing(models.Model):
     # Status & Features
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     is_featured = models.BooleanField(default=False, help_text='Promoted listing')
+    
+    # Category-specific attributes (flexible JSON field)
+    # Examples:
+    # Vehicles: {"fuel_type": "Petrol", "km_driven": "15000", "year": "2020", "brand": "Honda"}
+    # Rent: {"furnishing": "Semi-Furnished", "bedrooms": "2", "bathrooms": "2", "deposit": "50000"}
+    # Real Estate: {"carpet_area": "1200", "total_floors": "10", "floor_number": "5", "facing": "East"}
+    attributes = models.JSONField(
+        default=dict, 
+        blank=True,
+        help_text='Category-specific attributes as key-value pairs'
+    )
     
     # Engagement
     views_count = models.IntegerField(default=0)

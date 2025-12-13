@@ -16,11 +16,19 @@ services:
           name: credmarket-db
           property: connectionString
       - key: ALLOWED_HOSTS
-        sync: false
+        value: credmarket.onrender.com
       - key: SITE_URL
+        value: https://credmarket.onrender.com
+      - key: EMAIL_HOST
+        value: smtp.resend.com
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_HOST_USER
+        value: resend
+      - key: EMAIL_HOST_PASSWORD
         sync: false
-      - key: SENDGRID_API_KEY
-        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        value: onboarding@resend.dev
     autoDeploy: true
 
 databases:

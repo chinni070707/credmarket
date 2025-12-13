@@ -125,12 +125,17 @@
                             <i class="fas fa-image text-5xl text-green-600"></i>
                         </div>
                     {% endif %}
+                    {% if listing.is_negotiable %}
+                    <div class="absolute top-2 left-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-md">
+                        <i class="fas fa-check-circle mr-1"></i> Negotiable
+                    </div>
+                    {% endif %}
                     {% if listing.is_featured %}
                     <div class="absolute top-2 right-2 bg-yellow-400 text-green-900 px-2 py-1 rounded-full text-xs font-bold">
                         <i class="fas fa-star"></i> Featured
                     </div>
                     {% endif %}
-                    <div class="absolute top-2 left-2 bg-white px-2 py-1 rounded-full text-xs font-semibold">
+                    <div class="absolute {% if listing.is_negotiable %}bottom-2 left-2{% else %}top-2 left-2{% endif %} bg-white px-2 py-1 rounded-full text-xs font-semibold">
                         {{ listing.category.name }}
                     </div>
                 </div>

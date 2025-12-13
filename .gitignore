@@ -55,7 +55,9 @@ Thumbs.db
 htmlcov/
 .pytest_cache/
 
-# Documentation
-doc/
+# Documentation - allow doc/ folder but ignore other .md files in root
 *.md
+!doc/
+!doc/*.md
+!README.md
 !README.md

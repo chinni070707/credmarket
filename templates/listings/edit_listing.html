@@ -235,6 +235,80 @@
             </div>
         </div>
 
+        <!-- Image Management -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                <i class="fas fa-images text-green-600 mr-2"></i> Images
+                <span class="ml-auto text-sm font-normal text-gray-500">
+                    <span id="imageCount">{{ listing.images.count }}</span> / 8 images
+                </span>
+            </h2>
+            
+            <!-- Existing Images -->
+            <div id="existingImages" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                {% for image in listing.images.all %}
+                <div class="relative group image-item" data-image-id="{{ image.id }}">
+                    <img src="{{ image.image.url }}" alt="Listing image" class="w-full h-32 object-cover rounded-lg border-2 border-gray-200">
+                    <div class="absolute top-2 right-2 flex space-x-1">
+                        <!-- Move Up Button -->
+                        <button type="button" class="move-up bg-blue-500 hover:bg-blue-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition" title="Move up" {% if forloop.first %}style="display:none;"{% endif %}>
+                            <i class="fas fa-arrow-up text-xs"></i>
+                        </button>
+                        <!-- Move Down Button -->
+                        <button type="button" class="move-down bg-blue-500 hover:bg-blue-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition" title="Move down" {% if forloop.last %}style="display:none;"{% endif %}>
+                            <i class="fas fa-arrow-down text-xs"></i>
+                        </button>
+                        <!-- Delete Checkbox -->
+                        <label class="bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 cursor-pointer opacity-0 group-hover:opacity-100 transition" title="Delete image">
+                            <input type="checkbox" name="delete_images" value="{{ image.id }}" class="hidden delete-checkbox">
+                            <i class="fas fa-trash text-xs"></i>
+                        </label>
+                    </div>
+                    {% if forloop.first %}
+                    <div class="absolute bottom-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                        Primary
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="col-span-2 md:col-span-4 text-center py-8 text-gray-500">
+                    <i class="fas fa-image text-4xl mb-2"></i>
+                    <p>No images yet. Add some below!</p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Hidden field to store image order -->
+            <input type="hidden" name="image_order" id="imageOrder" value="">
+            
+            <!-- Upload New Images -->
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                <label for="new_images" class="block text-center cursor-pointer">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                        <span class="text-sm font-medium text-gray-700">Click to upload new images</span>
+                        <span class="text-xs text-gray-500 mt-1">Max 8 images total (JPG, PNG, WEBP)</span>
+                    </div>
+                    <input 
+                        type="file" 
+                        name="new_images" 
+                        id="new_images" 
+                        multiple 
+                        accept="image/*"
+                        class="hidden"
+                    >
+                </label>
+                <div id="newImagePreview" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 hidden">
+                    <!-- Preview thumbnails will appear here -->
+                </div>
+            </div>
+            
+            <p class="mt-3 text-sm text-gray-600">
+                <i class="fas fa-info-circle text-blue-500"></i>
+                <strong>Tips:</strong> First image is the primary image. Use arrows to reorder. Check the trash icon to delete.
+            </p>
+        </div>
+
         <!-- Submit Buttons -->
         <div class="flex items-center justify-between bg-gray-50 rounded-xl p-6">
             <a href="{% url 'listings:listing_detail' listing.slug %}" class="text-gray-600 hover:text-gray-900 font-semibold">
@@ -383,6 +457,135 @@
     if (currentCategoryId) {
         loadCategoryFields(currentCategoryId);
     }
+    
+    // Image Management JavaScript
+    const imageCountDisplay = document.getElementById('imageCount');
+    const imageOrderInput = document.getElementById('imageOrder');
+    const existingImagesContainer = document.getElementById('existingImages');
+    const newImageInput = document.getElementById('new_images');
+    const newImagePreview = document.getElementById('newImagePreview');
+    
+    // Update image count
+    function updateImageCount() {
+        const existingCount = document.querySelectorAll('.image-item').length;
+        const deleteChecked = document.querySelectorAll('.delete-checkbox:checked').length;
+        const newFiles = newImageInput.files.length;
+        const totalCount = existingCount - deleteChecked + newFiles;
+        
+        imageCountDisplay.textContent = totalCount;
+        
+        // Update color based on limit
+        if (totalCount >= 8) {
+            imageCountDisplay.classList.add('text-red-600', 'font-bold');
+        } else if (totalCount >= 6) {
+            imageCountDisplay.classList.add('text-orange-600');
+            imageCountDisplay.classList.remove('text-red-600', 'font-bold');
+        } else {
+            imageCountDisplay.classList.remove('text-red-600', 'text-orange-600', 'font-bold');
+        }
+    }
+    
+    // Handle delete checkbox changes
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('delete-checkbox')) {
+            const imageItem = e.target.closest('.image-item');
+            if (e.target.checked) {
+                imageItem.style.opacity = '0.5';
+                imageItem.style.border = '2px solid #EF4444';
+            } else {
+                imageItem.style.opacity = '1';
+                imageItem.style.border = '';
+            }
+            updateImageCount();
+        }
+    });
+    
+    // Image reordering
+    function updateImageOrder() {
+        const imageItems = document.querySelectorAll('.image-item');
+        const orderArray = Array.from(imageItems).map(item => item.dataset.imageId);
+        imageOrderInput.value = orderArray.join(',');
+    }
+    
+    // Move image up
+    existingImagesContainer.addEventListener('click', function(e) {
+        const moveUpBtn = e.target.closest('.move-up');
+        if (moveUpBtn) {
+            const imageItem = moveUpBtn.closest('.image-item');
+            const previousItem = imageItem.previousElementSibling;
+            if (previousItem && previousItem.classList.contains('image-item')) {
+                imageItem.parentNode.insertBefore(imageItem, previousItem);
+                updateImageOrder();
+                updateMoveButtons();
+            }
+        }
+    });
+    
+    // Move image down
+    existingImagesContainer.addEventListener('click', function(e) {
+        const moveDownBtn = e.target.closest('.move-down');
+        if (moveDownBtn) {
+            const imageItem = moveDownBtn.closest('.image-item');
+            const nextItem = imageItem.nextElementSibling;
+            if (nextItem && nextItem.classList.contains('image-item')) {
+                imageItem.parentNode.insertBefore(nextItem, imageItem);
+                updateImageOrder();
+                updateMoveButtons();
+            }
+        }
+    });
+    
+    // Update move button visibility
+    function updateMoveButtons() {
+        const imageItems = document.querySelectorAll('.image-item');
+        imageItems.forEach((item, index) => {
+            const moveUp = item.querySelector('.move-up');
+            const moveDown = item.querySelector('.move-down');
+            
+            if (moveUp) {
+                moveUp.style.display = index === 0 ? 'none' : 'block';
+            }
+            if (moveDown) {
+                moveDown.style.display = index === imageItems.length - 1 ? 'none' : 'block';
+            }
+        });
+    }
+    
+    // Preview new images
+    newImageInput.addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        
+        if (files.length > 0) {
+            newImagePreview.innerHTML = '';
+            newImagePreview.classList.remove('hidden');
+            
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const div = document.createElement('div');
+                    div.className = 'relative';
+                    div.innerHTML = `
+                        <img src="${event.target.result}" class="w-full h-32 object-cover rounded-lg border-2 border-green-500">
+                        <div class="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                            New
+                        </div>
+                    `;
+                    newImagePreview.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            updateImageCount();
+        } else {
+            newImagePreview.classList.add('hidden');
+            updateImageCount();
+        }
+    });
+    
+    // Initialize
+    updateImageOrder();
+    updateMoveButtons();
+    updateImageCount();
 </script>
 {% endblock %}
 {% endblock %}

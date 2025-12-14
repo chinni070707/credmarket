@@ -237,11 +237,11 @@
                     <!-- Buy and Sell Buttons (Left Side) -->
                     <div class="hidden md:flex items-center space-x-2">
                         <a href="{% url 'listings:listing_list' %}" class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                            <i class="fas fa-shopping-bag"></i>
+                            <i class="fa-solid fa-shopping-bag"></i>
                             <span>Buy</span>
                         </a>
                         <a href="{% url 'listings:create_listing' %}" class="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                            <i class="fas fa-plus-circle"></i>
+                            <i class="fa-solid fa-plus-circle"></i>
                             <span>Sell</span>
                         </a>
                     </div>
@@ -249,7 +249,7 @@
                     <!-- My Company Link (Left Side) -->
                     {% if user.is_authenticated and user.company %}
                     <a href="{% url 'listings:company_listings' %}" class="hidden lg:flex text-gray-700 hover:text-green-600 font-medium items-center space-x-1 px-4 py-2 rounded-lg hover:bg-gray-100 transition">
-                        <i class="fas fa-building text-sm"></i>
+                        <i class="fa-solid fa-building text-sm"></i>
                         <span>My Company</span>
                     </a>
                     {% endif %}
@@ -259,7 +259,7 @@
                 <div class="hidden md:flex items-center space-x-4">
                     {% if user.is_authenticated %}
                         <a href="{% url 'messaging:inbox' %}" class="relative p-2 text-gray-600 hover:text-green-600">
-                            <i class="fas fa-envelope text-xl"></i>
+                            <i class="fa-solid fa-envelope text-xl"></i>
                             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
                         </a>
                         
@@ -273,7 +273,7 @@
                                         {{ user.first_name.0 }}{{ user.last_name.0 }}
                                     </div>
                                 {% endif %}
-                                <i class="fas fa-chevron-down text-sm"></i>
+                                <i class="fa-solid fa-chevron-down text-sm"></i>
                             </button>
                             
                             <div x-show="open" @click.away="open = false" x-cloak
@@ -283,17 +283,17 @@
                                     <p class="text-sm text-gray-500 truncate">{{ user.email }}</p>
                                 </div>
                                 <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 hover:bg-gray-100">
-                                    <i class="fas fa-user mr-2"></i> Profile
+                                    <i class="fa-solid fa-user mr-2"></i> Profile
                                 </a>
                                 <a href="{% url 'listings:my_listings' %}" class="block px-4 py-2 hover:bg-gray-100">
-                                    <i class="fas fa-list mr-2"></i> My Listings
+                                    <i class="fa-solid fa-list mr-2"></i> My Listings
                                 </a>
                                 <a href="{% url 'messaging:inbox' %}" class="block px-4 py-2 hover:bg-gray-100">
-                                    <i class="fas fa-envelope mr-2"></i> Messages
+                                    <i class="fa-solid fa-envelope mr-2"></i> Messages
                                 </a>
                                 <hr class="my-2">
-                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
-                                    <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 hover:bg-gray-100">
+                                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
                                 </a>
                             </div>
                         </div>
@@ -311,8 +311,8 @@
                 <div class="flex md:hidden items-center space-x-3">
                     {% if user.is_authenticated %}
                         <a href="{% url 'messaging:inbox' %}" class="relative p-2 text-gray-600">
-                            <i class="fas fa-envelope text-lg"></i>
-                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center text-[10px]">3</span>
+                            <i class="fa-solid fa-envelope text-lg"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
                         </a>
                     {% else %}
                         <a href="{% url 'accounts:login' %}" class="text-sm font-semibold text-green-600">

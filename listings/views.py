@@ -348,6 +348,55 @@ def edit_listing(request, slug):
         
         listing.save()
         
+        # Handle image deletions
+        deleted_image_ids = request.POST.getlist('delete_images')
+        if deleted_image_ids:
+            deleted_count = ListingImage.objects.filter(
+                id__in=deleted_image_ids,
+                listing=listing
+            ).delete()[0]
+            if deleted_count > 0:
+                logger.info(f"User {request.user.email} deleted {deleted_count} images from listing {slug}")
+        
+        # Handle new image uploads
+        new_images = request.FILES.getlist('new_images')
+        current_image_count = listing.images.count()
+        
+        if new_images:
+            # Limit to 8 total images
+            available_slots = 8 - current_image_count
+            if len(new_images) > available_slots:
+                messages.warning(request, f'Only {available_slots} images can be added. Maximum 8 images per listing.')
+                new_images = new_images[:available_slots]
+            
+            # Get highest order number
+            max_order = listing.images.aggregate(models.Max('order'))['order__max'] or -1
+            
+            for idx, image in enumerate(new_images):
+                ListingImage.objects.create(
+                    listing=listing,
+                    image=image,
+                    order=max_order + idx + 1
+                )
+            
+            if new_images:
+                logger.info(f"User {request.user.email} added {len(new_images)} images to listing {slug}")
+                messages.success(request, f'{len(new_images)} image(s) added successfully!')
+        
+        # Handle image reordering
+        image_orders = request.POST.get('image_order')
+        if image_orders:
+            try:
+                order_list = [int(x) for x in image_orders.split(',') if x.strip()]
+                for new_order, image_id in enumerate(order_list):
+                    ListingImage.objects.filter(
+                        id=image_id,
+                        listing=listing
+                    ).update(order=new_order)
+                logger.info(f"User {request.user.email} reordered images for listing {slug}")
+            except (ValueError, TypeError) as e:
+                logger.error(f"Error reordering images for listing {slug}: {e}")
+        
         messages.success(request, 'Listing updated successfully!')
         return redirect('listings:listing_detail', slug=listing.slug)
     
@@ -359,6 +408,40 @@ def edit_listing(request, slug):
         'categories': categories,
     }
     return render(request, 'listings/edit_listing.html', context)
+
+
+@login_required
+def delete_image(request, image_id):
+    """Delete a single listing image (AJAX endpoint)"""
+    from django.http import JsonResponse
+    
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)
+    
+    try:
+        image = get_object_or_404(ListingImage, id=image_id)
+        listing = image.listing
+        
+        # Check if user is the owner
+        if listing.seller != request.user:
+            logger.warning(f"User {request.user.email} attempted to delete image {image_id} from listing owned by {listing.seller.email}")
+            return JsonResponse({'success': False, 'error': 'Permission denied'}, status=403)
+        
+        # Prevent deletion if it's the last image (optional - can be removed if you want to allow 0 images)
+        if listing.images.count() <= 1:
+            return JsonResponse({'success': False, 'error': 'Cannot delete the last image'}, status=400)
+        
+        image.delete()
+        logger.info(f"User {request.user.email} deleted image {image_id} from listing {listing.slug}")
+        
+        return JsonResponse({
+            'success': True,
+            'remaining_count': listing.images.count()
+        })
+    
+    except Exception as e:
+        logger.error(f"Error deleting image {image_id}: {str(e)}")
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 
 @login_required

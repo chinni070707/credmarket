@@ -5,16 +5,78 @@ Only works when DEBUG=True to prevent accidental use in production.
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from listings.models import Listing, Category
+from django.core.files.base import ContentFile
+from listings.models import Listing, Category, ListingImage
 from companies.models import Company
 import random
 import os
+import requests
+from io import BytesIO
 
 User = get_user_model()
 
 
 class Command(BaseCommand):
     help = 'Creates dummy listings for development or pre-launch mode (DEBUG=True or PRELAUNCH_MODE=true)'
+
+    # Image URLs from Unsplash (free stock photos)
+    IMAGE_URLS = {
+        'electronics': [
+            'https://images.unsplash.com/photo-1592286927505-b7a51177c8e4?w=800',  # iPhone
+            'https://images.unsplash.com/photo-1611472173362-3f53dbd65d80?w=800',  # iPhone 2
+            'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800',  # MacBook
+            'https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=800',  # MacBook 2
+            'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800',  # Headphones
+            'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=800',  # Headphones 2
+        ],
+        'real_estate': [
+            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800',  # Modern house
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800',  # House exterior
+            'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800',  # Living room
+            'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800',  # Kitchen
+            'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800',  # Bedroom
+            'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800',  # Bathroom
+        ],
+        'rental': [
+            'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800',  # Apartment living
+            'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800',  # Bedroom
+            'https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=800',  # Kitchen
+            'https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800',  # Balcony view
+            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800',  # Bathroom
+            'https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=800',  # Dining area
+        ]
+    }
+
+    def download_image(self, url):
+        """Download image from URL and return ContentFile"""
+        try:
+            response = requests.get(url, timeout=10)
+            response.raise_for_status()
+            return ContentFile(response.content)
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f'    ⚠️  Failed to download image: {e}'))
+            return None
+
+    def add_images_to_listing(self, listing, image_urls, category_type):
+        """Add 4 images to a listing"""
+        images_added = 0
+        for i, url in enumerate(image_urls[:4]):  # Only use first 4 URLs
+            image_content = self.download_image(url)
+            if image_content:
+                filename = f'{listing.slug}-{i+1}.jpg'
+                ListingImage.objects.create(
+                    listing=listing,
+                    image=image_content,
+                    order=i,
+                    caption=f'{listing.title} - Image {i+1}'
+                )
+                # Save the image with proper filename
+                listing_image = ListingImage.objects.filter(listing=listing, order=i).first()
+                if listing_image:
+                    listing_image.image.save(filename, image_content, save=True)
+                    images_added += 1
+        
+        return images_added
 
     def handle(self, *args, **options):
         # Safety check - only allow in DEBUG mode or PRELAUNCH_MODE
@@ -140,9 +202,11 @@ class Command(BaseCommand):
         ]
 
         created_count = 0
+        total_images = 0
 
         # Create Electronics listings
-        for data in electronics_data:
+        self.stdout.write(self.style.WARNING('\n📱 Creating Electronics listings...'))
+        for idx, data in enumerate(electronics_data):
             city = random.choice(cities)
             listing, created = Listing.objects.get_or_create(
                 title=data['title'],
@@ -162,9 +226,16 @@ class Command(BaseCommand):
             if created:
                 created_count += 1
                 self.stdout.write(self.style.SUCCESS(f'  ✅ Created: {listing.title}'))
+                # Add images
+                self.stdout.write('    📸 Downloading images...')
+                image_urls = self.IMAGE_URLS['electronics'][idx*2:(idx*2)+4]  # Get 4 unique images
+                images_added = self.add_images_to_listing(listing, image_urls, 'electronics')
+                total_images += images_added
+                self.stdout.write(self.style.SUCCESS(f'    ✅ Added {images_added} images'))
 
         # Create Real Estate listings
-        for data in real_estate_data:
+        self.stdout.write(self.style.WARNING('\n🏠 Creating Real Estate listings...'))
+        for idx, data in enumerate(real_estate_data):
             city = random.choice(cities)
             listing, created = Listing.objects.get_or_create(
                 title=data['title'],
@@ -184,9 +255,16 @@ class Command(BaseCommand):
             if created:
                 created_count += 1
                 self.stdout.write(self.style.SUCCESS(f'  ✅ Created: {listing.title}'))
+                # Add images
+                self.stdout.write('    📸 Downloading images...')
+                image_urls = self.IMAGE_URLS['real_estate'][idx*2:(idx*2)+4]  # Get 4 unique images
+                images_added = self.add_images_to_listing(listing, image_urls, 'real_estate')
+                total_images += images_added
+                self.stdout.write(self.style.SUCCESS(f'    ✅ Added {images_added} images'))
 
         # Create Rental listings
-        for data in rental_data:
+        self.stdout.write(self.style.WARNING('\n🏢 Creating Rental listings...'))
+        for idx, data in enumerate(rental_data):
             city = random.choice(cities)
             listing, created = Listing.objects.get_or_create(
                 title=data['title'],
@@ -206,9 +284,15 @@ class Command(BaseCommand):
             if created:
                 created_count += 1
                 self.stdout.write(self.style.SUCCESS(f'  ✅ Created: {listing.title}'))
+                # Add images
+                self.stdout.write('    📸 Downloading images...')
+                image_urls = self.IMAGE_URLS['rental'][idx*2:(idx*2)+4]  # Get 4 unique images
+                images_added = self.add_images_to_listing(listing, image_urls, 'rental')
+                total_images += images_added
+                self.stdout.write(self.style.SUCCESS(f'    ✅ Added {images_added} images'))
 
         self.stdout.write(self.style.SUCCESS(
-            f'\n🎉 Successfully created {created_count} dummy listings!'
+            f'\n🎉 Successfully created {created_count} dummy listings with {total_images} images!'
         ))
         self.stdout.write(self.style.WARNING(
             '⚠️  Remember: These are dummy listings for development only.'

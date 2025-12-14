@@ -198,6 +198,18 @@
                     {% if user == listing.seller %}
                         <!-- Own Listing Actions -->
                         <div class="space-y-3">
+                            {% if listing.status == 'active' %}
+                            <form method="post" action="{% url 'listings:mark_sold' listing.slug %}" onsubmit="return confirm('Mark this item as SOLD? This will deactivate the listing.');">
+                                {% csrf_token %}
+                                <button type="submit" class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-lg font-semibold transition">
+                                    <i class="fas fa-check-circle mr-2"></i> Mark as Sold
+                                </button>
+                            </form>
+                            {% elif listing.status == 'sold' %}
+                            <div class="block w-full bg-gray-500 text-white text-center py-3 rounded-lg font-semibold">
+                                <i class="fas fa-check-circle mr-2"></i> Marked as Sold
+                            </div>
+                            {% endif %}
                             <a href="{% url 'listings:edit_listing' listing.slug %}" class="block w-full bg-green-600 hover:bg-green-700 text-white text-center py-3 rounded-lg font-semibold transition">
                                 <i class="fas fa-edit mr-2"></i> Edit Listing
                             </a>

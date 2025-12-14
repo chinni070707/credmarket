@@ -44,7 +44,7 @@ def home(request):
     else:
         recent_listings = recent_listings[:12]
     
-    # Show all active categories with important ones first
+    # Show only top-level active categories (no subcategories)
     from django.db.models import Case, When, Value, IntegerField
     
     # Define priority order for important categories
@@ -53,7 +53,7 @@ def home(request):
     
     # Create ordering: priority categories first, then alphabetical
     when_clauses = [When(name=cat, then=Value(i)) for i, cat in enumerate(priority_categories)]
-    categories = Category.objects.filter(is_active=True).annotate(
+    categories = Category.objects.filter(is_active=True, parent__isnull=True).annotate(
         priority=Case(
             *when_clauses,
             default=Value(999),
@@ -378,6 +378,27 @@ def delete_listing(request, slug):
         return redirect('listings:my_listings')
     
     return render(request, 'listings/delete_listing.html', {'listing': listing})
+
+
+@login_required
+def mark_sold(request, slug):
+    """Mark listing as sold"""
+    listing = get_object_or_404(Listing, slug=slug)
+    
+    # Check if user is the owner
+    if listing.seller != request.user:
+        logger.warning(f"User {request.user.email} attempted to mark listing {slug} as sold, owned by {listing.seller.email}")
+        raise PermissionDenied("You don't have permission to modify this listing.")
+    
+    if request.method == 'POST':
+        listing.status = 'sold'
+        listing.save()
+        logger.info(f"Listing {slug} marked as sold by owner {request.user.email}")
+        messages.success(request, 'Listing marked as SOLD! The item has been deactivated.')
+        return redirect('listings:listing_detail', slug=slug)
+    
+    # If not POST, redirect back to listing
+    return redirect('listings:listing_detail', slug=slug)
 
 
 @login_required

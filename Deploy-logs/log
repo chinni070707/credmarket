@@ -1,200 +1,50 @@
-2025-12-13T20:01:22.288792885Z     current = getattr(current, bit)
-2025-12-13T20:01:22.288795085Z               ^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T20:01:22.288797165Z AttributeError: 'QueryDict' object has no attribute 'sort'
-2025-12-13T20:01:22.288799135Z 
-2025-12-13T20:01:22.288801076Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.288802936Z 
-2025-12-13T20:01:22.288804916Z Traceback (most recent call last):
-2025-12-13T20:01:22.288807076Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
-2025-12-13T20:01:22.288809186Z     current = current[int(bit)]
-2025-12-13T20:01:22.288811286Z                       ^^^^^^^^
-2025-12-13T20:01:22.288813396Z ValueError: invalid literal for int() with base 10: 'sort'
-2025-12-13T20:01:22.288815326Z 
-2025-12-13T20:01:22.288817396Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.288825216Z 
-2025-12-13T20:01:22.288827436Z Traceback (most recent call last):
-2025-12-13T20:01:22.288829596Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
-2025-12-13T20:01:22.288831716Z     raise VariableDoesNotExist(
-2025-12-13T20:01:22.288834056Z django.template.base.VariableDoesNotExist: Failed lookup for key [sort] in <QueryDict: {}>
-2025-12-13T20:01:22.289232988Z [2025-12-14 01:31:22,288] DEBUG django.template base._resolve_lookup:925 - Exception while resolving variable 'sort' in template 'listings/listing_list.html'.
-2025-12-13T20:01:22.289238708Z Traceback (most recent call last):
-2025-12-13T20:01:22.289241198Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 84, in __getitem__
-2025-12-13T20:01:22.289243428Z     list_ = super().__getitem__(key)
-2025-12-13T20:01:22.289271969Z             ^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T20:01:22.289274509Z KeyError: 'sort'
-2025-12-13T20:01:22.289276649Z 
-2025-12-13T20:01:22.289279009Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.289281089Z 
-2025-12-13T20:01:22.289283189Z Traceback (most recent call last):
-2025-12-13T20:01:22.289285529Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
-2025-12-13T20:01:22.289287819Z     current = current[bit]
-2025-12-13T20:01:22.289289979Z               ~~~~~~~^^^^^
-2025-12-13T20:01:22.28929225Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 86, in __getitem__
-2025-12-13T20:01:22.2892945Z     raise MultiValueDictKeyError(key)
-2025-12-13T20:01:22.28929687Z django.utils.datastructures.MultiValueDictKeyError: 'sort'
-2025-12-13T20:01:22.2892989Z 
-2025-12-13T20:01:22.28930105Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.28930304Z 
-2025-12-13T20:01:22.28930515Z Traceback (most recent call last):
-2025-12-13T20:01:22.28930731Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 885, in _resolve_lookup
-2025-12-13T20:01:22.28930951Z     current = getattr(current, bit)
-2025-12-13T20:01:22.28931166Z               ^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T20:01:22.28931379Z AttributeError: 'QueryDict' object has no attribute 'sort'
-2025-12-13T20:01:22.28931579Z 
-2025-12-13T20:01:22.28931804Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.28932004Z 
-2025-12-13T20:01:22.2893222Z Traceback (most recent call last):
-2025-12-13T20:01:22.289324431Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
-2025-12-13T20:01:22.289326651Z     current = current[int(bit)]
-2025-12-13T20:01:22.289328871Z                       ^^^^^^^^
-2025-12-13T20:01:22.289352211Z ValueError: invalid literal for int() with base 10: 'sort'
-2025-12-13T20:01:22.289354311Z 
-2025-12-13T20:01:22.289358112Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.289360161Z 
-2025-12-13T20:01:22.289362321Z Traceback (most recent call last):
-2025-12-13T20:01:22.289364572Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
-2025-12-13T20:01:22.289366812Z     raise VariableDoesNotExist(
-2025-12-13T20:01:22.289369192Z django.template.base.VariableDoesNotExist: Failed lookup for key [sort] in <QueryDict: {}>
-2025-12-13T20:01:22.289837825Z [2025-12-14 01:31:22,289] DEBUG django.template base._resolve_lookup:925 - Exception while resolving variable 'sort' in template 'listings/listing_list.html'.
-2025-12-13T20:01:22.289850866Z Traceback (most recent call last):
-2025-12-13T20:01:22.289853696Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 84, in __getitem__
-2025-12-13T20:01:22.289856046Z     list_ = super().__getitem__(key)
-2025-12-13T20:01:22.289858486Z             ^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T20:01:22.289860716Z KeyError: 'sort'
-2025-12-13T20:01:22.289862736Z 
-2025-12-13T20:01:22.289864976Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.289867026Z 
-2025-12-13T20:01:22.289869096Z Traceback (most recent call last):
-2025-12-13T20:01:22.289871296Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
-2025-12-13T20:01:22.289873496Z     current = current[bit]
-2025-12-13T20:01:22.289875766Z               ~~~~~~~^^^^^
-2025-12-13T20:01:22.289877926Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 86, in __getitem__
-2025-12-13T20:01:22.289880107Z     raise MultiValueDictKeyError(key)
-2025-12-13T20:01:22.289882547Z django.utils.datastructures.MultiValueDictKeyError: 'sort'
-2025-12-13T20:01:22.289884527Z 
-2025-12-13T20:01:22.289886627Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.289888617Z 
-2025-12-13T20:01:22.289890747Z Traceback (most recent call last):
-2025-12-13T20:01:22.289892857Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 885, in _resolve_lookup
-2025-12-13T20:01:22.289894977Z     current = getattr(current, bit)
-2025-12-13T20:01:22.289896967Z               ^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T20:01:22.289899097Z AttributeError: 'QueryDict' object has no attribute 'sort'
-2025-12-13T20:01:22.289901107Z 
-2025-12-13T20:01:22.289903187Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.289905177Z 
-2025-12-13T20:01:22.289907247Z Traceback (most recent call last):
-2025-12-13T20:01:22.289909487Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
-2025-12-13T20:01:22.289911677Z     current = current[int(bit)]
-2025-12-13T20:01:22.289913868Z                       ^^^^^^^^
-2025-12-13T20:01:22.289916108Z ValueError: invalid literal for int() with base 10: 'sort'
-2025-12-13T20:01:22.289918017Z 
-2025-12-13T20:01:22.289920088Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.289922018Z 
-2025-12-13T20:01:22.289924048Z Traceback (most recent call last):
-2025-12-13T20:01:22.289926208Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
-2025-12-13T20:01:22.289928398Z     raise VariableDoesNotExist(
-2025-12-13T20:01:22.289930698Z django.template.base.VariableDoesNotExist: Failed lookup for key [sort] in <QueryDict: {}>
-2025-12-13T20:01:22.292901134Z [2025-12-14 01:31:22,289] DEBUG django.template base._resolve_lookup:925 - Exception while resolving variable 'listings_count' in template 'listings/listing_list.html'.
-2025-12-13T20:01:22.292913764Z Traceback (most recent call last):
-2025-12-13T20:01:22.292916924Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
-2025-12-13T20:01:22.292919864Z     current = current[bit]
-2025-12-13T20:01:22.292922524Z               ~~~~~~~^^^^^
-2025-12-13T20:01:22.292925404Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/context.py", line 83, in __getitem__
-2025-12-13T20:01:22.292937604Z     raise KeyError(key)
-2025-12-13T20:01:22.292940645Z KeyError: 'listings_count'
-2025-12-13T20:01:22.292943095Z 
-2025-12-13T20:01:22.292945755Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.292947875Z 
-2025-12-13T20:01:22.292952765Z Traceback (most recent call last):
-2025-12-13T20:01:22.292955705Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 881, in _resolve_lookup
-2025-12-13T20:01:22.292958425Z     if isinstance(current, BaseContext) and getattr(
-2025-12-13T20:01:22.292961285Z                                             ^^^^^^^^
-2025-12-13T20:01:22.292964135Z AttributeError: type object 'RequestContext' has no attribute 'listings_count'
-2025-12-13T20:01:22.292966455Z 
-2025-12-13T20:01:22.292969096Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.292971525Z 
-2025-12-13T20:01:22.292974326Z Traceback (most recent call last):
-2025-12-13T20:01:22.292977306Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
-2025-12-13T20:01:22.292980226Z     current = current[int(bit)]
-2025-12-13T20:01:22.292983206Z                       ^^^^^^^^
-2025-12-13T20:01:22.292985956Z ValueError: invalid literal for int() with base 10: 'listings_count'
-2025-12-13T20:01:22.292988466Z 
-2025-12-13T20:01:22.292991286Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.292993656Z 
-2025-12-13T20:01:22.292996436Z Traceback (most recent call last):
-2025-12-13T20:01:22.292999466Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
-2025-12-13T20:01:22.293002006Z     raise VariableDoesNotExist(
-2025-12-13T20:01:22.293005757Z django.template.base.VariableDoesNotExist: Failed lookup for key [listings_count] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x77121487cc20>>, 'request': <WSGIRequest: GET '/listings/'>, 'user': <SimpleLazyObject: <SimpleLazyObject: <User: mahchi01@cadence.com (mahesh chinni)>>>, 'perms': PermWrapper(<SimpleLazyObject: <SimpleLazyObject: <User: mahchi01@cadence.com (mahesh chinni)>>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/listings/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}}, {}, {'listings': <QuerySet []>, 'categories': <QuerySet []>, 'user_city': 'Bangalore', 'showing_city_only': True}, {'block': <Block Node: content. Contents: [<TextNode: '\n<div class="bg-white min'>, <Variable Node: listings_count|default:"Thousands of">, <TextNode: ' items from verified sell'>, <Variable Node: request.GET.q>, <TextNode: '"\n                       '>, <ForNode: for category in categories, tail_len: 7>, <TextNode: '\n                        '>, <Variable Node: request.GET.city>, <TextNode: '"\n                       '>, <Variable Node: request.GET.location>, <TextNode: '"\n                       '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <Variable Node: request.GET.min_price>, <TextNode: '"\n                       '>, <Variable Node: request.GET.max_price>, <TextNode: '"\n                       '>, <IfNode>, <TextNode: '>Newest First</option>\n  '>, <IfNode>, <TextNode: '>Oldest First</option>\n  '>, <IfNode>, <TextNode: '>Price: Low to High</opti'>, <IfNode>, <TextNode: '>Price: High to Low</opti'>, <URLNode view_name=''listings:listing_list'' args=[] kwargs={} as=None>, <TextNode: '" class="block w-full tex'>, <IfNode>, <TextNode: '\n                    </di'>, <ForNode: for listing in listings, tail_len: 13>, <TextNode: '\n                </div>\n\n'>, <IfNode>, <TextNode: '\n            </main>\n    '>]>}]
-2025-12-13T20:01:22.296334982Z [2025-12-14 01:31:22,295] DEBUG django.template base._resolve_lookup:925 - Exception while resolving variable 'is_paginated' in template 'listings/listing_list.html'.
-2025-12-13T20:01:22.296343733Z Traceback (most recent call last):
-2025-12-13T20:01:22.296346493Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
-2025-12-13T20:01:22.296348763Z     current = current[bit]
-2025-12-13T20:01:22.296350823Z               ~~~~~~~^^^^^
-2025-12-13T20:01:22.296353193Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/context.py", line 83, in __getitem__
-2025-12-13T20:01:22.296355563Z     raise KeyError(key)
-2025-12-13T20:01:22.296357633Z KeyError: 'is_paginated'
-2025-12-13T20:01:22.296359503Z 
-2025-12-13T20:01:22.296361753Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.296363683Z 
-2025-12-13T20:01:22.296365743Z Traceback (most recent call last):
-2025-12-13T20:01:22.296367783Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 881, in _resolve_lookup
-2025-12-13T20:01:22.296369993Z     if isinstance(current, BaseContext) and getattr(
-2025-12-13T20:01:22.296372173Z                                             ^^^^^^^^
-2025-12-13T20:01:22.296374313Z AttributeError: type object 'RequestContext' has no attribute 'is_paginated'
-2025-12-13T20:01:22.296376263Z 
-2025-12-13T20:01:22.296378214Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.296380114Z 
-2025-12-13T20:01:22.296382534Z Traceback (most recent call last):
-2025-12-13T20:01:22.296384764Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
-2025-12-13T20:01:22.296386984Z     current = current[int(bit)]
-2025-12-13T20:01:22.296389094Z                       ^^^^^^^^
-2025-12-13T20:01:22.296391194Z ValueError: invalid literal for int() with base 10: 'is_paginated'
-2025-12-13T20:01:22.296393104Z 
-2025-12-13T20:01:22.296395084Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:22.296396884Z 
-2025-12-13T20:01:22.296398834Z Traceback (most recent call last):
-2025-12-13T20:01:22.296401304Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
-2025-12-13T20:01:22.296403404Z     raise VariableDoesNotExist(
-2025-12-13T20:01:22.296406234Z django.template.base.VariableDoesNotExist: Failed lookup for key [is_paginated] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x77121487cc20>>, 'request': <WSGIRequest: GET '/listings/'>, 'user': <SimpleLazyObject: <SimpleLazyObject: <User: mahchi01@cadence.com (mahesh chinni)>>>, 'perms': PermWrapper(<SimpleLazyObject: <SimpleLazyObject: <User: mahchi01@cadence.com (mahesh chinni)>>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/listings/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}}, {}, {'listings': <QuerySet []>, 'categories': <QuerySet []>, 'user_city': 'Bangalore', 'showing_city_only': True}, {'block': <Block Node: content. Contents: [<TextNode: '\n<div class="bg-white min'>, <Variable Node: listings_count|default:"Thousands of">, <TextNode: ' items from verified sell'>, <Variable Node: request.GET.q>, <TextNode: '"\n                       '>, <ForNode: for category in categories, tail_len: 7>, <TextNode: '\n                        '>, <Variable Node: request.GET.city>, <TextNode: '"\n                       '>, <Variable Node: request.GET.location>, <TextNode: '"\n                       '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <IfNode>, <TextNode: ' class="mr-2">\n          '>, <Variable Node: request.GET.min_price>, <TextNode: '"\n                       '>, <Variable Node: request.GET.max_price>, <TextNode: '"\n                       '>, <IfNode>, <TextNode: '>Newest First</option>\n  '>, <IfNode>, <TextNode: '>Oldest First</option>\n  '>, <IfNode>, <TextNode: '>Price: Low to High</opti'>, <IfNode>, <TextNode: '>Price: High to Low</opti'>, <URLNode view_name=''listings:listing_list'' args=[] kwargs={} as=None>, <TextNode: '" class="block w-full tex'>, <IfNode>, <TextNode: '\n                    </di'>, <ForNode: for listing in listings, tail_len: 13>, <TextNode: '\n                </div>\n\n'>, <IfNode>, <TextNode: '\n            </main>\n    '>]>}]
-2025-12-13T20:01:22.29731323Z 127.0.0.1 - - [14/Dec/2025:01:31:22 +0530] "GET /listings/ HTTP/1.1" 200 30530 "https://credmarket.onrender.com/listings/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
-2025-12-13T20:01:23.640664253Z [2025-12-14 01:31:23,640] INFO listings.views views.home:15 - Home page accessed by user: mahchi01@cadence.com (mahesh chinni)
-2025-12-13T20:01:23.654012867Z [2025-12-14 01:31:23,653] DEBUG django.template base._resolve_lookup:925 - Exception while resolving variable 'q' in template 'listings/home.html'.
-2025-12-13T20:01:23.654044708Z Traceback (most recent call last):
-2025-12-13T20:01:23.654048088Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 84, in __getitem__
-2025-12-13T20:01:23.654050778Z     list_ = super().__getitem__(key)
-2025-12-13T20:01:23.654053158Z             ^^^^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T20:01:23.654055478Z KeyError: 'q'
-2025-12-13T20:01:23.654057748Z 
-2025-12-13T20:01:23.654060788Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:23.654062928Z 
-2025-12-13T20:01:23.654065149Z Traceback (most recent call last):
-2025-12-13T20:01:23.654067639Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
-2025-12-13T20:01:23.654070799Z     current = current[bit]
-2025-12-13T20:01:23.654073169Z               ~~~~~~~^^^^^
-2025-12-13T20:01:23.654075609Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 86, in __getitem__
-2025-12-13T20:01:23.654077949Z     raise MultiValueDictKeyError(key)
-2025-12-13T20:01:23.654080709Z django.utils.datastructures.MultiValueDictKeyError: 'q'
-2025-12-13T20:01:23.654082769Z 
-2025-12-13T20:01:23.654085119Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:23.654087259Z 
-2025-12-13T20:01:23.654089709Z Traceback (most recent call last):
-2025-12-13T20:01:23.654092069Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 885, in _resolve_lookup
-2025-12-13T20:01:23.65409434Z     current = getattr(current, bit)
-2025-12-13T20:01:23.654096729Z               ^^^^^^^^^^^^^^^^^^^^^
-2025-12-13T20:01:23.65409915Z AttributeError: 'QueryDict' object has no attribute 'q'
-2025-12-13T20:01:23.65410125Z 
-2025-12-13T20:01:23.65410353Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:23.65410562Z 
-2025-12-13T20:01:23.65412149Z Traceback (most recent call last):
-2025-12-13T20:01:23.65412398Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
-2025-12-13T20:01:23.654126541Z     current = current[int(bit)]
-2025-12-13T20:01:23.65412881Z                       ^^^^^^^^
-2025-12-13T20:01:23.65413117Z ValueError: invalid literal for int() with base 10: 'q'
-2025-12-13T20:01:23.654133291Z 
-2025-12-13T20:01:23.654135551Z During handling of the above exception, another exception occurred:
-2025-12-13T20:01:23.654137791Z 
-2025-12-13T20:01:23.654140031Z Traceback (most recent call last):
-2025-12-13T20:01:23.654142561Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
-2025-12-13T20:01:23.654145041Z     raise VariableDoesNotExist(
-2025-12-13T20:01:23.654148191Z django.template.base.VariableDoesNotExist: Failed lookup for key [q] in <QueryDict: {}>
-2025-12-13T20:01:23.65723243Z 127.0.0.1 - - [14/Dec/2025:01:31:23 +0530] "GET / HTTP/1.1" 200 42978 "https://credmarket.onrender.com/listings/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36"
+2025-12-14T18:38:30.87766114Z ==> 
+2025-12-14T18:38:31.067262039Z ==> ///////////////////////////////////////////////////////////
+2025-12-14T18:38:31.25416733Z ==> 
+2025-12-14T18:38:31.44683238Z ==> Available at your primary URL https://credmarket.onrender.com
+2025-12-14T18:38:31.63417563Z ==> 
+2025-12-14T18:38:31.82224294Z ==> ///////////////////////////////////////////////////////////
+2025-12-14T18:38:33.650472391Z [2025-12-15 00:08:33,650] INFO listings.views views.home:18 - Home page accessed by user: Anonymous
+2025-12-14T18:38:37.568932266Z [2025-12-15 00:08:37,537] DEBUG django.template base._resolve_lookup:925 - Exception while resolving variable 'q' in template 'listings/home.html'.
+2025-12-14T18:38:37.568955487Z Traceback (most recent call last):
+2025-12-14T18:38:37.568960897Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 84, in __getitem__
+2025-12-14T18:38:37.568965187Z     list_ = super().__getitem__(key)
+2025-12-14T18:38:37.568969577Z             ^^^^^^^^^^^^^^^^^^^^^^^^
+2025-12-14T18:38:37.568974367Z KeyError: 'q'
+2025-12-14T18:38:37.568978167Z 
+2025-12-14T18:38:37.568982767Z During handling of the above exception, another exception occurred:
+2025-12-14T18:38:37.568986787Z 
+2025-12-14T18:38:37.568991027Z Traceback (most recent call last):
+2025-12-14T18:38:37.568995048Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 875, in _resolve_lookup
+2025-12-14T18:38:37.568999918Z     current = current[bit]
+2025-12-14T18:38:37.569003968Z               ~~~~~~~^^^^^
+2025-12-14T18:38:37.569008488Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/utils/datastructures.py", line 86, in __getitem__
+2025-12-14T18:38:37.569012548Z     raise MultiValueDictKeyError(key)
+2025-12-14T18:38:37.569017548Z django.utils.datastructures.MultiValueDictKeyError: 'q'
+2025-12-14T18:38:37.569021808Z 
+2025-12-14T18:38:37.569041379Z During handling of the above exception, another exception occurred:
+2025-12-14T18:38:37.569046359Z 
+2025-12-14T18:38:37.569050599Z Traceback (most recent call last):
+2025-12-14T18:38:37.569054979Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 885, in _resolve_lookup
+2025-12-14T18:38:37.569059219Z     current = getattr(current, bit)
+2025-12-14T18:38:37.569063279Z               ^^^^^^^^^^^^^^^^^^^^^
+2025-12-14T18:38:37.569067259Z AttributeError: 'QueryDict' object has no attribute 'q'
+2025-12-14T18:38:37.569070979Z 
+2025-12-14T18:38:37.569075199Z During handling of the above exception, another exception occurred:
+2025-12-14T18:38:37.569079079Z 
+2025-12-14T18:38:37.569083059Z Traceback (most recent call last):
+2025-12-14T18:38:37.56908708Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 891, in _resolve_lookup
+2025-12-14T18:38:37.56909122Z     current = current[int(bit)]
+2025-12-14T18:38:37.569095589Z                       ^^^^^^^^
+2025-12-14T18:38:37.56910019Z ValueError: invalid literal for int() with base 10: 'q'
+2025-12-14T18:38:37.56910407Z 
+2025-12-14T18:38:37.5691085Z During handling of the above exception, another exception occurred:
+2025-12-14T18:38:37.56911236Z 
+2025-12-14T18:38:37.56911664Z Traceback (most recent call last):
+2025-12-14T18:38:37.56912097Z   File "/opt/render/project/src/.venv/lib/python3.11/site-packages/django/template/base.py", line 898, in _resolve_lookup
+2025-12-14T18:38:37.5691375Z     raise VariableDoesNotExist(
+2025-12-14T18:38:37.569141921Z django.template.base.VariableDoesNotExist: Failed lookup for key [q] in <QueryDict: {}>
+2025-12-14T18:38:37.751739935Z 127.0.0.1 - - [15/Dec/2025:00:08:37 +0530] "GET / HTTP/1.1" 200 27186 "-" "Go-http-client/2.0"
+2025-12-14T18:39:30.184331535Z [2025-12-15 00:09:30 +0530] [53] [INFO] Handling signal: term
+2025-12-14T18:39:30.184799068Z [2025-12-15 00:09:30 +0530] [55] [INFO] Worker exiting (pid: 55)
+2025-12-14T18:39:31.497659138Z [2025-12-15 00:09:31 +0530] [53] [INFO] Shutting down: Master

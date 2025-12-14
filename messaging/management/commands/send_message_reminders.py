@@ -131,11 +131,13 @@ To stop receiving these reminders, update your preferences in your profile setti
 </html>
 """
         
+        # Send with timeout to prevent hanging
         send_mail(
             subject=subject,
             message=text_message,
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[receiver.personal_email],  # Use personal email
             html_message=html_message,
-            fail_silently=False,
+            fail_silently=True,
+            timeout=10,
         )

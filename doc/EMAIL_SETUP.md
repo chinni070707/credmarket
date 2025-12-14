@@ -1,5 +1,20 @@
 # Email Service Setup Guide
 
+## 🚨 IMPORTANT: Email Configuration Required
+
+**Current Status:** Email is NOT configured on production. The app uses console backend (logs only) when `EMAIL_HOST_USER` is not set.
+
+**Impact:**
+- ✅ Signup works without crashing
+- ⚠️ OTP codes are logged to server logs instead of being emailed
+- ❌ Users cannot receive verification emails
+
+---
+
+## Quick Fix: Configure Email Service
+
+Choose ONE option below to enable email delivery:
+
 ## Option 1: Resend (Recommended - Easiest) ⭐
 
 ### Steps:

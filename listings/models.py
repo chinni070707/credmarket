@@ -125,6 +125,9 @@ class Listing(models.Model):
             models.Index(fields=['-created_at']),
             models.Index(fields=['status', '-created_at']),
             models.Index(fields=['category', 'status']),
+            models.Index(fields=['seller', 'status']),  # For user's own listings
+            models.Index(fields=['city', 'status']),  # For location-based queries
+            models.Index(fields=['is_featured', 'status']),  # For featured listings
         ]
     
     def __str__(self):

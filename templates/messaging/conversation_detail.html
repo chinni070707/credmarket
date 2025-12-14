@@ -100,7 +100,7 @@
 
         <!-- Message Input -->
         <div class="border-t p-4" x-data="{ imagePreview: null, fileName: null }">
-            <form method="post" enctype="multipart/form-data" class="space-y-3">
+            <form method="post" action="" enctype="multipart/form-data" class="space-y-3">
                 {% csrf_token %}
                 
                 <!-- Image Preview -->
@@ -166,10 +166,15 @@
 <script>
     // Auto-scroll to bottom of messages
     const container = document.getElementById('messageContainer');
-    container.scrollTop = container.scrollHeight;
+    if (container) {
+        container.scrollTop = container.scrollHeight;
+    }
     
-    // Focus on input
-    document.querySelector('input[name="content"]').focus();
+    // Focus on textarea (not input)
+    const messageTextarea = document.querySelector('textarea[name="content"]');
+    if (messageTextarea) {
+        messageTextarea.focus();
+    }
 </script>
 {% endblock %}
 {% endblock %}

@@ -136,17 +136,23 @@ Questions? Reply to this email or contact support@credmarket.com
     </html>
     """
     
-    try:
-        # Use personal email for all notifications except initial OTP
-        send_mail(
-            subject=subject,
-            message=message,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.personal_email],
-            html_message=html_message,
-            fail_silently=False,
-        )
-        return True
-    except Exception as e:
-        print(f"Error sending email to {user.personal_email}: {str(e)}")
-        return False
+    # Send email async to avoid blocking
+    import threading
+    
+    def _send():
+        try:
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.personal_email],
+                html_message=html_message,
+                fail_silently=True,
+                timeout=10,
+            )
+            logger.info(f"Company approval email sent to {user.personal_email}")
+        except Exception as e:
+            logger.error(f"Error sending email to {user.personal_email}: {str(e)}")
+    
+    threading.Thread(target=_send, daemon=True).start()
+    return True  # Return immediately

@@ -151,12 +151,13 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@credmarket.in')
+EMAIL_TIMEOUT = 10  # Timeout for email sending in seconds
 
 # Site URL (for emails and absolute URLs)
 SITE_URL = config('SITE_URL', default='http://localhost:8000')
 
-# Alternative: Console backend for development (prints to terminal)
-if DEBUG:
+# Use console backend only in DEBUG mode when email is not configured
+if DEBUG and not EMAIL_HOST_USER:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # OTP Settings
@@ -355,6 +356,18 @@ else:
 # ==============================================================================
 # RATE LIMITING & SECURITY
 # ==============================================================================
+
+# Cache Configuration
+# Using local memory cache for simplicity. For production at scale, consider Redis.
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'credmarket-cache',
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+        },
+    }
+}
 
 # Rate limiting for login attempts
 RATELIMIT_ENABLE = not DEBUG  # Disable in development

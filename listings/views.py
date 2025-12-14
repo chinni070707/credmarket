@@ -25,7 +25,7 @@ def home(request):
     featured_listings = Listing.objects.filter(
         status='active',
         is_featured=True
-    )
+    ).select_related('seller', 'category', 'seller__company')
     if user_city:
         # Show listings from user's city first, then others
         city_featured = featured_listings.filter(city__icontains=user_city)[:4]
@@ -35,7 +35,7 @@ def home(request):
         featured_listings = featured_listings[:6]
     
     # Recent listings - prioritize user's city if logged in
-    recent_listings = Listing.objects.filter(status='active')
+    recent_listings = Listing.objects.filter(status='active').select_related('seller', 'category', 'seller__company')
     if user_city:
         # Show listings from user's city first
         city_recent = recent_listings.filter(city__icontains=user_city)[:8]
@@ -72,7 +72,7 @@ def home(request):
 
 def listing_list(request):
     """List all active listings with search and filters"""
-    listings = Listing.objects.filter(status='active')
+    listings = Listing.objects.filter(status='active').select_related('seller', 'category', 'seller__company')
     
     # Get user's city for smart filtering
     user_city = None
@@ -169,7 +169,7 @@ def listing_detail(request, slug):
 def category_listings(request, slug):
     """Display listings in a specific category"""
     category = get_object_or_404(Category, slug=slug)
-    listings = Listing.objects.filter(category=category, status='active')
+    listings = Listing.objects.filter(category=category, status='active').select_related('seller', 'category', 'seller__company')
     
     # Get user's city for filtering
     user_city = None
@@ -383,7 +383,7 @@ def delete_listing(request, slug):
 @login_required
 def my_listings(request):
     """Display user's own listings"""
-    listings = Listing.objects.filter(seller=request.user).exclude(status='deleted')
+    listings = Listing.objects.filter(seller=request.user).exclude(status='deleted').select_related('category').prefetch_related('images')
     
     context = {'listings': listings}
     return render(request, 'listings/my_listings.html', context)
@@ -487,16 +487,25 @@ Review this report in the admin panel:
 CredMarket Admin System
                 """
                 
-                send_mail(
-                    subject,
-                    message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    admin_emails,
-                    fail_silently=True,
-                )
-                logger.info(f"Report notification email sent to {len(admin_emails)} admins")
+                # Send email async to avoid blocking
+                import threading
+                def _send():
+                    try:
+                        send_mail(
+                            subject,
+                            message,
+                            settings.DEFAULT_FROM_EMAIL,
+                            admin_emails,
+                            fail_silently=True,
+                            timeout=10,
+                        )
+                        logger.info(f"Report notification email sent to {len(admin_emails)} admins")
+                    except Exception as email_err:
+                        logger.error(f"Failed to send report notification email: {email_err}")
+                
+                threading.Thread(target=_send, daemon=True).start()
         except Exception as e:
-            logger.error(f"Failed to send report notification email: {e}")
+            logger.error(f"Failed to prepare report notification: {e}")
         
         messages.success(
             request,

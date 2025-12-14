@@ -63,7 +63,7 @@ class ListingAdmin(admin.ModelAdmin):
         }),
     )
     
-    actions = ['mark_as_sold', 'mark_as_active', 'feature_listings']
+    actions = ['mark_as_sold', 'mark_as_active', 'mark_as_inactive', 'feature_listings']
     
     def mark_as_sold(self, request, queryset):
         queryset.update(status='sold')
@@ -74,6 +74,11 @@ class ListingAdmin(admin.ModelAdmin):
         queryset.update(status='active')
         self.message_user(request, f"{queryset.count()} listings marked as active.")
     mark_as_active.short_description = "Mark as active"
+    
+    def mark_as_inactive(self, request, queryset):
+        queryset.update(status='inactive')
+        self.message_user(request, f"{queryset.count()} listings marked as inactive.", messages.SUCCESS)
+    mark_as_inactive.short_description = "Mark as inactive (Deactivate)"
     
     def feature_listings(self, request, queryset):
         queryset.update(is_featured=True)

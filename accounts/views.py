@@ -15,10 +15,16 @@ logger = logging.getLogger(__name__)
 
 
 def send_otp_email(user, otp_code):
-    """Helper function to send OTP email"""
-    try:
-        email_subject = 'Your CredMarket Verification Code'
-        email_body = f"""
+    """Helper function to send OTP email with timeout protection"""
+    import threading
+    
+    # ALWAYS log OTP to admin logs for testing/debugging
+    logger.warning(f"🔐 OTP GENERATED for {user.email}: {otp_code} (expires in 10 minutes)")
+    
+    def _send_email():
+        try:
+            email_subject = 'Your CredMarket Verification Code'
+            email_body = f"""
 Hello {user.first_name},
 
 Welcome to CredMarket!
@@ -32,20 +38,24 @@ If you didn't sign up for CredMarket, please ignore this email.
 Best regards,
 The CredMarket Team
 """
-        send_mail(
-            subject=email_subject,
-            message=email_body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[user.email],
-            fail_silently=False,
-        )
-        logger.info(f"OTP email sent successfully to {user.email}")
-        return True
-    except Exception as e:
-        logger.error(f"Failed to send OTP email to {user.email}: {str(e)}")
-        # Still show OTP in console for development/debugging
-        print(f"OTP for {user.email}: {otp_code}")
-        return False
+            send_mail(
+                subject=email_subject,
+                message=email_body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=True,  # Don't crash if email fails
+                timeout=10,  # 10 second timeout
+            )
+            logger.info(f"OTP email sent successfully to {user.email}")
+        except Exception as e:
+            logger.error(f"Failed to send OTP email to {user.email}: {str(e)}")
+    
+    # Send email in background thread to avoid blocking
+    email_thread = threading.Thread(target=_send_email, daemon=True)
+    email_thread.start()
+    
+    # Always return True immediately - email sends in background
+    return True
 
 
 
@@ -137,10 +147,8 @@ def signup(request):
             expires_at=expires_at
         )
         
-        # Send OTP via email
-        email_sent = send_otp_email(user, otp_code)
-        if not email_sent:
-            messages.warning(request, 'Email delivery may be delayed. Check your spam folder or logs.')
+        # Send OTP via email (async, non-blocking)
+        send_otp_email(user, otp_code)
         
         # Store user_id in session for OTP verification
         request.session['pending_user_id'] = user.id
@@ -279,7 +287,23 @@ def logout_view(request):
 @login_required
 def profile(request):
     """Display user profile"""
-    return render(request, 'accounts/profile.html', {'user': request.user})
+    from listings.models import Listing
+    from messaging.models import Conversation
+    
+    # Get user's listings count efficiently
+    listings_count = Listing.objects.filter(seller=request.user).exclude(status='deleted').count()
+    
+    # Get conversations count efficiently
+    buyer_conversations_count = Conversation.objects.filter(buyer=request.user).count()
+    seller_conversations_count = Conversation.objects.filter(seller=request.user).count()
+    
+    context = {
+        'user': request.user,
+        'listings_count': listings_count,
+        'buyer_conversations_count': buyer_conversations_count,
+        'seller_conversations_count': seller_conversations_count,
+    }
+    return render(request, 'accounts/profile.html', context)
 
 
 @login_required

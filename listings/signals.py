@@ -123,17 +123,24 @@ To stop receiving these notifications, update your preferences in your profile s
     </html>
     """
     
-    # Send to each user's personal email
-    for user in users_to_notify:
-        try:
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[user.personal_email],  # Use personal email
-                html_message=html_message,
-                fail_silently=False,
-            )
-            logger.info(f"Sent new listing notification to {user.personal_email} for listing: {instance.title}")
-        except Exception as e:
-            logger.error(f"Failed to send new listing notification to {user.personal_email}: {str(e)}")
+    # Send to each user's personal email (async to avoid blocking)
+    import threading
+    
+    def _send_notifications():
+        for user in users_to_notify:
+            try:
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[user.personal_email],  # Use personal email
+                    html_message=html_message,
+                    fail_silently=True,
+                    timeout=10,
+                )
+                logger.info(f"Sent new listing notification to {user.personal_email} for listing: {instance.title}")
+            except Exception as e:
+                logger.error(f"Failed to send new listing notification to {user.personal_email}: {str(e)}")
+    
+    # Run in background thread
+    threading.Thread(target=_send_notifications, daemon=True).start()

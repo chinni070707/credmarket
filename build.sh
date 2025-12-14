@@ -20,5 +20,8 @@ python manage.py collectstatic --no-input
 echo "==> Setting up production data..."
 python manage.py setup_production
 
+echo "==> Deleting old mahchi01@cadence.com user if exists..."
+python manage.py shell -c "from accounts.models import User; User.objects.filter(email='mahchi01@cadence.com').delete(); print('User deleted if existed')"
+
 echo "==> Fixing user statuses for approved companies..."
 python fix_user_status.py

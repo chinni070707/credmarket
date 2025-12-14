@@ -234,18 +234,6 @@
                         <span class="hidden sm:inline ml-2 px-2 py-0.5 text-xs font-semibold bg-green-100 text-green-800 rounded-full">BETA</span>
                     </a>
                     
-                    <!-- Buy and Sell Buttons (Left Side) -->
-                    <div class="hidden md:flex items-center space-x-2">
-                        <a href="{% url 'listings:listing_list' %}" class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                            <i class="fa-solid fa-shopping-bag"></i>
-                            <span>Buy</span>
-                        </a>
-                        <a href="{% url 'listings:create_listing' %}" class="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
-                            <i class="fa-solid fa-plus-circle"></i>
-                            <span>Sell</span>
-                        </a>
-                    </div>
-                    
                     <!-- My Company Link (Left Side) -->
                     {% if user.is_authenticated and user.company %}
                     <a href="{% url 'listings:company_listings' %}" class="hidden lg:flex text-gray-700 hover:text-green-600 font-medium items-center space-x-1 px-4 py-2 rounded-lg hover:bg-gray-100 transition">
@@ -258,6 +246,16 @@
                 <!-- Desktop Navigation Links (Right Side) -->
                 <div class="hidden md:flex items-center space-x-4">
                     {% if user.is_authenticated %}
+                        <!-- Buy and Sell Buttons (Right Side) -->
+                        <a href="{% url 'listings:listing_list' %}" class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            <i class="fa-solid fa-shopping-bag"></i>
+                            <span>Buy</span>
+                        </a>
+                        <a href="{% url 'listings:create_listing' %}" class="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                            <i class="fa-solid fa-plus-circle"></i>
+                            <span>Sell</span>
+                        </a>
+                        
                         <a href="{% url 'messaging:inbox' %}" class="relative p-2 text-gray-600 hover:text-green-600">
                             <i class="fa-solid fa-envelope text-xl"></i>
                             <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>

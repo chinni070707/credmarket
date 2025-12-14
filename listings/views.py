@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.core.mail import send_mail
 from django.conf import settings
 from accounts.models import User
@@ -370,7 +370,7 @@ def edit_listing(request, slug):
                 new_images = new_images[:available_slots]
             
             # Get highest order number
-            max_order = listing.images.aggregate(models.Max('order'))['order__max'] or -1
+            max_order = listing.images.aggregate(Max('order'))['order__max'] or -1
             
             for idx, image in enumerate(new_images):
                 ListingImage.objects.create(

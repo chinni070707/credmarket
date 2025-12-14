@@ -297,3 +297,326 @@ class ListingViewTests(TestCase):
         self.assertEqual(response.status_code, 403)
         # Listing should still exist
         self.assertTrue(Listing.objects.filter(slug=listing.slug).exists())
+
+
+class ListingPerformanceTests(TestCase):
+    """Tests for listing query performance optimizations (Bug Fix #5)."""
+    
+    def setUp(self):
+        """Set up test data."""
+        self.client = Client()
+        self.company = Company.objects.create(
+            name="Test Corp",
+            domain="testcorp.com",
+            status='approved'
+        )
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@testcorp.com',
+            password='TestPass123!',
+            first_name='Test',
+            last_name='User',
+            is_active=True,
+            email_verified=True
+        )
+        self.category = Category.objects.create(
+            name="Electronics",
+            slug="electronics"
+        )
+        # Create test listings
+        for i in range(5):
+            Listing.objects.create(
+                seller=self.user,
+                title=f"Test Item {i}",
+                description=f"Test description {i}",
+                category=self.category,
+                price=100.00 + i,
+                condition='new',
+                location='Test City',
+                city='Test City',
+                state='Test State',
+                status='active'
+            )
+    
+    def test_home_page_uses_select_related(self):
+        """Test that home page uses select_related to reduce queries."""
+        from django.test.utils import override_settings
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        
+        with CaptureQueriesContext(connection) as context:
+            response = self.client.get(reverse('listings:home'))
+            self.assertEqual(response.status_code, 200)
+            # Should have minimal queries due to select_related
+            # Without optimization: 50+ queries
+            # With optimization: < 20 queries
+            self.assertLess(len(context.captured_queries), 20,
+                          f"Too many queries: {len(context.captured_queries)}")
+    
+    def test_listing_list_uses_select_related(self):
+        """Test that listing list uses select_related."""
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        
+        with CaptureQueriesContext(connection) as context:
+            response = self.client.get(reverse('listings:listing_list'))
+            self.assertEqual(response.status_code, 200)
+            # Should have minimal queries
+            self.assertLess(len(context.captured_queries), 15,
+                          f"Too many queries: {len(context.captured_queries)}")
+
+
+class MarkAsSoldTests(TestCase):
+    """Tests for mark as sold functionality (Bug Fix #3 - New Feature)."""
+    
+    def setUp(self):
+        """Set up test data."""
+        self.client = Client()
+        self.company = Company.objects.create(
+            name="Test Corp",
+            domain="testcorp.com",
+            status='approved'
+        )
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@testcorp.com',
+            password='TestPass123!',
+            first_name='Test',
+            last_name='User',
+            is_active=True,
+            email_verified=True
+        )
+        self.category = Category.objects.create(
+            name="Electronics",
+            slug="electronics"
+        )
+        self.listing = Listing.objects.create(
+            seller=self.user,
+            title="Test Item",
+            description="Test description",
+            category=self.category,
+            price=100.00,
+            condition='new',
+            location='Test City',
+            city='Test City',
+            state='Test State',
+            status='active'
+        )
+    
+    def test_mark_sold_requires_login(self):
+        """Test that marking as sold requires authentication."""
+        response = self.client.post(reverse('listings:mark_sold', args=[self.listing.slug]))
+        # Should redirect to login
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('login', response.url)
+    
+    def test_mark_sold_requires_owner(self):
+        """Test that only owner can mark listing as sold."""
+        # Create another user
+        other_company = Company.objects.create(
+            name="Other Corp",
+            domain="other.com",
+            status='approved'
+        )
+        other_user = User.objects.create_user(
+            username='otheruser',
+            email='other@other.com',
+            password='TestPass123!',
+            first_name='Other',
+            last_name='User'
+        )
+        self.client.login(email='other@other.com', password='TestPass123!')
+        response = self.client.post(reverse('listings:mark_sold', args=[self.listing.slug]))
+        # Should return 403 Forbidden
+        self.assertEqual(response.status_code, 403)
+        # Listing status should not change
+        self.listing.refresh_from_db()
+        self.assertEqual(self.listing.status, 'active')
+    
+    def test_mark_sold_changes_status(self):
+        """Test that marking as sold changes listing status to 'sold'."""
+        self.client.login(email='test@testcorp.com', password='TestPass123!')
+        response = self.client.post(reverse('listings:mark_sold', args=[self.listing.slug]))
+        # Should redirect to listing detail
+        self.assertEqual(response.status_code, 302)
+        # Check status changed
+        self.listing.refresh_from_db()
+        self.assertEqual(self.listing.status, 'sold')
+    
+    def test_mark_sold_requires_post_method(self):
+        """Test that GET request doesn't mark as sold."""
+        self.client.login(email='test@testcorp.com', password='TestPass123!')
+        response = self.client.get(reverse('listings:mark_sold', args=[self.listing.slug]))
+        # Should redirect (mark_sold view redirects on GET)
+        self.assertEqual(response.status_code, 302)
+        # Status should not change
+        self.listing.refresh_from_db()
+        self.assertEqual(self.listing.status, 'active')
+
+
+class ImageManagementTests(TestCase):
+    """Tests for image upload/delete/reorder in edit listing (New Feature)."""
+    
+    def setUp(self):
+        """Set up test data."""
+        from listings.models import ListingImage
+        from io import BytesIO
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        
+        self.client = Client()
+        self.company = Company.objects.create(
+            name="Test Corp",
+            domain="testcorp.com",
+            status='approved'
+        )
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@testcorp.com',
+            password='TestPass123!',
+            first_name='Test',
+            last_name='User',
+            is_active=True,
+            email_verified=True
+        )
+        self.category = Category.objects.create(
+            name="Electronics",
+            slug="electronics"
+        )
+        self.listing = Listing.objects.create(
+            seller=self.user,
+            title="Test Item",
+            description="Test description",
+            category=self.category,
+            price=100.00,
+            condition='new',
+            location='Test City',
+            city='Test City',
+            state='Test State'
+        )
+        
+        # Create test image
+        image = Image.new('RGB', (100, 100), color='red')
+        image_io = BytesIO()
+        image.save(image_io, format='JPEG')
+        image_io.seek(0)
+        
+        # Add an image to the listing
+        self.test_image = ListingImage.objects.create(
+            listing=self.listing,
+            image=SimpleUploadedFile('test.jpg', image_io.read(), content_type='image/jpeg'),
+            order=0
+        )
+    
+    def test_edit_listing_displays_existing_images(self):
+        """Test that edit page displays existing images."""
+        self.client.login(email='test@testcorp.com', password='TestPass123!')
+        response = self.client.get(reverse('listings:edit_listing', args=[self.listing.slug]))
+        self.assertEqual(response.status_code, 200)
+        # Check that listing images are in context or rendered
+        self.assertIn('listing', response.context)
+        self.assertEqual(response.context['listing'].images.count(), 1)
+    
+    def test_delete_image_requires_login(self):
+        """Test that deleting image requires authentication."""
+        response = self.client.post(reverse('listings:delete_image', args=[self.test_image.id]))
+        # Should return unauthorized
+        self.assertEqual(response.status_code, 302)
+    
+    def test_delete_image_requires_owner(self):
+        """Test that only owner can delete images."""
+        # Create another user
+        other_company = Company.objects.create(
+            name="Other Corp",
+            domain="other.com",
+            status='approved'
+        )
+        other_user = User.objects.create_user(
+            username='otheruser',
+            email='other@other.com',
+            password='TestPass123!',
+            first_name='Other',
+            last_name='User'
+        )
+        self.client.login(email='other@other.com', password='TestPass123!')
+        response = self.client.post(reverse('listings:delete_image', args=[self.test_image.id]))
+        # Should return 403 Forbidden
+        self.assertEqual(response.status_code, 403)
+    
+    def test_edit_listing_max_8_images(self):
+        """Test that edit listing enforces 8 image limit."""
+        from listings.models import ListingImage
+        from io import BytesIO
+        from PIL import Image
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        
+        # Add 7 more images (total 8)
+        for i in range(7):
+            image = Image.new('RGB', (100, 100), color='blue')
+            image_io = BytesIO()
+            image.save(image_io, format='JPEG')
+            image_io.seek(0)
+            ListingImage.objects.create(
+                listing=self.listing,
+                image=SimpleUploadedFile(f'test{i}.jpg', image_io.read(), content_type='image/jpeg'),
+                order=i+1
+            )
+        
+        self.assertEqual(self.listing.images.count(), 8)
+        
+        # Try to add one more via edit
+        self.client.login(email='test@testcorp.com', password='TestPass123!')
+        
+        # Create new image file
+        image = Image.new('RGB', (100, 100), color='green')
+        image_io = BytesIO()
+        image.save(image_io, format='JPEG')
+        image_io.seek(0)
+        new_image = SimpleUploadedFile('new.jpg', image_io.read(), content_type='image/jpeg')
+        
+        data = {
+            'title': self.listing.title,
+            'description': self.listing.description,
+            'category': self.category.id,
+            'price': self.listing.price,
+            'condition': self.listing.condition,
+            'location': self.listing.location,
+            'city': self.listing.city,
+            'state': self.listing.state,
+            'new_images': [new_image],
+        }
+        
+        response = self.client.post(reverse('listings:edit_listing', args=[self.listing.slug]), data)
+        
+        # Should not add more than 8 images
+        self.listing.refresh_from_db()
+        self.assertLessEqual(self.listing.images.count(), 8)
+
+
+class DatabaseIndexTests(TestCase):
+    """Tests to verify database indexes exist (Bug Fix #6)."""
+    
+    def test_listing_indexes_exist(self):
+        """Test that performance indexes are created on Listing model."""
+        # Check Meta indexes configuration
+        self.assertTrue(hasattr(Listing._meta, 'indexes'))
+        self.assertGreater(len(Listing._meta.indexes), 0)
+        
+        # Verify we have at least 6 indexes (3 original + 3 new from bug fix)
+        self.assertGreaterEqual(len(Listing._meta.indexes), 6,
+                              "Should have at least 6 indexes for performance")
+        
+        # Check specific index fields
+        index_fields = []
+        for index in Listing._meta.indexes:
+            if hasattr(index, 'fields'):
+                index_fields.extend(index.fields)
+        
+        # Should include seller, city, is_featured in indexes
+        self.assertTrue(any('seller' in str(field) for field in index_fields),
+                      "Should have index on seller field")
+        self.assertTrue(any('city' in str(field) for field in index_fields),
+                      "Should have index on city field")
+        self.assertTrue(any('is_featured' in str(field) for field in index_fields),
+                      "Should have index on is_featured field")
+

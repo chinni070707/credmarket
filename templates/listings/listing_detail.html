@@ -210,9 +210,14 @@
                         <a href="{% url 'messaging:start_conversation' listing.slug %}" class="block w-full btn-primary text-white text-center py-4 rounded-lg font-bold text-lg mb-3">
                             <i class="fas fa-comment-dots mr-2"></i> Contact Seller
                         </a>
-                        <button class="block w-full border-2 border-purple-600 text-green-600 hover:bg-purple-50 text-center py-3 rounded-lg font-semibold transition">
-                            <i class="fas fa-heart mr-2"></i> Save for Later
-                        </button>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="border-2 border-purple-600 text-green-600 hover:bg-purple-50 text-center py-3 rounded-lg font-semibold transition">
+                                <i class="fas fa-heart mr-2"></i> Save
+                            </button>
+                            <a href="{% url 'listings:report_listing' listing.id %}" class="border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-3 rounded-lg font-semibold transition">
+                                <i class="fas fa-flag mr-2"></i> Report
+                            </a>
+                        </div>
                     {% endif %}
                 {% else %}
                     <a href="{% url 'accounts:login' %}" class="block w-full btn-primary text-white text-center py-4 rounded-lg font-bold text-lg">

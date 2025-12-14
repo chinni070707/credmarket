@@ -152,6 +152,9 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@credmarket.in')
 
+# Site URL (for emails and absolute URLs)
+SITE_URL = config('SITE_URL', default='http://localhost:8000')
+
 # Alternative: Console backend for development (prints to terminal)
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

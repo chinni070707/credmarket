@@ -3,7 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from .models import Listing, Category, ListingImage
+from django.core.mail import send_mail
+from django.conf import settings
+from accounts.models import User
+from .models import Listing, Category, ListingImage, ListingReport
 from .category_fields import get_category_fields
 import logging
 
@@ -422,3 +425,87 @@ def get_category_fields_api(request, category_id):
             'success': False,
             'error': 'Category not found'
         }, status=404)
+
+
+@login_required
+def report_listing(request, listing_id):
+    """Report a listing for inappropriate content"""
+    listing = get_object_or_404(Listing, id=listing_id)
+    
+    # Check if user already reported this listing
+    existing_report = ListingReport.objects.filter(
+        listing=listing,
+        reporter=request.user
+    ).first()
+    
+    if existing_report:
+        messages.warning(request, 'You have already reported this listing.')
+        return redirect('listings:listing_detail', listing_id=listing.id)
+    
+    if request.method == 'POST':
+        reason = request.POST.get('reason')
+        description = request.POST.get('description', '')
+        
+        if not reason:
+            messages.error(request, 'Please select a reason for reporting.')
+            return redirect('listings:listing_detail', listing_id=listing.id)
+        
+        # Create the report
+        report = ListingReport.objects.create(
+            listing=listing,
+            reporter=request.user,
+            reason=reason,
+            description=description,
+            status='pending'
+        )
+        
+        logger.info(f"Listing #{listing.id} reported by {request.user.email} - Reason: {reason}")
+        
+        # Send email notification to admins
+        try:
+            admin_users = User.objects.filter(is_staff=True, is_active=True)
+            admin_emails = [admin.email for admin in admin_users if admin.email]
+            
+            if admin_emails:
+                report_count = listing.reports.count()
+                subject = f'🚨 Listing Reported - {listing.title[:50]}'
+                message = f"""
+A listing has been reported on CredMarket:
+
+Listing: {listing.title}
+Listing URL: {settings.SITE_URL}/listings/{listing.id}/
+Reported by: {request.user.email} ({request.user.company.name if request.user.company else 'N/A'})
+Reason: {report.get_reason_display()}
+Description: {description}
+
+Total Reports for this listing: {report_count}
+
+Review this report in the admin panel:
+{settings.SITE_URL}/admin/listings/listingreport/{report.id}/change/
+
+---
+CredMarket Admin System
+                """
+                
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    admin_emails,
+                    fail_silently=True,
+                )
+                logger.info(f"Report notification email sent to {len(admin_emails)} admins")
+        except Exception as e:
+            logger.error(f"Failed to send report notification email: {e}")
+        
+        messages.success(
+            request,
+            'Thank you for your report. Our team will review it shortly.'
+        )
+        return redirect('listings:listing_detail', listing_id=listing.id)
+    
+    # GET request - show report form
+    return render(request, 'listings/report_listing.html', {
+        'listing': listing,
+        'report_reasons': ListingReport.REPORT_REASONS
+    })
